@@ -1,0 +1,20 @@
+name: Import live website (one time)
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: node tools/import-site.mjs .
+      - name: Save the copy
+        run: |
+          git config user.name "al-swati-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A
+          git commit -m "Import the live website from al-swaticontracting.com" || echo "nothing new"
+          git push
