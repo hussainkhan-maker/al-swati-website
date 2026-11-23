@@ -30,6 +30,8 @@ jobs:
           node-version: 22
       - name: Blog pages from the ERP
         run: node tools/build-site.mjs .
+        env:
+          CHANGED_URLS: ${{ runner.temp }}/changed-urls.txt
       - name: Save
         run: |
           git config user.name "al-swati-bot"
@@ -38,3 +40,13 @@ jobs:
           if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
           git commit -m "Blog: posts from the ERP"
           git pull --rebase --quiet && git push
+      - name: Tell Bing and other IndexNow search engines about new or changed posts
+        env:
+          CHANGED_URLS: ${{ runner.temp }}/changed-urls.txt
+        run: |
+          [ -s "$CHANGED_URLS" ] || exit 0
+          sleep 60   # give GitHub Pages a minute to publish the new pages
+          KEY=$(ls *.txt | grep -E '^[0-9a-f]{32}\.txt$' | head -1 | sed 's/\.txt$//')
+          URLS=$(jq -R . "$CHANGED_URLS" | jq -s .)
+          curl -sS -X POST https://api.indexnow.org/indexnow -H 'content-type: application/json; charset=utf-8' \
+            -d "{\"host\":\"al-swaticontracting.com\",\"key\":\"$KEY\",\"keyLocation\":\"https://al-swaticontracting.com/$KEY.txt\",\"urlList\":$URLS}" -w ' IndexNow %{http_code}\n' || true
