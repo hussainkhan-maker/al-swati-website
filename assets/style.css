@@ -301,7 +301,10 @@ html[dir=rtl] .ti:nth-child(odd){text-align:left}
   .dd.open .menu{display:block}
   .burger{display:block}
   .hdr .btn,.hdr .lang{display:none}
+  .hdr .wrap>.lang{display:flex;margin-inline-start:auto;padding:7px 12px;font-size:14px;white-space:nowrap}
+  .hdr .wrap>.lang~.burger{margin-inline-start:0}
   .nav .mob{display:flex!important;gap:12px;margin-top:20px}
+  .nav .mob .btn{display:inline-flex}
   .hdr{background:rgba(26,26,26,.96)}
 }
 .nav .mob{display:none}
@@ -323,7 +326,7 @@ html[dir=rtl] .ti:nth-child(odd){text-align:left}
   .sgrid,.grid3,.grid4,.pgrid,.bgrid,.sys,.sys.two,.form .row{grid-template-columns:1fr}
   .scard.big,.scard.wide{grid-column:auto;min-height:320px}
   .form{padding:28px 20px}
-  .hdr .wrap{height:76px}.logo img{height:38px}.nav{top:76px}
+  .hdr .wrap{height:76px;gap:14px}.logo img{height:38px}.nav{top:76px}
   .stat b{font-size:42px}
   .badge{inset-inline-start:10px;bottom:-24px;padding:18px 24px}
 }
