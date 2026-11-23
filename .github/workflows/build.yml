@@ -21,10 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Square icon and share picture (only when missing)
+      - name: Square icon and share picture (when missing, or when tools/make-icons.py changed)
         run: |
-          if [ ! -f favicon.ico ] || [ ! -f images/share/al-swati-contracting.jpg ] || [ ! -f apple-touch-icon.png ]; then
-            python3 -m pip install --quiet pillow && python3 tools/make-icons.py .
+          STAMP=$(sha256sum tools/make-icons.py | cut -c1-16)
+          if [ ! -f favicon.ico ] || [ ! -f images/share/al-swati-contracting.jpg ] || [ ! -f apple-touch-icon.png ] || [ "$(cat images/icons/made-with.txt 2>/dev/null)" != "$STAMP" ]; then
+            python3 -m pip install --quiet pillow && python3 tools/make-icons.py . && echo "$STAMP" > images/icons/made-with.txt
           fi
       - uses: actions/setup-node@v5
         with:
