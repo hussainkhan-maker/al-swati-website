@@ -1,6 +1,6 @@
 # Makes the website's square icon (Google shows it next to the site in search results; it needs a square, not the wide logo)
 # and the 1200x630 JPG share picture (WhatsApp, Facebook, LinkedIn and X show it when someone sends a link).
-# Both are made from the site's own logo and hero photo. Run once by .github/workflows/build.yml when they are missing.
+# Both are made from the site's own logo and hero photo. Run by .github/workflows/build.yml when they are missing or this file changes.
 import os, sys
 from PIL import Image, ImageDraw, ImageFont
 
@@ -13,21 +13,33 @@ mark = logo.crop((0, 0, 174, logo.height))  # the stone-block mark at the left o
 mark = mark.crop(mark.getbbox())
 
 
-def icon(size, pad=0.14, radius=0.18, round_corners=True):
-    im = Image.new("RGBA", (size, size), (0, 0, 0, 0) if round_corners else BG)
-    if round_corners:
-        ImageDraw.Draw(im).rounded_rectangle([0, 0, size - 1, size - 1], radius=int(size * radius), fill=BG)
-    m = mark.copy()
-    inner = int(size * (1 - 2 * pad))
-    m.thumbnail((inner, inner), Image.LANCZOS)
-    im.alpha_composite(m, ((size - m.width) // 2, (size - m.height) // 2))
+# The mark is not symmetric (a tall block on top, a thin diagonal block at the lower left), so centring its outline box
+# makes it look pushed to the right and down. It is placed on its "optical" centre instead: halfway between the
+# centre of its box and the centre of its visible mass.
+_alpha = mark.getchannel("A")
+_mass = [(x, y, v) for y in range(mark.height) for x in range(mark.width) if (v := _alpha.getpixel((x, y))) > 40]
+_cx = sum(x * v for x, y, v in _mass) / sum(v for *_, v in _mass)
+_cy = sum(y * v for x, y, v in _mass) / sum(v for *_, v in _mass)
+OPT = ((mark.width / 2 + _cx) / 2, (mark.height / 2 + _cy) / 2)  # optical centre, in mark pixels
+HALF_DIAG = max(((x - OPT[0]) ** 2 + (y - OPT[1]) ** 2) ** 0.5 for x, y in ((0, 0), (mark.width, 0), (0, mark.height), (mark.width, mark.height)))
+
+
+def icon(size, safe=0.37):
+    """A solid dark square with the mark in the middle. Google shows the icon inside a circle, so the whole mark is kept
+    inside a circle of radius safe*size around the centre, which also keeps it clear of rounded corners on phones."""
+    im = Image.new("RGBA", (size, size), BG)
+    k = safe * size / HALF_DIAG
+    w, h = max(1, round(mark.width * k)), max(1, round(mark.height * k))
+    m = mark.resize((w, h), Image.LANCZOS)
+    x, y = round(size / 2 - OPT[0] * k), round(size / 2 - OPT[1] * k)
+    im.alpha_composite(m, (x, y))
     return im
 
 
 os.makedirs(P("images/icons"), exist_ok=True)
 for s in (48, 96, 192, 512):
-    icon(s).save(P(f"images/icons/icon-{s}.png"), optimize=True)
-icon(180, pad=0.16, round_corners=False).convert("RGB").save(P("apple-touch-icon.png"), optimize=True)
+    icon(s).convert("RGB").save(P(f"images/icons/icon-{s}.png"), optimize=True)
+icon(180, safe=0.34).convert("RGB").save(P("apple-touch-icon.png"), optimize=True)
 icon(256).save(P("favicon.ico"), sizes=[(16, 16), (32, 32), (48, 48)])
 
 # share picture: the home page hero, darkened at the bottom, with the logo and one line
