@@ -110,7 +110,7 @@ function headBlock(post, twin, url) {
 
 // every article points readers (and Google) to the service pages that bring the work
 const related = (ar) => ar
-  ? `<h2>خدماتنا</h2><ul><li><a href="/ar/stone-cladding-riyadh/">تركيب وتكسية الحجر في الرياض</a></li><li><a href="/ar/mechanical-stone-installation/">تركيب حجر ميكانيكي</a></li><li><a href="/ar/villa-stone-facades-riyadh/">واجهات حجر للفلل في الرياض</a></li><li><a href="/ar/marble-installation-riyadh/">تركيب رخام في الرياض</a></li></ul>`
+  ? `<h2>خدماتنا</h2><ul><li><a href="/ar/stone-cladding-riyadh/">تركيب الحجر في الرياض</a></li><li><a href="/ar/mechanical-stone-installation/">تركيب حجر ميكانيكي</a></li><li><a href="/ar/villa-stone-facades-riyadh/">واجهات حجر للفلل في الرياض</a></li><li><a href="/ar/marble-installation-riyadh/">تركيب رخام في الرياض</a></li></ul>`
   : `<h2>Our services</h2><ul><li><a href="/stone-cladding-riyadh/">Stone cladding in Riyadh</a></li><li><a href="/marble-installation-riyadh/">Marble installation in Riyadh</a></li><li><a href="/services/">Stone, marble and porcelain facade services</a></li><li><a href="/projects/">Our projects</a></li></ul>`;
 
 function mainBlock(post, twin) {
