@@ -40,8 +40,9 @@ function inline(s) {
     .replace(/(^|[^*])\*([^*\s][^*]*?)\*(?!\*)/g, "$1<em>$2</em>")
     .replace(/\[([^\]]+)\]\(((?:https?:\/\/|\/|tel:|mailto:)[^\s)]+)\)/g, (_, t, h) => `<a href="${h}"${/^https?:\/\/(?!al-swaticontracting\.com)/.test(h) ? ' target="_blank" rel="noopener"' : ""}>${t}</a>`);
 }
+const clean = (src) => String(src || "").replace(/\r/g, "").replace(/<\/?cite[^>]*>/gi, ""); // web-search citation tags the AI sometimes leaves in
 export function md(src) {
-  const out = [], lines = String(src || "").replace(/\r/g, "").split("\n");
+  const out = [], lines = clean(src).split("\n");
   let para = [], list = null;
   const flushP = () => { if (para.length) { out.push(`<p>${inline(para.join(" "))}</p>`); para = []; } };
   const flushL = () => { if (list) { out.push(`<${list.tag}>${list.items.map((i) => `<li>${inline(i)}</li>`).join("")}</${list.tag}>`); list = null; } };
@@ -62,6 +63,26 @@ export function md(src) {
   return out.join("\n");
 }
 
+// ───────── the post's own FAQ section → FAQPage data for Google ─────────
+// Only questions that are really on the page: the section under a "## Frequently asked questions" / "## الأسئلة الشائعة"
+// heading, each question a "### …" heading (or a **bold** line ending in ?) with its answer below it.
+const FAQ_HEAD = /^#{2,3}\s+.*(faq|frequently asked|common questions|questions and answers|الأسئلة الشائعة|أسئلة شائعة|الأسئلة المتكررة|أسئلة متكررة)/i;
+const plain = (s) => s.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1").replace(/\*\*?([^*]+)\*\*?/g, "$1").replace(/\s+/g, " ").trim();
+export function faqs(src) {
+  const lines = clean(src).split("\n"), start = lines.findIndex((l) => FAQ_HEAD.test(l.trim()));
+  if (start < 0) return [];
+  const out = []; let q = null, a = [];
+  const push = () => { if (q && a.length) out.push({ q: plain(q), a: plain(a.join(" ")) }); q = null; a = []; };
+  for (const raw of lines.slice(start + 1)) {
+    const l = raw.trim(); let m;
+    if (/^##\s/.test(l)) break; // the next main heading ends the FAQ section
+    if ((m = l.match(/^#{3,4}\s+(.+)$/)) || (m = l.match(/^\*\*(.+?[?؟])\*\*$/))) { push(); q = m[1]; continue; }
+    if (q && l && !/^(---|\*\*\*)$/.test(l)) a.push(l.replace(/^([-*•]|\d+[.)])\s+/, ""));
+  }
+  push();
+  return out.filter((x) => x.q.length > 5 && x.a.length > 10);
+}
+
 // ───────── one post page, in the site's own look ─────────
 const dateText = (d, ar) => new Intl.DateTimeFormat(ar ? "ar-EG" : "en-US", { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Riyadh" }).format(new Date(d));
 const pathOf = (post) => (post.lang === "ar" ? `/ar/blog/${post.slug.replace(/-ar$/, "")}/` : `/blog/${post.slug}/`);
@@ -75,10 +96,14 @@ function headBlock(post, twin, url) {
   const img = abs(shareImg(post)), jpg = img.endsWith(SHARE_JPG);
   const alt = (lang, u) => `<link rel="alternate" hreflang="${lang}" href="${abs(u)}">`;
   const pair = twin ? [alt(post.lang, url), alt(twin.lang, pathOf(twin)), alt("x-default", post.lang === "en" ? url : pathOf(twin))] : [];
-  const ld = { "@context": "https://schema.org", "@type": "BlogPosting", headline: post.title, description: desc, image: [abs(imgOf(post))],
+  const ld = { "@context": "https://schema.org", "@type": "Article", headline: post.title, description: desc, image: [abs(imgOf(post))],
     datePublished: post.published_at, dateModified: post.updated_at || post.published_at, inLanguage: ar ? "ar" : "en", mainEntityOfPage: abs(url),
     author: { "@type": "Organization", name: ar ? "شركة السواطي للمقاولات" : "AL-Swati Contracting", url: SITE + "/" },
     publisher: { "@id": SITE + "/#business" }, keywords: (post.keywords || []).join(", ") };
+  const qa = faqs(post.body);
+  const faq = qa.length >= 2 ? { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: ar ? "ar" : "en",
+    mainEntity: qa.map((x) => ({ "@type": "Question", name: x.q, acceptedAnswer: { "@type": "Answer", text: x.a } })) } : null;
+  const script = (o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u" + "003c")}</script>`;
   return [
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${esc(desc)}">`,
@@ -100,7 +125,8 @@ function headBlock(post, twin, url) {
     `<meta name="twitter:description" content="${esc(desc)}">`,
     `<meta name="twitter:image" content="${esc(img)}">`,
     `<link rel="icon" href="/images/logo/horizontal/dark.png">`, // swapped for the square icon by fixHead() once it exists
-    `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, "\\u" + "003c")}</script>`,
+    script(ld),
+    ...(faq ? [script(faq)] : []),
     `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
       { "@type": "ListItem", position: 1, name: ar ? "الرئيسية" : "Home", item: SITE + (ar ? "/ar/" : "/") },
       { "@type": "ListItem", position: 2, name: ar ? "المدونة" : "Blog", item: SITE + (ar ? "/ar/blog/" : "/blog/") },
