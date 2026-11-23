@@ -7,6 +7,7 @@
 // It needs no secret: it reads only published posts, with the app's public key (the same one the public ERP blog uses).
 import { readFile, writeFile, mkdir, rm, readdir, access } from "node:fs/promises";
 import { join, dirname } from "node:path";
+import { tmpdir } from "node:os";
 
 const ROOT = process.argv[2] || ".";
 const SITE = "https://al-swaticontracting.com";
@@ -15,6 +16,8 @@ const KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZi
 const SHARE_JPG = "/images/share/al-swati-contracting.jpg";
 const DEFAULT_IMG = "/images/pages/home/hero.webp";
 const MANIFEST = "tools/erp-pages.json";
+const INDEXNOW_KEY = "a5f3c1e9d2b84f6e9c7a0b1d3e5f7a92"; // public by design: Bing and other IndexNow search engines check this file on the site
+const CHANGED = process.env.CHANGED_URLS || join(tmpdir(), "changed-urls.txt"); // pages this run created or changed, for the IndexNow ping (kept out of the repo)
 
 const p = (...a) => join(ROOT, ...a);
 const exists = async (f) => access(p(f)).then(() => true, () => false);
@@ -98,8 +101,17 @@ function headBlock(post, twin, url) {
     `<meta name="twitter:image" content="${esc(img)}">`,
     `<link rel="icon" href="/images/logo/horizontal/dark.png">`, // swapped for the square icon by fixHead() once it exists
     `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, "\\u" + "003c")}</script>`,
+    `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: ar ? "الرئيسية" : "Home", item: SITE + (ar ? "/ar/" : "/") },
+      { "@type": "ListItem", position: 2, name: ar ? "المدونة" : "Blog", item: SITE + (ar ? "/ar/blog/" : "/blog/") },
+      { "@type": "ListItem", position: 3, name: post.title, item: abs(url) }] }).replace(/</g, "\\u" + "003c")}</script>`,
   ].join("\n");
 }
+
+// every article points readers (and Google) to the service pages that bring the work
+const related = (ar) => ar
+  ? `<h2>خدماتنا</h2><ul><li><a href="/ar/stone-cladding-riyadh/">تركيب وتكسية الحجر في الرياض</a></li><li><a href="/ar/mechanical-stone-installation/">تركيب حجر ميكانيكي</a></li><li><a href="/ar/villa-stone-facades-riyadh/">واجهات حجر للفلل في الرياض</a></li><li><a href="/ar/marble-installation-riyadh/">تركيب رخام في الرياض</a></li></ul>`
+  : `<h2>Our services</h2><ul><li><a href="/stone-cladding-riyadh/">Stone cladding in Riyadh</a></li><li><a href="/marble-installation-riyadh/">Marble installation in Riyadh</a></li><li><a href="/services/">Stone, marble and porcelain facade services</a></li><li><a href="/projects/">Our projects</a></li></ul>`;
 
 function mainBlock(post, twin) {
   const ar = post.lang === "ar", list = ar ? "/ar/blog/" : "/blog/";
@@ -111,7 +123,7 @@ function mainBlock(post, twin) {
 <div class="bmeta"><span class="cat">${ar ? "دليل عملي" : "Guide"}</span><span>▣ ${dateText(post.published_at, ar)}</span><span>👤 ${ar ? "فريق شركة السواطي للمقاولات" : "AL-Swati Contracting Team"}</span></div>
 <h1>${esc(post.title)}</h1>${post.meta_description ? `<p class="lead">${esc(post.meta_description)}</p>` : ""}
 ${twinLink}
-<div class="body">${md(post.body)}</div>${tags ? `<div class="ptags">${tags}</div>` : ""}
+<div class="body">${md(post.body)}${related(ar)}</div>${tags ? `<div class="ptags">${tags}</div>` : ""}
 <p style="margin-top:40px"><a class="link-gold" href="${ar ? "/ar/contact/" : "/contact/"}">${ar ? "→ اطلب زيارة موقع مجانية وعرض سعر" : "Request a free site visit and quote →"}</a></p></article>
 </main>`;
 }
@@ -127,7 +139,7 @@ function page(tpl, post, twin) {
   let html = tpl.slice(0, hs + 6) + "\n" + keep.join("\n") + "\n" + tpl.slice(he, ms) + mainBlock(post, twin) + tpl.slice(me + 7);
   // the language switch in the header goes to this article's twin when there is one
   if (twin) html = html.replace(/<a class="lang" href="[^"]*">/g, `<a class="lang" href="${pathOf(twin)}">`);
-  return html;
+  return fixHtml(html);
 }
 
 // ───────── lists and sitemap ─────────
@@ -176,18 +188,21 @@ async function htmlFiles(dir = "") {
   }
   return out;
 }
+let ICONS = false;
+/** Square icon for Google, JPG share picture for WhatsApp: the same fix for every page, made or hand-written. */
+function fixHtml(h) {
+  if (ICONS) h = h.replace(/<link rel="icon" href="\/images\/logo\/horizontal\/dark\.png">/g,
+    '<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="icon" type="image/png" sizes="192x192" href="/images/icons/icon-192.png">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<meta name="theme-color" content="#1a1a1a">');
+  if (HAS_SHARE && /<meta property="og:image" content="[^"]+\.webp">/.test(h)) {
+    h = h.replace(/<meta property="og:image" content="[^"]+\.webp">/, `<meta property="og:image" content="${SITE}${SHARE_JPG}">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n<meta property="og:image:type" content="image/jpeg">`);
+    if (!/name="twitter:image"/.test(h)) h = h.replace(/(<meta name="twitter:card"[^>]*>)/, `$1\n<meta name="twitter:image" content="${SITE}${SHARE_JPG}">`);
+  }
+  return h;
+}
 async function fixHead() {
-  const icons = await exists("favicon.ico") && await exists("images/icons/icon-192.png") && await exists("apple-touch-icon.png");
-  const share = await exists(SHARE_JPG.slice(1));
   let changed = 0;
   for (const f of await htmlFiles()) {
-    let h = await readFile(p(f), "utf8"); const before = h;
-    if (icons) h = h.replace(/<link rel="icon" href="\/images\/logo\/horizontal\/dark\.png">/g,
-      '<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="icon" type="image/png" sizes="192x192" href="/images/icons/icon-192.png">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<meta name="theme-color" content="#1a1a1a">');
-    if (share && /<meta property="og:image" content="[^"]+\.webp">/.test(h)) {
-      h = h.replace(/<meta property="og:image" content="[^"]+\.webp">/, `<meta property="og:image" content="${SITE}${SHARE_JPG}">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n<meta property="og:image:type" content="image/jpeg">`);
-      if (!/name="twitter:image"/.test(h)) h = h.replace(/(<meta name="twitter:card"[^>]*>)/, `$1\n<meta name="twitter:image" content="${SITE}${SHARE_JPG}">`);
-    }
+    const before = await readFile(p(f), "utf8"), h = fixHtml(before);
     if (h !== before) { await writeFile(p(f), h); changed++; }
   }
   return changed;
@@ -195,21 +210,26 @@ async function fixHead() {
 
 // ───────── run ─────────
 HAS_SHARE = await exists(SHARE_JPG.slice(1));
+ICONS = (await exists("favicon.ico")) && (await exists("images/icons/icon-192.png")) && (await exists("apple-touch-icon.png"));
 const all = (await posts(process.argv[3])).filter((x) => x.slug && x.title && x.body && x.published_at);
 const tplEn = await readFile(p("blog/stone-cladding-vs-porcelain-riyadh/index.html"), "utf8");
 const tplAr = await readFile(p("ar/blog/stone-installation-price-riyadh/index.html"), "utf8");
 const mine = new Set(await readFile(p(MANIFEST), "utf8").then(JSON.parse, () => []));
-const made = [];
+const made = [], changed = [];
 for (const post of all) {
   const file = pathOf(post).slice(1) + "index.html";
   if ((await exists(file)) && !mine.has(file)) { console.log("skip (a hand-made page has this address):", file); continue; }
   const twin = all.find((x) => x.id === post.twin_id) || null;
   await mkdir(dirname(p(file)), { recursive: true });
-  await writeFile(p(file), page(post.lang === "ar" ? tplAr : tplEn, post, twin));
+  const next = page(post.lang === "ar" ? tplAr : tplEn, post, twin);
+  if ((await readFile(p(file), "utf8").catch(() => "")) !== next) { await writeFile(p(file), next); changed.push(abs(pathOf(post))); }
   made.push(file);
 }
 // pages of posts that are no longer published (unpublished or deleted in the ERP)
-for (const file of mine) if (!made.includes(file)) { await rm(p(dirname(file)), { recursive: true, force: true }); console.log("removed:", file); }
+for (const file of mine) if (!made.includes(file)) { await rm(p(dirname(file)), { recursive: true, force: true }); changed.push(abs("/" + file.replace(/index\.html$/, ""))); console.log("removed:", file); }
 await writeFile(p(MANIFEST), JSON.stringify(made.sort(), null, 1) + "\n");
+await writeFile(p(INDEXNOW_KEY + ".txt"), INDEXNOW_KEY);
+if (changed.length) changed.push(SITE + "/blog/", SITE + "/ar/blog/", SITE + "/sitemap.xml");
+await writeFile(CHANGED, [...new Set(changed)].join("\n") + (changed.length ? "\n" : ""));
 await lists(all.filter((x) => made.includes(pathOf(x).slice(1) + "index.html")));
 console.log(`ERP posts on the website: ${made.length}; pages with a fixed head: ${await fixHead()}`);
