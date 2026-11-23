@@ -54,6 +54,8 @@ jobs:
           for i in $(seq 1 40); do
             B=$(gh api "repos/${{ github.repository }}/pages/builds/latest" --jq '.status + " " + .commit' 2>/dev/null || true)
             [ "$B" = "built $SHA" ] && break
+            # a newer commit (a later edit) built on top of ours also has our pages
+            if [ "${B%% *}" = "built" ]; then git fetch -q --deepen=50 origin main 2>/dev/null || true; git merge-base --is-ancestor "$SHA" "${B#* }" 2>/dev/null && break; fi
             sleep 15
           done
           echo "GitHub Pages: $B"
