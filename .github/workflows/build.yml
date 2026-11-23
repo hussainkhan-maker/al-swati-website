@@ -12,6 +12,7 @@ on:
     paths: ["tools/**", ".github/workflows/build.yml"]
 permissions:
   contents: write
+  pages: read
 concurrency:
   group: build-blog
   cancel-in-progress: false
@@ -43,9 +44,17 @@ jobs:
       - name: Tell Bing and other IndexNow search engines about new or changed posts
         env:
           CHANGED_URLS: ${{ runner.temp }}/changed-urls.txt
+          GH_TOKEN: ${{ github.token }}
         run: |
           [ -s "$CHANGED_URLS" ] || exit 0
-          sleep 60   # give GitHub Pages a minute to publish the new pages
+          # wait until GitHub Pages has really published this commit (at most about 10 minutes), so Bing finds the new pages
+          SHA=$(git rev-parse HEAD); B=""
+          for i in $(seq 1 40); do
+            B=$(gh api "repos/${{ github.repository }}/pages/builds/latest" --jq '.status + " " + .commit' 2>/dev/null || true)
+            [ "$B" = "built $SHA" ] && break
+            sleep 15
+          done
+          echo "GitHub Pages: $B"
           KEY=$(ls *.txt | grep -E '^[0-9a-f]{32}\.txt$' | head -1 | sed 's/\.txt$//')
           URLS=$(jq -R . "$CHANGED_URLS" | jq -s .)
           curl -sS -X POST https://api.indexnow.org/indexnow -H 'content-type: application/json; charset=utf-8' \
