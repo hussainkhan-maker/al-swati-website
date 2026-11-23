@@ -264,6 +264,11 @@ html[dir=rtl] .ti:nth-child(odd){text-align:left}
 .post .body li{margin-bottom:8px}
 .post .body li::marker{color:var(--gold)}
 .post .body a{color:var(--gold);text-decoration:underline}
+.post .body .table-wrap{overflow-x:auto;margin:8px 0 26px;border:1px solid var(--line)}
+.post .body table{width:100%;min-width:560px;border-collapse:collapse;font-size:15px}
+.post .body th,.post .body td{padding:12px 14px;text-align:start;vertical-align:top;border-bottom:1px solid var(--line);color:rgba(245,245,245,.82)}
+.post .body th{background:var(--bg3);color:var(--gold);font-weight:600;white-space:nowrap}
+.post .body tr:last-child td{border-bottom:0}
 .ptags{display:flex;gap:10px;flex-wrap:wrap;margin-top:40px;padding-top:30px;border-top:1px solid var(--line)}
 .ptags span{background:var(--bg2);border:1px solid var(--line);color:var(--muted);font-size:12px;padding:6px 12px}
 .legal{max-width:960px;margin:0 auto;padding:150px 24px 90px}
