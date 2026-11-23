@@ -133,7 +133,7 @@ function page(tpl, post, twin) {
   const hs = tpl.indexOf("<head>"), he = tpl.indexOf("</head>"), ms = tpl.indexOf("<main>"), me = tpl.indexOf("</main>");
   if (hs < 0 || he < 0 || ms < 0 || me < 0) throw new Error("The post template has changed: <head> or <main> not found");
   // keep the template's charset, viewport, fonts, styles and business data; everything about the post itself is new
-  const keep = tpl.slice(hs + 6, he).split("\n").filter((l) => l.trim() && !/^<(title|meta name="(description|twitter:)|link rel="(canonical|icon|alternate|apple-touch-icon)"|meta property="(og|article):)/.test(l.trim()) && !/"@type": ?"(BlogPosting|BreadcrumbList)"/.test(l));
+  const keep = tpl.slice(hs + 6, he).split("\n").filter((l) => l.trim() && !/^<(title|meta name="(description|twitter:)|link rel="(canonical|icon|alternate|apple-touch-icon)"|meta property="(og|article):)/.test(l.trim()) && !/^<script type="application\/ld\+json">\{"@context": ?"https:\/\/schema\.org", ?"@type": ?"(BlogPosting|Article|NewsArticle|BreadcrumbList|FAQPage|HowTo)"/.test(l.trim()));
   const vp = keep.findIndex((l) => l.includes('name="viewport"'));
   keep.splice(vp + 1, 0, headBlock(post, twin, url));
   let html = tpl.slice(0, hs + 6) + "\n" + keep.join("\n") + "\n" + tpl.slice(he, ms) + mainBlock(post, twin) + tpl.slice(me + 7);
