@@ -440,3 +440,9 @@ html[dir=rtl] .ti:nth-child(odd){text-align:left}
 .area-gallery img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--line)}
 .area-gallery figcaption{color:var(--muted);font-size:13px;margin-top:8px;line-height:1.5}
 .post.area-text{padding-top:10px;padding-bottom:40px}
+/* project case studies (from the ERP): facts box, and their cards on the Projects page */
+.case-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;margin:0;background:var(--line);border:1px solid var(--line)}
+.case-facts div{background:var(--bg2);padding:18px 20px}
+.case-facts dt{color:var(--muted);font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
+.case-facts dd{margin:6px 0 0;color:var(--gold);font-size:18px;font-weight:600;line-height:1.35}
+a.pcard{display:block;color:inherit}
