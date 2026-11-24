@@ -553,3 +553,124 @@ html[dir=rtl] .est-table thead th{letter-spacing:0;font-size:13px}
 .est-table.est-matrix{min-width:540px}
 .est-table.est-matrix td{color:var(--text);font-weight:600;white-space:nowrap}
 .est-table.est-matrix td:nth-child(2){color:var(--gold)}
+/* Architects & Consultants Technical Hub (/technical-specs/, assets/tech.js) */
+.tc-top .lead{max-width:720px}
+.tc-badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:60px;border-top:1px solid var(--line)}
+.tc-badge{padding-top:26px;padding-inline-end:30px}
+.tc-badge+.tc-badge{padding-inline-start:30px;border-inline-start:1px solid var(--line)}
+.tc-badge b{display:block;font-family:var(--head);font-weight:400;font-size:28px;letter-spacing:1px;line-height:1;color:var(--gold);margin-bottom:10px}
+html[dir=rtl] .tc-badge b{font-family:"Tajawal",sans-serif;font-weight:800;font-size:21px;letter-spacing:0;line-height:1.3}
+.tc-badge p{color:var(--muted);font-size:14px;line-height:1.65;margin:0}
+.tc-tools{display:flex;flex-wrap:wrap;gap:12px}
+.tc-tools .btn-line{background:none}
+.tc-sheet{margin-top:50px}
+.tc-print-head{display:none}
+.tc-tbl{min-width:0}
+.tc-spec caption{caption-side:top;text-align:start;font-family:var(--head);font-size:28px;letter-spacing:1px;line-height:1;padding-bottom:16px;color:var(--text)}
+html[dir=rtl] .tc-spec caption{font-family:"Tajawal",sans-serif;font-weight:700;font-size:21px;letter-spacing:0}
+.tc-spec td{white-space:normal;line-height:1.6}
+.est-table.tc-spec td:nth-child(2){color:var(--text);font-weight:400;white-space:normal}
+.tc-spec tbody th{width:22%;line-height:1.45}
+.tc-wide td:nth-child(3){color:var(--muted)}
+.tc-wide td:nth-child(4){font-size:13px}
+.tc-thick tbody th{width:auto}
+.est-table.tc-thick td:nth-child(2){color:var(--gold);font-weight:600;white-space:nowrap;text-align:end}
+.tc-comp tbody th{width:30%}
+.tc-two{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.5fr);gap:56px;margin-top:56px;align-items:start}
+/* comparison chart */
+.tc-chart{margin-top:44px;border:1px solid var(--line);background:var(--bg2)}
+.tc-legend,.tc-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr) 20px;gap:24px;align-items:center}
+.tc-legend{padding:16px 26px;border-bottom:1px solid var(--line);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+html[dir=rtl] .tc-legend{letter-spacing:0;font-size:13px}
+.tc-legend .m{color:var(--gold)}
+.tc-legend .m:before,.tc-legend .w:before{content:"";display:inline-block;width:10px;height:10px;margin-inline-end:9px;background:var(--gold);vertical-align:-1px}
+.tc-legend .w:before{background:#6f6f6f}
+.tc-item{border-bottom:1px solid var(--line)}
+.tc-item:last-child{border:0}
+.tc-row{width:100%;padding:20px 26px;background:none;border:0;color:var(--text);font:inherit;text-align:start;cursor:pointer}
+.tc-row:hover{background:rgba(201,167,74,.05)}
+.tc-row:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.tc-crit{font-weight:600;font-size:15px}
+.tc-meter{display:flex;align-items:center;gap:4px;min-width:0}
+.tc-meter i{flex:1;max-width:64px;height:10px;background:rgba(245,245,245,.08)}
+.tc-meter.m i.on{background:var(--gold)}
+.tc-meter.w i.on{background:#6f6f6f}
+.tc-meter em{font-style:normal;font-size:12px;color:var(--muted);margin-inline-start:8px;white-space:nowrap}
+.tc-meter.m em{color:var(--gold)}
+.tc-meter.none em{margin:0;white-space:normal;line-height:1.4}
+.tc-chev{width:10px;height:10px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);margin-top:-5px;transition:transform .2s}
+.tc-row[aria-expanded=true] .tc-chev{transform:rotate(-135deg);margin-top:5px;border-color:var(--gold)}
+.tc-detail{display:grid;grid-template-columns:1fr 1fr;gap:30px;padding:0 26px 24px}
+.tc-detail[hidden]{display:none}
+.tc-detail>div{border-top:2px solid var(--gold);padding-top:14px}
+.tc-detail>div+div{border-top-color:#6f6f6f}
+.tc-detail b{display:block;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+html[dir=rtl] .tc-detail b{letter-spacing:0;font-size:13px}
+.tc-detail p{margin:0;font-size:14px;line-height:1.7}
+.tc-note{color:var(--muted);font-size:13px;margin-top:16px;max-width:760px}
+/* request form */
+.tc-req{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:70px;align-items:start}
+.tc-form{border:1px solid var(--line);background:var(--bg);padding:36px 38px;position:relative}
+.tc-form:before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:2px;background:var(--gold)}
+.tc-form .est-fields+.est-fields,.tc-docs+.est-fields{margin-top:14px}
+.tc-full{grid-template-columns:1fr}
+.tc-hint{font-size:12px;color:var(--muted);margin:8px 0 22px}
+.tc-docs{border:0;padding:0;margin:0 0 8px;min-width:0}
+.tc-docs legend{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0;margin-bottom:9px}
+html[dir=rtl] .tc-docs legend{letter-spacing:0;font-size:13px}
+.tc-docs .est-opts{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tc-docs .est-opt span{padding:12px 14px}
+.tc-docs .est-opt b{font-size:13px}
+.tc-form select{display:block;width:100%;margin-top:7px;background:var(--bg3);border:1px solid var(--line);color:var(--text);padding:13px 14px;font:15px var(--body);border-radius:0}
+html[dir=rtl] .tc-form select,html[dir=rtl] .tc-form input{font-family:"Tajawal",sans-serif}
+.tc-form select:focus{outline:none;border-color:var(--gold)}
+.tc-form [aria-invalid=true]{border-color:#d9776b}
+.tc-send{width:100%;justify-content:center;margin-top:22px;padding:16px 20px}
+.tc-send:disabled{opacity:.65;cursor:wait}
+.est-note.tc-bad{color:#e48f84}
+.est-note.tc-ok{color:var(--gold)}
+@media (max-width:1000px){.tc-two,.tc-req{grid-template-columns:1fr}.tc-two,.tc-req{gap:44px}}
+@media screen and (max-width:760px){
+  .tc-badges{grid-template-columns:1fr;margin-top:44px}
+  .tc-badge,.tc-badge+.tc-badge{padding:20px 0;border-inline-start:0;border-bottom:1px solid var(--line)}
+  .tc-tools{width:100%}
+  .tc-tools .btn{flex:1 1 200px;justify-content:center}
+  .tc-wide thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .tc-wide,.tc-wide tbody,.tc-wide tr,.tc-wide th,.tc-wide td,.tc-wide caption{display:block;width:100%}
+  .tc-wide tr{border-bottom:1px solid var(--line);padding:16px 0}
+  .tc-wide tbody th,.tc-wide td{border:0;padding:3px 0}
+  .tc-wide tbody th{font-size:16px;color:var(--gold);width:100%}
+  .tc-wide td:before{content:attr(data-l);display:block;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-top:8px}
+  html[dir=rtl] .tc-wide td:before{letter-spacing:0;font-size:12px}
+  .tc-wide td:nth-child(4){font-size:14px}
+  .tc-comp tbody th{width:38%}
+  .tc-legend{display:none}
+  .tc-row{grid-template-columns:minmax(0,1fr) 20px;gap:10px 16px;padding:18px 16px}
+  .tc-crit{grid-column:1}
+  .tc-chev{grid-column:2;grid-row:1}
+  .tc-meter{grid-column:1/-1}
+  .tc-meter:before{content:attr(data-k);flex:0 0 42%;font-size:12px;color:var(--muted)}
+  .tc-meter.m:before{color:var(--gold)}
+  .tc-meter i{max-width:none}
+  .tc-detail{grid-template-columns:1fr;gap:18px;padding:0 16px 20px}
+  .tc-chart{margin-inline:-16px;border-inline:0}
+  .tc-form{padding:26px 18px;margin-inline:-16px;border-inline:0}
+  .tc-form:before{left:0;right:0}
+  .tc-docs .est-opts{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.tc-chev{transition:none}}
+/* Save as PDF: only the spec sheet, black on white, with the company header */
+@media print{
+  body.tc-page{background:#fff!important;color:#000!important}
+  body.tc-page>*:not(main),body.tc-page main>*:not(#specs),body.tc-page #specs .head-row{display:none!important}
+  body.tc-page #specs{padding:0;border:0;background:#fff!important}
+  body.tc-page #specs .wrap{max-width:none;padding:0}
+  body.tc-page .tc-sheet{margin:0}
+  body.tc-page .tc-print-head{display:flex;flex-direction:column;gap:3px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:22px;font-size:11px;color:#333}
+  body.tc-page .tc-print-head b{font-size:17px;color:#000}
+  body.tc-page .tc-spec caption{color:#000;font-size:19px;padding-bottom:8px}
+  body.tc-page .tc-spec th,body.tc-page .tc-spec td{color:#000!important;border-color:#bbb!important;padding:7px 9px;font-size:11px}
+  body.tc-page .tc-spec thead th{color:#555!important;font-size:9px}
+  body.tc-page .tc-two{grid-template-columns:1fr 1.7fr;gap:26px;margin-top:26px}
+  body.tc-page .tc-spec tr{break-inside:avoid}
+}
