@@ -498,9 +498,25 @@ function withCalc(h) {
   }
   return h;
 }
-/** Square icon for Google, JPG share picture for WhatsApp, the cost calculator link: the same fix for every page, made or hand-written. */
+// the Technical Hub for architects and consultants (/technical-specs/): last in every page's Services menu and the footer's Services list
+const TECH = [
+  ['<div class="dd"><a href="/services/"', '<a href="/technical-specs/"><b>Technical Specs</b><small>For architects &amp; consultants</small></a>',
+    '<h4>Services</h4><ul>', '<li><a href="/technical-specs/">Technical Specs</a></li>'],
+  ['<div class="dd"><a href="/ar/services/"', '<a href="/ar/technical-specs/"><b>المواصفات الفنية</b><small>للمهندسين والاستشاريين</small></a>',
+    '<h4>خدماتنا</h4><ul>', '<li><a href="/ar/technical-specs/">المواصفات الفنية</a></li>'],
+];
+function withTech(h) {
+  for (const [menu, link, foot, li] of TECH) {
+    let i = h.indexOf(menu), j;
+    if (i >= 0 && !h.includes(link) && (j = h.indexOf('</div></div>', i)) > 0) h = h.slice(0, j) + link + h.slice(j);
+    i = h.indexOf(foot);
+    if (i >= 0 && !h.includes(li) && (j = h.indexOf('</ul>', i)) > 0) h = h.slice(0, j) + li + h.slice(j);
+  }
+  return h;
+}
+/** Square icon for Google, JPG share picture for WhatsApp, the cost calculator and Technical Hub links: the same fix for every page, made or hand-written. */
 function fixHtml(h) {
-  h = withCalc(h);
+  h = withTech(withCalc(h));
   if (ICONS) h = h.replace(/<link rel="icon" href="\/images\/logo\/horizontal\/dark\.png">/g,
     '<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="icon" type="image/png" sizes="192x192" href="/images/icons/icon-192.png">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<meta name="theme-color" content="#1a1a1a">');
   if (HAS_SHARE && /<meta property="og:image" content="[^"]+\.webp">/.test(h)) {
