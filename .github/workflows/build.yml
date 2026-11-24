@@ -43,13 +43,13 @@ jobs:
           if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
           git commit -m "Blog: posts from the ERP"
           git pull --rebase --quiet && git push
-      - name: Tell Bing and other IndexNow search engines about new or changed posts
+      - name: Tell search engines about new or changed pages (IndexNow, Google sitemap) and show it in the ERP
         env:
           CHANGED_URLS: ${{ runner.temp }}/changed-urls.txt
           GH_TOKEN: ${{ github.token }}
         run: |
           [ -s "$CHANGED_URLS" ] || exit 0
-          # wait until GitHub Pages has really published this commit (at most about 10 minutes), so Bing finds the new pages
+          # wait until GitHub Pages has really published this commit (at most about 10 minutes), so the search engines find the new pages
           SHA=$(git rev-parse HEAD); B=""
           for i in $(seq 1 40); do
             B=$(gh api "repos/${{ github.repository }}/pages/builds/latest" --jq '.status + " " + .commit' 2>/dev/null || true)
@@ -59,7 +59,15 @@ jobs:
             sleep 15
           done
           echo "GitHub Pages: $B"
-          KEY=$(ls *.txt | grep -E '^[0-9a-f]{32}\.txt$' | head -1 | sed 's/\.txt$//')
           URLS=$(jq -R . "$CHANGED_URLS" | jq -s .)
+          # The ERP pings IndexNow (Bing, Yandex and the others), resubmits the sitemap to Google Search Console and records both
+          # for the badge in Growth. Same address and public key as the website's own forms (assets/main.js).
+          ANON=$(grep -oE 'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+' assets/main.js | head -1)
+          OUT=$(curl -sS -m 120 -X POST https://keweaoogdnxietvyerhj.supabase.co/functions/v1/seo -H "apikey: $ANON" -H "Authorization: Bearer $ANON" \
+            -H 'content-type: application/json' -d "{\"action\":\"index_ping\",\"urls\":$URLS}" || true)
+          echo "ERP: $OUT"
+          case "$OUT" in *'"ok":true'*) exit 0 ;; esac
+          # the ERP did not answer: tell IndexNow directly, so the new pages are still announced
+          KEY=$(ls *.txt | grep -E '^[0-9a-f]{32}\.txt$' | head -1 | sed 's/\.txt$//')
           curl -sS -X POST https://api.indexnow.org/indexnow -H 'content-type: application/json; charset=utf-8' \
             -d "{\"host\":\"al-swaticontracting.com\",\"key\":\"$KEY\",\"keyLocation\":\"https://al-swaticontracting.com/$KEY.txt\",\"urlList\":$URLS}" -w ' IndexNow %{http_code}\n' || true
