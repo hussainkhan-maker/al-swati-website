@@ -1,4 +1,27 @@
+# AL-Swati Contracting - https://al-swaticontracting.com
+# Search engines and AI assistants are welcome to read every public page.
+# Company summary for AI assistants: https://al-swaticontracting.com/llms.txt (full version: /llms-full.txt)
+
 User-agent: *
-Allow: /
 Disallow: /tools/
+Allow: /
+
+# AI search engines and assistants (OpenAI, Google, Perplexity, Anthropic, Microsoft, Apple):
+# allowed on every public page, including /llms.txt and /llms-full.txt
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Google-Extended
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: Bingbot
+User-agent: Applebot-Extended
+Disallow: /tools/
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+
 Sitemap: https://al-swaticontracting.com/sitemap.xml
