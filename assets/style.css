@@ -548,3 +548,8 @@ html[dir=rtl] .est-table thead th{letter-spacing:0;font-size:13px}
   .est-table th,.est-table td{padding:12px 10px}
 }
 @media (prefers-reduced-motion:reduce){.est-opt span{transition:none}}
+/* cost calculator price table: materials × fixing systems (scrolls sideways on small phones) */
+.est-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.est-table.est-matrix{min-width:540px}
+.est-table.est-matrix td{color:var(--text);font-weight:600;white-space:nowrap}
+.est-table.est-matrix td:nth-child(2){color:var(--gold)}
