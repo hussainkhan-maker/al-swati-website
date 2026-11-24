@@ -206,15 +206,103 @@ function jpegSize(b) { // width and height from a JPEG's frame header (so the br
   }
   return null;
 }
+// Photos get searchable names (mechanical-stone-cladding-al-malqa-riyadh-01-3f9a2c.jpg; the last part keeps a name with its
+// photo when the owner reorders them) and the district's centre as GPS, marked approximate (about 1.5 km). Whatever the
+// file had in it is dropped, so a phone's exact location of a client's house is never published.
+// Puts a small EXIF block into a JPEG: GPS (WGS-84, with a horizontal error so readers know it is approximate),
+// Artist, Copyright and a short English description. Any EXIF the file had is dropped first, so a phone's exact
+// location of a client's house is never published. Works on Uint8Array (browser) and Buffer (Node).
+function withGps(jpg, lat, lng, { errorM = 1500, artist = "AL-Swati Contracting", copyright = "AL-Swati Contracting", description = "" } = {}) {
+  const src = jpg instanceof Uint8Array ? jpg : new Uint8Array(jpg);
+  if (src[0] !== 0xff || src[1] !== 0xd8) return src;
+  // no district centre: the old EXIF is still dropped, and no GPS is written
+  const hasGps = Number.isFinite(lat) && Number.isFinite(lng) && !(lat === 0 && lng === 0);
+  const ascii = (s) => String(s || "").replace(/[^\x20-\x7e]/g, "").slice(0, 200);
+  // keep every segment except existing Exif APP1 blocks; stop copying segments at the start of the image data
+  const parts = [], keep = [];
+  let i = 2;
+  while (i + 4 <= src.length && src[i] === 0xff) {
+    const m = src[i + 1];
+    if (m === 0xda || m === 0xd9) break; // start of scan: the rest is image data
+    const len = (src[i + 2] << 8) | src[i + 3];
+    const seg = src.subarray(i, i + 2 + len);
+    const isExif = m === 0xe1 && seg[4] === 0x45 && seg[5] === 0x78 && seg[6] === 0x69 && seg[7] === 0x66; // "Exif"
+    if (!isExif) keep.push(seg);
+    i += 2 + len;
+  }
+  const rest = src.subarray(i);
+  // ---- the TIFF block (big-endian) ----
+  const dms = (v) => { const a = Math.abs(v), d = Math.floor(a), mf = (a - d) * 60, mi = Math.floor(mf), s = Math.round((mf - mi) * 60 * 100); return [[d, 1], [mi, 1], [s, 100]]; };
+  const strs = { desc: ascii(description), artist: ascii(artist), copy: ascii(copyright) };
+  const ifd0 = [];
+  if (strs.desc) ifd0.push({ tag: 0x010e, type: 2, str: strs.desc });
+  if (strs.artist) ifd0.push({ tag: 0x013b, type: 2, str: strs.artist });
+  if (strs.copy) ifd0.push({ tag: 0x8298, type: 2, str: strs.copy });
+  if (hasGps) ifd0.push({ tag: 0x8825, type: 4, gps: true });
+  const gps = !hasGps ? [] : [
+    { tag: 0x0000, type: 1, bytes: [2, 3, 0, 0] },
+    { tag: 0x0001, type: 2, str: lat >= 0 ? "N" : "S" },
+    { tag: 0x0002, type: 5, rats: dms(lat) },
+    { tag: 0x0003, type: 2, str: lng >= 0 ? "E" : "W" },
+    { tag: 0x0004, type: 5, rats: dms(lng) },
+    { tag: 0x0012, type: 2, str: "WGS-84" },
+    { tag: 0x001f, type: 5, rats: [[Math.round(errorM), 1]] },
+  ];
+  const size = (e) => (e.str !== undefined ? e.str.length + 1 : e.rats ? e.rats.length * 8 : e.bytes ? e.bytes.length : 4);
+  const count = (e) => (e.str !== undefined ? e.str.length + 1 : e.rats ? e.rats.length : e.bytes ? e.bytes.length : 1);
+  const ifdLen = (n) => 2 + n * 12 + 4;
+  const ifd0At = 8, gpsAt = ifd0At + ifdLen(ifd0.length);
+  let dataAt = gpsAt + (gps.length ? ifdLen(gps.length) : 0);
+  const extra = (list) => list.filter((e) => size(e) > 4).reduce((n, e) => n + size(e) + (size(e) & 1), 0);
+  const total = dataAt + extra(ifd0) + extra(gps);
+  const t = new Uint8Array(total), v = new DataView(t.buffer);
+  t.set([0x4d, 0x4d, 0, 42, 0, 0, 0, ifd0At]);
+  const writeIfd = (at, list) => {
+    v.setUint16(at, list.length); let p = at + 2;
+    for (const e of list) {
+      v.setUint16(p, e.tag); v.setUint16(p + 2, e.type); v.setUint32(p + 4, count(e));
+      const put = (o) => {
+        if (e.str !== undefined) { for (let k = 0; k < e.str.length; k++) t[o + k] = e.str.charCodeAt(k); t[o + e.str.length] = 0; }
+        else if (e.rats) e.rats.forEach(([a, b], k) => { v.setUint32(o + k * 8, a); v.setUint32(o + k * 8 + 4, b); });
+        else if (e.bytes) t.set(e.bytes, o);
+      };
+      if (e.gps) v.setUint32(p + 8, gpsAt);
+      else if (size(e) <= 4) put(p + 8);
+      else { v.setUint32(p + 8, dataAt); put(dataAt); dataAt += size(e) + (size(e) & 1); }
+      p += 12;
+    }
+    v.setUint32(p, 0); // no next IFD
+  };
+  writeIfd(ifd0At, ifd0); if (gps.length) writeIfd(gpsAt, gps);
+  const app1Len = 2 + 6 + t.length;
+  const app1 = new Uint8Array(2 + app1Len);
+  app1.set([0xff, 0xe1, app1Len >> 8, app1Len & 0xff, 0x45, 0x78, 0x69, 0x66, 0, 0]); app1.set(t, 10);
+  // SOI, the JFIF block if there is one, then Exif, then the other blocks and the image data
+  const jfif = keep.filter((s) => s[1] === 0xe0), others = keep.filter((s) => s[1] !== 0xe0);
+  const out = [new Uint8Array([0xff, 0xd8]), ...jfif, app1, ...others, rest];
+  const res = new Uint8Array(out.reduce((n, a) => n + a.length, 0));
+  let o = 0; for (const a of out) { res.set(a, o); o += a.length; }
+  return res;
+}
+/** The material word for photo names: stone, marble, granite or porcelain. */
+const matOf = (area) => { const s = String(area?.stone || ""); return /marble|travertine|رخام/i.test(s) ? "marble" : /granite|جرانيت/i.test(s) ? "granite" : /porcelain|بورسلان/i.test(s) ? "porcelain" : "stone"; };
+/** SEO file name for a district page or case study photo: mechanical-stone-cladding-al-malqa-riyadh-01 */
+function photoName(area, i) {
+  const mat = matOf(area);
+  const place = String(area?.district || area?.slug || "riyadh").toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `mechanical-${mat}-cladding-${place && place !== "riyadh" ? place + "-" : ""}riyadh-${String(i + 1).padStart(2, "0")}`;
+}
+const photoFile = (post, ph, i) => `${isCase(post) ? CASE_IMG : AREA_IMG}/${post.area.slug}/${photoName(post.area, i)}-${hash8(ph.url).slice(0, 6)}.jpg`;
+const photoDesc = (a) => `Mechanical ${matOf(a)} cladding${a?.district ? ", " + a.district : ""}, Riyadh - AL-Swati Contracting`;
 async function areaPhotos(post) { // the owner's photos, copied once onto the site (both languages share them)
   const out = [];
-  for (const ph of post.area?.photos || []) {
-    const f = `${isCase(post) ? CASE_IMG : AREA_IMG}/${post.area.slug}/${hash8(ph.url)}.jpg`;
+  for (const [i, ph] of (post.area?.photos || []).entries()) {
+    const f = photoFile(post, ph, i);
     let buf = await readFile(p(f)).catch(() => null);
     if (!buf) {
       const r = await fetch(ph.url).catch(() => null);
       if (!r?.ok) { console.log("photo not reachable:", ph.url, r?.status); continue; }
-      buf = Buffer.from(await r.arrayBuffer());
+      buf = Buffer.from(withGps(new Uint8Array(await r.arrayBuffer()), Number(post.area.lat), Number(post.area.lng), { description: photoDesc(post.area) }));
       await mkdir(dirname(p(f)), { recursive: true }); await writeFile(p(f), buf);
     }
     out.push({ src: "/" + f, alt: ph.alt || "", size: jpegSize(buf) });
@@ -345,7 +433,7 @@ const CASE_IMG = "images/cases";
 const isCase = (x) => x?.area?.type === "case";
 const BUILD_NAME = { villa: ["Villa", "فيلا"], compound: ["Residential compound", "مجمع سكني"], commercial: ["Commercial building", "مبنى تجاري"], tower: ["Tower", "برج"], government: ["Government building", "مبنى حكومي"] };
 const n0 = (v) => Number(v || 0).toLocaleString("en-US");
-const casePhoto = (x) => (x.area?.photos?.[0] ? `/${CASE_IMG}/${x.area.slug}/${hash8(x.area.photos[0].url)}.jpg` : "/images/pages/projects/hero.webp");
+const casePhoto = (x) => (x.area?.photos?.[0] ? "/" + photoFile(x, x.area.photos[0], 0) : "/images/pages/projects/hero.webp");
 
 function caseCards(cases, lang) { // cards in the Projects page grid (the page's own filters work on them)
   const ar = lang === "ar";
@@ -597,7 +685,7 @@ for (const [lang, file] of Object.entries(CASE_TPL)) {
   if (next !== before) { await writeFile(p(file), next); changed.push(abs("/" + file.replace(/index\.html$/, ""))); }
 }
 // photos of district pages and case studies that are no longer published
-const usedImgs = new Set([...areas, ...cases].flatMap((x) => (x.area.photos || []).map((ph) => `${isCase(x) ? CASE_IMG : AREA_IMG}/${x.area.slug}/${hash8(ph.url)}.jpg`)));
+const usedImgs = new Set([...areas, ...cases].flatMap((x) => (x.area.photos || []).map((ph, i) => photoFile(x, ph, i))));
 for (const root of [AREA_IMG, CASE_IMG]) for (const dir of await readdir(p(root)).catch(() => [])) {
   const files = await readdir(p(root, dir)).catch(() => []);
   for (const f of files) if (!usedImgs.has(`${root}/${dir}/${f}`)) await rm(p(root, dir, f), { force: true });
