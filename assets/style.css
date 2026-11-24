@@ -434,3 +434,9 @@ html[dir=rtl] .ti:nth-child(odd){text-align:left}
 @keyframes introReveal{to{clip-path:inset(0 0 0 0)}}
 @keyframes introLine{to{transform:scaleX(1)}}
 @media (prefers-reduced-motion:reduce){.intro{display:none}}
+/* district pages (from the ERP): photos of the work in that district */
+.area-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:26px}
+.area-gallery figure{margin:0}
+.area-gallery img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--line)}
+.area-gallery figcaption{color:var(--muted);font-size:13px;margin-top:8px;line-height:1.5}
+.post.area-text{padding-top:10px;padding-bottom:40px}
