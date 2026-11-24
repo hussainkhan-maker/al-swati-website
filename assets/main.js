@@ -70,6 +70,7 @@
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href');
     var k=/wa\.me|whatsapp/.test(h)?'whatsapp':/^tel:/.test(h)?'call':/^mailto:/.test(h)?'email':null;
+    if(k==='whatsapp'&&!a.target){a.target='_blank';a.rel='noopener'} // WhatsApp opens in a new tab: the page stays open and the count always gets through
     if(k)try{erp({action:'event',kind:k,page:location.pathname,lang:ar?'ar':'en',ref:document.referrer,utm:utm})}catch(x){}
   });
   // share
