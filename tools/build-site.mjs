@@ -8,6 +8,8 @@
 //    place, the original is kept in tools/originals/, and it comes back by itself when the upgrade is unpublished
 //  • a published Riyadh district page (blog_posts.area) gets its own address, /stone-cladding-<district>-riyadh/ and
 //    /ar/stone-cladding-<district>-riyadh/, with the owner's photos, and the "Stone cladding in Riyadh" pages link to it
+//  • a published project case study (area.type "case") gets /projects/<slug>/ and /ar/projects/<slug>/, and a card on the
+//    Projects page
 // It needs no secret: it reads only published posts, with the app's public key (the same one the public ERP blog uses).
 import { readFile, writeFile, mkdir, rm, readdir, access } from "node:fs/promises";
 import { join, dirname } from "node:path";
@@ -207,7 +209,7 @@ function jpegSize(b) { // width and height from a JPEG's frame header (so the br
 async function areaPhotos(post) { // the owner's photos, copied once onto the site (both languages share them)
   const out = [];
   for (const ph of post.area?.photos || []) {
-    const f = `${AREA_IMG}/${post.area.slug}/${hash8(ph.url)}.jpg`;
+    const f = `${isCase(post) ? CASE_IMG : AREA_IMG}/${post.area.slug}/${hash8(ph.url)}.jpg`;
     let buf = await readFile(p(f)).catch(() => null);
     if (!buf) {
       const r = await fetch(ph.url).catch(() => null);
@@ -289,7 +291,7 @@ function areaHead(post, twin, url, photos, business) {
   ].join("\n");
 }
 
-function areaMain(post, twin, photos, tplMain, areas) {
+function areaMain(post, twin, photos, tplMain, areas, cases = []) {
   const ar = post.lang === "ar", a = post.area, url = pathOf(post), place = placeName(a, ar);
   const btns = (tplMain.match(/<div class="btns">[\s\S]*?<\/a><\/div>/) || [""])[0];
   const stats = (tplMain.match(/<div class="stats">[\s\S]*?<\/div><\/div><\/div>/) || [""])[0];
@@ -299,7 +301,8 @@ function areaMain(post, twin, photos, tplMain, areas) {
   const twinLink = twin ? `<p class="twin"><a class="link-gold" href="${pathOf(twin)}" hreflang="${twin.lang}" lang="${twin.lang}">${twin.lang === "ar" ? "اقرأ هذه الصفحة بالعربية" : "Read this page in English"}</a></p>` : "";
   const gallery = photos.length ? `<section class="alt bt"><div class="wrap"><div class="eyebrow">${ar ? "من أعمالنا" : "Our Work"}</div><h2>${ar ? (a.kind === "road" ? `من أعمالنا على ${esc(place)}` : `من أعمالنا في ${esc(place)}`) : `Our Facade Work ${a.kind === "road" ? "on" : "in"} ${esc(place)}`}</h2>
 <div class="area-gallery">${photos.map((x, i) => `<figure><img src="${esc(x.src)}" alt="${esc(x.alt)}"${wh(x)} loading="${i ? "lazy" : "eager"}" decoding="async"><figcaption>${esc(x.alt)}</figcaption></figure>`).join("")}</div></div></section>` : "";
-  const others = areaLinks(areas, post.lang, url) + tagLink(ar ? "/ar/stone-cladding-riyadh/" : "/stone-cladding-riyadh/", ar ? "تركيب الحجر في الرياض" : "Stone cladding in Riyadh")
+  const others = cases.filter((x) => x.lang === post.lang && x.area.district === a.district).map((x) => tagLink(pathOf(x), (ar ? "مشروع: " : "Project: ") + x.title)).join("")
+    + areaLinks(areas, post.lang, url) + tagLink(ar ? "/ar/stone-cladding-riyadh/" : "/stone-cladding-riyadh/", ar ? "تركيب الحجر في الرياض" : "Stone cladding in Riyadh")
     + tagLink(ar ? "/ar/marble-installation-riyadh/" : "/marble-installation-riyadh/", ar ? "تركيب الرخام في الرياض" : "Marble installation in Riyadh");
   return `<main>
 <section class="hero short"><img src="${esc(hero.src)}" alt="${esc(hero.alt)}"${wh(hero)} fetchpriority="high" decoding="async">
@@ -310,7 +313,7 @@ ${gallery}
 </main>`;
 }
 
-function areaPage(tpl, post, twin, photos, areas) {
+function areaPage(tpl, post, twin, photos, areas, cases = []) { // a district page, or a case study (isCase)
   const url = pathOf(post);
   const hs = tpl.indexOf("<head>"), he = tpl.indexOf("</head>"), ms = tpl.indexOf("<main>"), me = tpl.indexOf("</main>");
   if (hs < 0 || he < 0 || ms < 0 || me < 0) throw new Error("The district page template has changed: <head> or <main> not found");
@@ -325,10 +328,113 @@ function areaPage(tpl, post, twin, photos, areas) {
     return false; // the stone cladding page's own FAQ, breadcrumb and service data are not this page's
   });
   const vp = keep.findIndex((l) => l.includes('name="viewport"'));
-  keep.splice(vp + 1, 0, areaHead(post, twin, url, photos, business));
-  let html = tpl.slice(0, hs + 6) + "\n" + keep.join("\n") + "\n" + tpl.slice(he, ms) + areaMain(post, twin, photos, tpl.slice(ms, me), areas) + tpl.slice(me + 7);
+  keep.splice(vp + 1, 0, isCase(post) ? caseHead(post, twin, url, photos, business) : areaHead(post, twin, url, photos, business));
+  const main = isCase(post) ? caseMain(post, twin, photos, areas, cases) : areaMain(post, twin, photos, tpl.slice(ms, me), areas, cases);
+  let html = tpl.slice(0, hs + 6) + "\n" + keep.join("\n") + "\n" + tpl.slice(he, ms) + main + tpl.slice(me + 7);
   if (twin) html = html.replace(/<a class="lang" href="[^"]*">/g, `<a class="lang" href="${pathOf(twin)}">`);
   return fixHtml(html);
+}
+
+
+// ───────── project case studies (Projects → "Publish as SEO Case Study" in the ERP) ─────────
+// A published post with area.type "case" is a case study at /projects/<slug>/ (and /ar/projects/<slug>/), in the look of the
+// Projects page: hero with a site photo, a facts box (district, building, stone, m², fixing system, year), the text and the
+// photos. Article schema with the district as contentLocation (GeoCoordinates), a card in the Projects page grid, sitemap.xml.
+const CASE_TPL = { en: "projects/index.html", ar: "ar/projects/index.html" };
+const CASE_IMG = "images/cases";
+const isCase = (x) => x?.area?.type === "case";
+const BUILD_NAME = { villa: ["Villa", "فيلا"], compound: ["Residential compound", "مجمع سكني"], commercial: ["Commercial building", "مبنى تجاري"], tower: ["Tower", "برج"], government: ["Government building", "مبنى حكومي"] };
+const n0 = (v) => Number(v || 0).toLocaleString("en-US");
+const casePhoto = (x) => (x.area?.photos?.[0] ? `/${CASE_IMG}/${x.area.slug}/${hash8(x.area.photos[0].url)}.jpg` : "/images/pages/projects/hero.webp");
+
+function caseCards(cases, lang) { // cards in the Projects page grid (the page's own filters work on them)
+  const ar = lang === "ar";
+  return cases.filter((x) => x.lang === lang).map((x) => {
+    const a = x.area, stone = ar ? STONE_AR[a.stone] || a.stone : a.stone;
+    return `<a class="pcard" data-c="${esc(a.cat || "residential")}" href="${pathOf(x)}"><img src="${casePhoto(x)}" alt="${esc(a.photos?.[0]?.alt || x.title)}" loading="lazy" decoding="async"><span class="tag">${ar ? "دراسة حالة" : "Case Study"}</span><div class="info"><h3>${esc(x.title)}</h3><div class="meta"><span>⌖ ${esc(placeName(a, ar))}${ar ? "، الرياض" : ", Riyadh"}</span><span>▣ ${esc(a.year)}</span></div><div class="work">${esc(stone)} · ${n0(a.m2)} ${ar ? "م²" : "m²"}</div></div></a>`;
+  }).join("");
+}
+function withCases(html, cases, lang) { // the cards go first in the grid, between <!--erp-cases--> markers
+  const open = "<!--erp-cases-->", close = "<!--/erp-cases-->", inner = caseCards(cases, lang);
+  const a = html.indexOf(open), b = html.indexOf(close);
+  if (a >= 0 && b > a) return html.slice(0, a + open.length) + inner + html.slice(b);
+  if (!inner) return html;
+  const g = html.indexOf('<div class="pgrid">');
+  if (g < 0) return html;
+  const at = g + '<div class="pgrid">'.length;
+  return html.slice(0, at) + open + inner + close + html.slice(at);
+}
+
+function caseHead(post, twin, url, photos, business) {
+  const ar = post.lang === "ar", a = post.area, brand = ar ? "شركة السواطي" : "AL-Swati";
+  const title = `${post.title} | ${brand}`, desc = post.meta_description || "";
+  const hero = photos[0]?.src, img = hero ? abs(hero) : abs(HAS_SHARE ? SHARE_JPG : DEFAULT_IMG);
+  const alt = (lang, u) => `<link rel="alternate" hreflang="${lang}" href="${abs(u)}">`;
+  const pair = twin ? [alt(post.lang, url), alt(twin.lang, pathOf(twin)), alt("x-default", post.lang === "en" ? url : pathOf(twin))] : [];
+  const place = { "@type": "Place", name: ar ? `${placeName(a, true)}، الرياض` : `${a.district}, Riyadh`, geo: { "@type": "GeoCoordinates", latitude: a.lat, longitude: a.lng }, containedInPlace: { "@type": "City", name: ar ? "الرياض" : "Riyadh" } };
+  const script = (o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u" + "003c")}</script>`;
+  const article = { "@context": "https://schema.org", "@type": "Article", "@id": abs(url) + "#article", headline: a.h1 || post.title, description: desc, inLanguage: ar ? "ar" : "en",
+    image: photos.length ? photos.map((x) => abs(x.src)) : [img], datePublished: post.published_at, dateModified: post.updated_at || post.published_at,
+    author: { "@type": "Organization", name: ar ? "شركة السواطي للمقاولات" : "AL-Swati Contracting", url: SITE + "/" }, publisher: { "@id": SITE + "/#business" }, mainEntityOfPage: abs(url),
+    about: { "@type": "Service", name: ar ? "تركيب واجهات الحجر بالتثبيت الميكانيكي" : "Stone facade cladding with mechanical fixing", provider: { "@id": SITE + "/#business" } },
+    contentLocation: place, keywords: (post.keywords || []).join(", ") };
+  const qa = faqs(post.body);
+  const faq = qa.length >= 2 ? { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: ar ? "ar" : "en",
+    mainEntity: qa.map((x) => ({ "@type": "Question", name: x.q, acceptedAnswer: { "@type": "Answer", text: x.a } })) } : null;
+  return [
+    `<title>${esc(title)}</title>`,
+    `<meta name="description" content="${esc(desc)}">`,
+    `<link rel="canonical" href="${abs(url)}">`,
+    ...pair,
+    `<meta property="og:title" content="${esc(title)}">`,
+    `<meta property="og:description" content="${esc(desc)}">`,
+    `<meta property="og:url" content="${abs(url)}">`,
+    `<meta property="og:type" content="article">`,
+    `<meta property="og:site_name" content="${ar ? "شركة السواطي للمقاولات" : "AL-Swati Contracting"}">`,
+    `<meta property="og:locale" content="${ar ? "ar_SA" : "en_US"}">`,
+    `<meta property="og:locale:alternate" content="${ar ? "en_US" : "ar_SA"}">`,
+    `<meta property="og:image" content="${esc(img)}">`,
+    `<meta property="og:image:alt" content="${esc(photos[0]?.alt || a.h1 || post.title)}">`,
+    `<meta property="article:published_time" content="${post.published_at}">`,
+    `<meta name="twitter:card" content="summary_large_image">`,
+    `<meta name="twitter:title" content="${esc(title)}">`,
+    `<meta name="twitter:description" content="${esc(desc)}">`,
+    `<meta name="twitter:image" content="${esc(img)}">`,
+    `<link rel="icon" href="/images/logo/horizontal/dark.png">`,
+    ...(hero ? [`<link rel="preload" as="image" href="${esc(hero)}" fetchpriority="high">`] : []),
+    ...(business ? [script(business)] : []),
+    script(article),
+    ...(faq ? [script(faq)] : []),
+    script({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: ar ? "الرئيسية" : "Home", item: SITE + (ar ? "/ar/" : "/") },
+      { "@type": "ListItem", position: 2, name: ar ? "مشاريعنا" : "Projects", item: SITE + (ar ? "/ar/projects/" : "/projects/") },
+      { "@type": "ListItem", position: 3, name: a.h1 || post.title, item: abs(url) }] }),
+  ].join("\n");
+}
+
+function caseMain(post, twin, photos, areas, cases) {
+  const ar = post.lang === "ar", a = post.area, url = pathOf(post), place = placeName(a, ar), pre = ar ? "/ar" : "";
+  const hero = photos[0] || { src: "/images/pages/projects/hero.webp", alt: a.h1 || post.title, size: { w: 1920, h: 900 } };
+  const wh = (x) => (x.size ? ` width="${x.size.w}" height="${x.size.h}"` : "");
+  const stone = ar ? STONE_AR[a.stone] || a.stone : a.stone, bn = (BUILD_NAME[a.building] || [a.building, a.building])[ar ? 1 : 0];
+  const facts = [[ar ? "الموقع" : "Location", `${place}${ar ? "، الرياض" : ", Riyadh"}`], [ar ? "نوع المبنى" : "Building", bn], [ar ? "المادة" : "Stone", stone],
+    [ar ? "مساحة الواجهات" : "Facade area", `${n0(a.m2)} ${ar ? "م²" : "m²"}`], [ar ? "نظام التثبيت" : "Fixing system", (a.fixing || []).join(ar ? "، " : ", ") || (ar ? "تثبيت ميكانيكي" : "Mechanical fixing")],
+    [ar ? "سنة الإنجاز" : "Completed", String(a.year)], ...(a.client ? [[ar ? "العميل" : "Client", a.client]] : [])];
+  const twinLink = twin ? `<p class="twin"><a class="link-gold" href="${pathOf(twin)}" hreflang="${twin.lang}" lang="${twin.lang}">${twin.lang === "ar" ? "اقرأ هذه الصفحة بالعربية" : "Read this page in English"}</a></p>` : "";
+  const gallery = photos.length ? `<section class="alt bt"><div class="wrap"><div class="eyebrow">${ar ? "صور المشروع" : "Project Photos"}</div><h2>${esc(a.h1 || post.title)}</h2>
+<div class="area-gallery">${photos.map((x, i) => `<figure><img src="${esc(x.src)}" alt="${esc(x.alt)}"${wh(x)} loading="${i ? "lazy" : "eager"}" decoding="async"><figcaption>${esc(x.alt)}</figcaption></figure>`).join("")}</div></div></section>` : "";
+  const district = areas.find((x) => x.lang === post.lang && x.area.district === a.district);
+  const links = (district ? tagLink(pathOf(district), ar ? `تركيب الحجر في ${place}` : `Stone cladding in ${a.district}`) : "")
+    + cases.filter((x) => x.lang === post.lang && pathOf(x) !== url).slice(0, 6).map((x) => tagLink(pathOf(x), x.title)).join("")
+    + tagLink(pre + "/stone-cladding-riyadh/", ar ? "تركيب الحجر في الرياض" : "Stone cladding in Riyadh") + tagLink(pre + "/projects/", ar ? "جميع المشاريع" : "All projects");
+  return `<main>
+<section class="hero short"><img src="${esc(hero.src)}" alt="${esc(hero.alt)}"${wh(hero)} fetchpriority="high" decoding="async">
+<div class="wrap"><div class="inner"><div class="eyebrow">${ar ? "دراسة حالة" : "Case Study"} · ${esc(place)}${ar ? "، الرياض" : ", Riyadh"}</div><h1>${esc(a.h1 || post.title)}</h1><div class="rule"></div>${post.meta_description ? `<p>${esc(post.meta_description)}</p>` : ""}<div class="btns"><a class="btn btn-gold" href="${pre}/contact/"><span>${ar ? "اطلب مشروعًا مماثلًا" : "Start a Similar Project"}</span><span class="arrow"></span></a><a class="btn btn-line" href="${pre}/projects/"><span>${ar ? "جميع المشاريع" : "All Projects"}</span><span class="chev"></span></a></div></div></div></section>
+<section class="bt"><div class="wrap"><dl class="case-facts">${facts.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl></div></section>
+<section class="bt"><div class="wrap"><article class="post area-text"${ar ? ' dir="rtl"' : ""}>${twinLink}<div class="body">${md(post.body)}</div></article></div></section>
+${gallery}
+<section class="bt"><div class="wrap"><div class="eyebrow">${ar ? "اقرأ أيضًا" : "More"}</div><h2>${ar ? "مشاريع وخدمات في الرياض" : "More Projects and Services in Riyadh"}</h2><div class="tags">${links}</div></div></section>
+</main>`;
 }
 
 // ───────── lists and sitemap ─────────
@@ -406,7 +512,8 @@ const tplEn = await src("blog/stone-cladding-vs-porcelain-riyadh/index.html");
 const tplAr = await src("ar/blog/stone-installation-price-riyadh/index.html");
 const mine = new Set(await readFile(p(MANIFEST), "utf8").then(JSON.parse, () => []));
 const made = [], changed = [];
-const areas = all.filter((x) => x.area?.slug && x.target_path); // published district pages (for the links between them)
+const areas = all.filter((x) => x.area?.slug && x.target_path && !isCase(x)); // published district pages (for the links between them)
+const cases = all.filter((x) => x.area?.slug && x.target_path && isCase(x)); // published project case studies
 for (const post of all) {
   const file = pathOf(post).slice(1) + "index.html", upgrade = !!post.target_path;
   if (made.includes(file)) { console.log("skip (another post already has this address):", file); continue; }
@@ -414,7 +521,7 @@ for (const post of all) {
     if ((await exists(file)) && !mine.has(file)) { console.log("skip (a hand-made page has this address):", file); continue; }
     const lang = post.lang === "ar" ? "ar" : "en";
     let next;
-    try { next = areaPage(await src(AREA_TPL[lang]), post, areas.find((x) => x.id === post.twin_id) || null, await areaPhotos(post), areas); }
+    try { next = areaPage(await src((isCase(post) ? CASE_TPL : AREA_TPL)[lang]), post, [...areas, ...cases].find((x) => x.id === post.twin_id) || null, await areaPhotos(post), areas, cases); }
     catch (e) { console.log("skip:", file, e.message); continue; }
     await mkdir(dirname(p(file)), { recursive: true });
     if ((await readFile(p(file), "utf8").catch(() => "")) !== next) { await writeFile(p(file), next); changed.push(abs(pathOf(post))); }
@@ -435,6 +542,7 @@ for (const post of all) {
   let next;
   try { next = page(tpl, post, twin, upgrade); } catch (e) { console.log("skip:", file, e.message); continue; }
   for (const [lang, f] of Object.entries(AREA_TPL)) if (f === file) next = withAreas(next, areas, lang); // an upgraded stone cladding page keeps its district links
+  for (const [lang, f] of Object.entries(CASE_TPL)) if (f === file) next = withCases(next, cases, lang); // and an upgraded projects page its case studies
   if ((await readFile(p(file), "utf8").catch(() => "")) !== next) { await writeFile(p(file), next); changed.push(abs(pathOf(post))); }
   made.push(file);
 }
@@ -451,17 +559,23 @@ for (const [lang, file] of Object.entries(AREA_TPL)) {
   const before = await readFile(p(file), "utf8"), next = withAreas(before, areas.filter((x) => made.includes(pathOf(x).slice(1) + "index.html")), lang);
   if (next !== before) { await writeFile(p(file), next); changed.push(abs("/" + file.replace(/index\.html$/, ""))); }
 }
-// photos of district pages that are no longer published
-const usedImgs = new Set(areas.flatMap((x) => (x.area.photos || []).map((ph) => `${AREA_IMG}/${x.area.slug}/${hash8(ph.url)}.jpg`)));
-for (const dir of await readdir(p(AREA_IMG)).catch(() => [])) {
-  const files = await readdir(p(AREA_IMG, dir)).catch(() => []);
-  for (const f of files) if (!usedImgs.has(`${AREA_IMG}/${dir}/${f}`)) await rm(p(AREA_IMG, dir, f), { force: true });
-  if (!(await readdir(p(AREA_IMG, dir)).catch(() => [])).length) await rm(p(AREA_IMG, dir), { recursive: true, force: true });
+// the Projects pages show a card for every published case study (only the part between the markers changes)
+for (const [lang, file] of Object.entries(CASE_TPL)) {
+  if (made.includes(file) || !(await exists(file))) continue;
+  const before = await readFile(p(file), "utf8"), next = withCases(before, cases.filter((x) => made.includes(pathOf(x).slice(1) + "index.html")), lang);
+  if (next !== before) { await writeFile(p(file), next); changed.push(abs("/" + file.replace(/index\.html$/, ""))); }
+}
+// photos of district pages and case studies that are no longer published
+const usedImgs = new Set([...areas, ...cases].flatMap((x) => (x.area.photos || []).map((ph) => `${isCase(x) ? CASE_IMG : AREA_IMG}/${x.area.slug}/${hash8(ph.url)}.jpg`)));
+for (const root of [AREA_IMG, CASE_IMG]) for (const dir of await readdir(p(root)).catch(() => [])) {
+  const files = await readdir(p(root, dir)).catch(() => []);
+  for (const f of files) if (!usedImgs.has(`${root}/${dir}/${f}`)) await rm(p(root, dir, f), { force: true });
+  if (!(await readdir(p(root, dir)).catch(() => [])).length) await rm(p(root, dir), { recursive: true, force: true });
 }
 await writeFile(p(MANIFEST), JSON.stringify(made.sort(), null, 1) + "\n");
 await writeFile(p(INDEXNOW_KEY + ".txt"), INDEXNOW_KEY);
 if (changed.length) changed.push(SITE + "/blog/", SITE + "/ar/blog/", SITE + "/sitemap.xml");
 await writeFile(CHANGED, [...new Set(changed)].join("\n") + (changed.length ? "\n" : ""));
 const built = (x) => made.includes(pathOf(x).slice(1) + "index.html");
-await lists(all.filter((x) => !x.target_path && built(x)), areas.filter(built)); // upgrades keep their page's own place in the sitemap; district pages get theirs
+await lists(all.filter((x) => !x.target_path && built(x)), [...areas, ...cases].filter(built)); // upgrades keep their page's own place in the sitemap; district pages and case studies get theirs
 console.log(`ERP posts on the website: ${made.length}; pages with a fixed head: ${await fixHead()}`);
