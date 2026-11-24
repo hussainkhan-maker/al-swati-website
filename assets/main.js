@@ -52,7 +52,7 @@
   var ar=document.documentElement.lang==='ar',utm=(location.search.match(/utm_[a-z]+=[^&]+/g)||[]).join('&');
   ['quote-form','contact-form'].forEach(function(id){
     var f=document.getElementById(id);if(!f)return;
-    if(!f.querySelector('[name=hp]')){var hp=document.createElement('input');hp.name='hp';hp.tabIndex=-1;hp.autocomplete='off';hp.setAttribute('aria-hidden','true');hp.style.cssText='position:absolute;left:-9999px;width:1px;height:1px;opacity:0';f.appendChild(hp)}
+    if(!f.querySelector('[name=hp]')){var hp=document.createElement('input');hp.name='hp';hp.tabIndex=-1;hp.autocomplete='off';hp.setAttribute('aria-hidden','true');hp.style.cssText='position:absolute;top:0;left:0;width:1px;height:1px;opacity:0;overflow:hidden;clip-path:inset(50%);pointer-events:none';f.appendChild(hp)}
     f.addEventListener('submit',function(e){
       e.preventDefault();var d=new FormData(f),btn=f.querySelector('button[type=submit]'),note=f.querySelector('.note');
       var L=ar?['طلب عرض سعر','الاسم','الهاتف','البريد','نوع المشروع','التفاصيل']:['New quote request','Name','Phone','Email','Project type','Details'];
