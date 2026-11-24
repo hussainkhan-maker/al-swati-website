@@ -446,3 +446,105 @@ html[dir=rtl] .ti:nth-child(odd){text-align:left}
 .case-facts dt{color:var(--muted);font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
 .case-facts dd{margin:6px 0 0;color:var(--gold);font-size:18px;font-weight:600;line-height:1.35}
 a.pcard{display:block;color:inherit}
+/* instant stone cladding cost estimator (assets/estimator.js): homepage section and /stone-cladding-cost-calculator/ */
+.est-top{padding:150px 0 90px}
+.est-crumbs{display:flex;gap:10px;color:var(--muted);font-size:13px;margin-bottom:26px}
+.est-crumbs a:hover{color:var(--gold)}
+.est-top h1{font-size:clamp(44px,6vw,80px);line-height:.95}
+.est{position:relative;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);border:1px solid var(--line);margin-top:48px;background:var(--bg)}
+.est-in{padding:38px 40px}
+.est-step{border:0;padding:0 0 30px;margin:0 0 30px;border-bottom:1px solid var(--line);min-width:0}
+.est-step:last-child{border:0;margin:0;padding:0}
+.est-step legend{display:flex;align-items:center;gap:14px;font-family:var(--head);font-size:27px;letter-spacing:1px;line-height:1;margin-bottom:18px;padding:0}
+html[dir=rtl] .est-step legend{font-family:"Tajawal",sans-serif;font-weight:700;font-size:21px;letter-spacing:0}
+.est-n{width:34px;height:34px;border:1px solid var(--gold);color:var(--gold);display:inline-flex;align-items:center;justify-content:center;font-family:var(--head);font-size:20px;flex-shrink:0}
+.est-opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.est-opt{position:relative;display:block;cursor:pointer}
+.est-opt input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.est-opt span{display:block;height:100%;border:1px solid var(--line);background:var(--bg2);padding:14px 16px;transition:border-color .2s,background-color .2s}
+.est-opt b{display:block;font-size:14px;font-weight:600;line-height:1.35}
+.est-opt small{display:block;color:var(--muted);font-size:12px;line-height:1.45;margin-top:5px}
+.est-opt:hover span{border-color:rgba(201,167,74,.55)}
+.est-opt input:checked+span{border-color:var(--gold);background:rgba(201,167,74,.09);box-shadow:inset 3px 0 0 var(--gold)}
+html[dir=rtl] .est-opt input:checked+span{box-shadow:inset -3px 0 0 var(--gold)}
+.est-opt input:checked+span small{color:var(--gold)}
+.est-opt input:focus-visible+span{outline:2px solid var(--gold);outline-offset:2px}
+.est-area{display:flex;align-items:flex-start;gap:20px}
+.est-slide{flex:1;min-width:0;padding-top:8px}
+.est-slide input{display:block;width:100%;height:28px;margin:0;accent-color:var(--gold);cursor:pointer}
+.est-ticks{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:4px}
+.est-num{display:flex;align-items:center;border:1px solid var(--line);background:var(--bg2);flex-shrink:0}
+.est-num:focus-within{border-color:var(--gold)}
+.est-num input{width:92px;background:none;border:0;color:var(--text);font:600 20px var(--body);padding:11px 2px 11px 12px;text-align:end;-moz-appearance:textfield;appearance:textfield}
+.est-num input::-webkit-inner-spin-button,.est-num input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.est-num input:focus{outline:none}
+.est-num span{color:var(--muted);padding:0 12px 0 6px;font-size:14px}
+.est-out{background:var(--bg2);border-inline-start:1px solid var(--line);position:relative}
+.est-out:before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:2px;background:var(--gold)}
+.est-stick{position:sticky;top:100px;padding:38px 40px}
+.est-k{color:var(--muted);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase}
+html[dir=rtl] .est-k{letter-spacing:0;font-size:13px}
+.est-total{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;font-family:var(--head);color:var(--gold);line-height:1;margin:12px 0 10px;letter-spacing:1px}
+.est-total .cur{font-size:22px;color:var(--muted);letter-spacing:2px}
+html[dir=rtl] .est-total .cur{font-family:"Tajawal",sans-serif;font-size:18px;letter-spacing:0;font-weight:700}
+.est-total .num{font-size:clamp(42px,4.6vw,62px);direction:ltr;unicode-bidi:isolate}
+.est-total .num>span{white-space:nowrap}
+.est-total .dash{color:rgba(201,167,74,.55);margin:0 .14em}
+.est-per{color:var(--muted);font-size:14px;margin-bottom:30px}
+.est-per span{color:var(--text);font-weight:600;direction:ltr;unicode-bidi:isolate}
+.est-weeks{font-family:var(--head);font-size:38px;letter-spacing:1px;line-height:1;margin:10px 0 14px}
+html[dir=rtl] .est-weeks{font-family:"Tajawal",sans-serif;font-weight:800;font-size:30px;letter-spacing:0}
+.est-bar{display:flex;gap:3px;height:8px;margin-bottom:12px}
+.est-bar i{display:block;flex:0 1 0;min-width:0}
+.est-bar .d,.est-plan i.d{background:#6f6f6f}
+.est-bar .s,.est-plan i.s{background:#8c7639}
+.est-bar .i,.est-plan i.i{background:var(--gold)}
+.est-plan{margin:0 0 24px;font-size:13px}
+.est-plan>div{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid var(--line)}
+.est-plan>div[hidden]{display:none}
+.est-plan dt{color:var(--muted);display:flex;align-items:center;gap:9px}
+.est-plan dt i{width:10px;height:10px;flex-shrink:0}
+.est-plan dd{margin:0;text-align:end}
+.est-sum{font-size:12px;color:var(--muted);border:1px dashed var(--line);padding:10px 12px;margin-bottom:28px;line-height:1.5}
+.est-ask h3{font-size:28px;margin-bottom:14px}
+html[dir=rtl] .est-ask h3{font-size:22px;font-weight:700}
+.est-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.est-fields label{display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+html[dir=rtl] .est-fields label{letter-spacing:0;font-size:13px}
+.est-fields input{display:block;width:100%;margin-top:7px;background:var(--bg3);border:1px solid var(--line);color:var(--text);padding:13px 14px;font:15px var(--body)}
+html[dir=rtl] .est-fields input[dir=ltr]{text-align:right}
+.est-fields input:focus{outline:none;border-color:var(--gold)}
+.est-send{width:100%;justify-content:center;margin-top:16px;padding:16px 20px}
+.est-send svg{width:20px;height:20px;fill:currentColor;flex-shrink:0}
+.est-send:disabled{opacity:.65;cursor:wait}
+.est-send:focus-visible{outline:2px solid var(--text);outline-offset:3px}
+.est-note{font-size:13px;margin-top:10px;min-height:1.2em}
+.est-note:empty{margin:0;min-height:0}
+.est-fine{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.65}
+.est-fine a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
+.est-tables{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:50px;margin-top:44px;align-items:start}
+.est-table{width:100%;border-collapse:collapse;font-size:14px}
+.est-table th,.est-table td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:start;vertical-align:top}
+.est-table thead th{color:var(--muted);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border-bottom-color:rgba(201,167,74,.45)}
+html[dir=rtl] .est-table thead th{letter-spacing:0;font-size:13px}
+.est-table tbody th{font-weight:600}
+.est-table td:nth-child(2){color:var(--gold);font-weight:600;white-space:nowrap}
+.est-table td:nth-child(3){color:var(--muted)}
+.est-side h3{font-size:26px;margin-bottom:6px}
+.est-side .est-table{margin-bottom:22px}
+.est-side .est-table td{color:var(--text);white-space:normal}
+.est-side p{color:var(--muted);font-size:14px}
+@media (max-width:1000px){.est,.est-tables{grid-template-columns:1fr}.est-out{border-inline-start:0;border-top:1px solid var(--line)}.est-stick{position:static}}
+@media (max-width:600px){
+  .est-top{padding:116px 0 60px}
+  .est{margin-top:34px;margin-inline:-16px;border-inline:0}
+  .est-in,.est-stick{padding:26px 16px}
+  .est-opts{grid-template-columns:1fr 1fr;gap:8px}
+  .est-opt span{padding:12px}
+  .est-step legend{font-size:23px}
+  .est-area{gap:12px}
+  .est-num input{width:74px;font-size:18px}
+  .est-fields{grid-template-columns:1fr}
+  .est-table th,.est-table td{padding:12px 10px}
+}
+@media (prefers-reduced-motion:reduce){.est-opt span{transition:none}}
