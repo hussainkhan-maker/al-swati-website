@@ -484,8 +484,23 @@ async function htmlFiles(dir = "") {
   return out;
 }
 let ICONS = false;
-/** Square icon for Google, JPG share picture for WhatsApp: the same fix for every page, made or hand-written. */
+// the instant cost calculator (/stone-cladding-cost-calculator/): first in every page's Contact menu, and in the footer's quick links
+const CALC = [
+  ['<div class="menu"><a href="/contact/#contact-form">', '<a href="/stone-cladding-cost-calculator/"><b>Cost Calculator</b><small>Instant price &amp; timeline in SAR</small></a>',
+    '<li><a href="/contact/">', '<li><a href="/stone-cladding-cost-calculator/">Cost Calculator</a></li>'],
+  ['<div class="menu"><a href="/ar/contact/#contact-form">', '<a href="/ar/stone-cladding-cost-calculator/"><b>حاسبة تكلفة الحجر</b><small>تقدير فوري للسعر والمدة بالريال</small></a>',
+    '<li><a href="/ar/contact/">', '<li><a href="/ar/stone-cladding-cost-calculator/">حاسبة التكلفة</a></li>'],
+];
+function withCalc(h) {
+  for (const [menu, link, foot, li] of CALC) {
+    if (h.includes(menu) && !h.includes(link)) h = h.replace(menu, '<div class="menu">' + link + menu.slice('<div class="menu">'.length));
+    if (h.includes(foot) && !h.includes(li)) h = h.replace(foot, li + foot);
+  }
+  return h;
+}
+/** Square icon for Google, JPG share picture for WhatsApp, the cost calculator link: the same fix for every page, made or hand-written. */
 function fixHtml(h) {
+  h = withCalc(h);
   if (ICONS) h = h.replace(/<link rel="icon" href="\/images\/logo\/horizontal\/dark\.png">/g,
     '<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="icon" type="image/png" sizes="192x192" href="/images/icons/icon-192.png">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<meta name="theme-color" content="#1a1a1a">');
   if (HAS_SHARE && /<meta property="og:image" content="[^"]+\.webp">/.test(h)) {
