@@ -6,10 +6,13 @@
 //  • pages written by hand are never overwritten: only pages listed in tools/erp-pages.json are this tool's own -
 //    except a "Boost to Top 3" upgrade the owner published for that address (blog_posts.target_path): it takes the page's
 //    place, the original is kept in tools/originals/, and it comes back by itself when the upgrade is unpublished
+//  • a published Riyadh district page (blog_posts.area) gets its own address, /stone-cladding-<district>-riyadh/ and
+//    /ar/stone-cladding-<district>-riyadh/, with the owner's photos, and the "Stone cladding in Riyadh" pages link to it
 // It needs no secret: it reads only published posts, with the app's public key (the same one the public ERP blog uses).
 import { readFile, writeFile, mkdir, rm, readdir, access } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
+import { createHash } from "node:crypto";
 
 const ROOT = process.argv[2] || ".";
 const SITE = "https://al-swaticontracting.com";
@@ -30,7 +33,7 @@ const abs = (u) => (/^https?:\/\//.test(u) ? u : SITE + u);
 // ───────── the posts ─────────
 async function posts(postsFile) {
   if (postsFile) return JSON.parse(await readFile(postsFile, "utf8")); // local test
-  const q = "select=id,slug,lang,title,meta_description,keywords,body,published_at,updated_at,image_url,image_alt,twin_id,target_path&status=eq.Published&order=published_at.desc&limit=500";
+  const q = "select=id,slug,lang,title,meta_description,keywords,body,published_at,updated_at,image_url,image_alt,twin_id,target_path,area&status=eq.Published&order=published_at.desc&limit=500";
   const r = await fetch(`${API}/rest/v1/blog_posts?${q}`, { headers: { apikey: KEY, Authorization: `Bearer ${KEY}` } });
   if (!r.ok) throw new Error(`Reading the ERP posts failed: ${r.status} ${(await r.text()).slice(0, 200)}`);
   return r.json();
@@ -184,6 +187,150 @@ function page(tpl, post, twin, upgrade = false) {
   return fixHtml(html);
 }
 
+// ───────── Riyadh district pages (Growth → District pages in the ERP) ─────────
+// A published post with blog_posts.area is a district page at its own address (/stone-cladding-<district>-riyadh/ and
+// /ar/stone-cladding-<district>-riyadh/), in the look of the "Stone cladding in Riyadh" page: hero with the owner's photo,
+// the text, his photos, links to the other districts, LocalBusiness (GeneralContractor) + Service schema with the district's
+// centre point, hreflang between the two languages, and a place in sitemap.xml. The photos are copied onto the site.
+const AREA_TPL = { en: "stone-cladding-riyadh/index.html", ar: "ar/stone-cladding-riyadh/index.html" };
+const AREA_IMG = "images/areas";
+const hash8 = (s) => createHash("sha1").update(String(s)).digest("hex").slice(0, 10);
+function jpegSize(b) { // width and height from a JPEG's frame header (so the browser keeps the space and the page does not jump)
+  for (let i = 2; i + 9 < b.length;) {
+    if (b[i] !== 0xff) { i++; continue; }
+    const m = b[i + 1], len = b.readUInt16BE(i + 2);
+    if (m >= 0xc0 && m <= 0xcf && m !== 0xc4 && m !== 0xc8 && m !== 0xcc) return { h: b.readUInt16BE(i + 5), w: b.readUInt16BE(i + 7) };
+    i += 2 + len;
+  }
+  return null;
+}
+async function areaPhotos(post) { // the owner's photos, copied once onto the site (both languages share them)
+  const out = [];
+  for (const ph of post.area?.photos || []) {
+    const f = `${AREA_IMG}/${post.area.slug}/${hash8(ph.url)}.jpg`;
+    let buf = await readFile(p(f)).catch(() => null);
+    if (!buf) {
+      const r = await fetch(ph.url).catch(() => null);
+      if (!r?.ok) { console.log("photo not reachable:", ph.url, r?.status); continue; }
+      buf = Buffer.from(await r.arrayBuffer());
+      await mkdir(dirname(p(f)), { recursive: true }); await writeFile(p(f), buf);
+    }
+    out.push({ src: "/" + f, alt: ph.alt || "", size: jpegSize(buf) });
+  }
+  return out;
+}
+const placeName = (a, ar) => (ar ? a.district_ar || a.district : a.district);
+const STONE_AR = { "Riyadh Limestone": "حجر الرياض", Granite: "الجرانيت", Marble: "الرخام", Porcelain: "البورسلان" };
+const tagLink = (href, text) => `<a href="${href}" style="border:1px solid rgba(201,167,74,.6);color:var(--gold);font-size:13px;padding:8px 14px">${esc(text)}</a>`;
+function areaLinks(areas, lang, except) { // "Areas we serve": every published district page in this language
+  return areas.filter((x) => x.lang === lang && pathOf(x) !== except)
+    .map((x) => tagLink(pathOf(x), lang === "ar" ? (x.area.kind === "road" ? `تركيب الحجر على ${placeName(x.area, true)}` : `تركيب الحجر في ${placeName(x.area, true)}`) : `Stone cladding ${x.area.kind === "road" ? "on" : "in"} ${x.area.district}`)).join("");
+}
+function areasBlock(areas, lang) { // the section on the "Stone cladding in Riyadh" page that links to every district page
+  const links = areaLinks(areas, lang, "");
+  if (!links) return "";
+  const ar = lang === "ar";
+  return `<section class="bt"><div class="wrap"><div class="eyebrow">${ar ? "مناطق نخدمها" : "Areas We Serve"}</div><h2>${ar ? "تركيب الحجر في أحياء الرياض" : "Stone Cladding Across Riyadh"}</h2><div class="tags">${links}</div></div></section>`;
+}
+function withAreas(html, areas, lang) { // put the block between <!--erp-areas--> markers, just before </main>
+  const open = "<!--erp-areas-->", close = "<!--/erp-areas-->", inner = areasBlock(areas, lang);
+  const a = html.indexOf(open), b = html.indexOf(close);
+  if (a >= 0 && b > a) return inner ? html.slice(0, a + open.length) + inner + html.slice(b) : html.slice(0, a) + html.slice(b + close.length);
+  if (!inner) return html;
+  const m = html.lastIndexOf("</main>");
+  return m < 0 ? html : html.slice(0, m) + open + inner + close + "\n" + html.slice(m);
+}
+
+function areaHead(post, twin, url, photos, business) {
+  const ar = post.lang === "ar", a = post.area, brand = ar ? "شركة السواطي" : "AL-Swati";
+  const title = `${post.title} | ${brand}`, desc = post.meta_description || "";
+  const hero = photos[0]?.src, img = hero ? abs(hero) : abs(HAS_SHARE ? SHARE_JPG : DEFAULT_IMG);
+  const alt = (lang, u) => `<link rel="alternate" hreflang="${lang}" href="${abs(u)}">`;
+  const pair = twin ? [alt(post.lang, url), alt(twin.lang, pathOf(twin)), alt("x-default", post.lang === "en" ? url : pathOf(twin))] : [];
+  const geo = { "@type": "GeoCoordinates", latitude: a.lat, longitude: a.lng };
+  const place = { "@type": "Place", name: ar ? `${placeName(a, true)}، الرياض` : `${a.district}, Riyadh`, geo, containedInPlace: { "@type": "City", name: ar ? "الرياض" : "Riyadh" } };
+  const script = (o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u" + "003c")}</script>`;
+  // the company (GeneralContractor is schema.org's LocalBusiness type for contractors), serving this district too
+  const biz = business ? { ...business, areaServed: [place, ...[].concat(business.areaServed || []).filter((x) => x?.name !== place.name)] } : null;
+  const service = { "@context": "https://schema.org", "@type": "Service", "@id": abs(url) + "#service", name: a.h1 || post.title,
+    serviceType: ar ? "تركيب واجهات الحجر بالتثبيت الميكانيكي" : "Stone facade cladding with mechanical fixing", description: desc, url: abs(url), inLanguage: ar ? "ar" : "en",
+    image: photos.length ? photos.map((x) => abs(x.src)) : [img], provider: { "@id": SITE + "/#business" }, areaServed: place,
+    category: ar ? (STONE_AR[a.stone] || a.stone) : a.stone };
+  const qa = faqs(post.body);
+  const faq = qa.length >= 2 ? { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: ar ? "ar" : "en",
+    mainEntity: qa.map((x) => ({ "@type": "Question", name: x.q, acceptedAnswer: { "@type": "Answer", text: x.a } })) } : null;
+  return [
+    `<title>${esc(title)}</title>`,
+    `<meta name="description" content="${esc(desc)}">`,
+    `<link rel="canonical" href="${abs(url)}">`,
+    ...pair,
+    `<meta property="og:title" content="${esc(title)}">`,
+    `<meta property="og:description" content="${esc(desc)}">`,
+    `<meta property="og:url" content="${abs(url)}">`,
+    `<meta property="og:type" content="website">`,
+    `<meta property="og:site_name" content="${ar ? "شركة السواطي للمقاولات" : "AL-Swati Contracting"}">`,
+    `<meta property="og:locale" content="${ar ? "ar_SA" : "en_US"}">`,
+    `<meta property="og:locale:alternate" content="${ar ? "en_US" : "ar_SA"}">`,
+    `<meta property="og:image" content="${esc(img)}">`,
+    `<meta property="og:image:alt" content="${esc(photos[0]?.alt || a.h1 || post.title)}">`,
+    `<meta name="twitter:card" content="summary_large_image">`,
+    `<meta name="twitter:title" content="${esc(title)}">`,
+    `<meta name="twitter:description" content="${esc(desc)}">`,
+    `<meta name="twitter:image" content="${esc(img)}">`,
+    `<link rel="icon" href="/images/logo/horizontal/dark.png">`,
+    ...(hero ? [`<link rel="preload" as="image" href="${esc(hero)}" fetchpriority="high">`] : []),
+    ...(biz ? [script(biz)] : []),
+    script(service),
+    ...(faq ? [script(faq)] : []),
+    script({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: ar ? "الرئيسية" : "Home", item: SITE + (ar ? "/ar/" : "/") },
+      { "@type": "ListItem", position: 2, name: ar ? "تركيب الحجر في الرياض" : "Stone Cladding in Riyadh", item: SITE + (ar ? "/ar/stone-cladding-riyadh/" : "/stone-cladding-riyadh/") },
+      { "@type": "ListItem", position: 3, name: a.h1 || post.title, item: abs(url) }] }),
+  ].join("\n");
+}
+
+function areaMain(post, twin, photos, tplMain, areas) {
+  const ar = post.lang === "ar", a = post.area, url = pathOf(post), place = placeName(a, ar);
+  const btns = (tplMain.match(/<div class="btns">[\s\S]*?<\/a><\/div>/) || [""])[0];
+  const stats = (tplMain.match(/<div class="stats">[\s\S]*?<\/div><\/div><\/div>/) || [""])[0];
+  const hero = photos[0] || { src: DEFAULT_IMG, alt: a.h1 || post.title, size: { w: 1920, h: 1248 } };
+  const wh = (x) => (x.size ? ` width="${x.size.w}" height="${x.size.h}"` : "");
+  const stone = ar ? STONE_AR[a.stone] || a.stone : a.stone;
+  const twinLink = twin ? `<p class="twin"><a class="link-gold" href="${pathOf(twin)}" hreflang="${twin.lang}" lang="${twin.lang}">${twin.lang === "ar" ? "اقرأ هذه الصفحة بالعربية" : "Read this page in English"}</a></p>` : "";
+  const gallery = photos.length ? `<section class="alt bt"><div class="wrap"><div class="eyebrow">${ar ? "من أعمالنا" : "Our Work"}</div><h2>${ar ? (a.kind === "road" ? `من أعمالنا على ${esc(place)}` : `من أعمالنا في ${esc(place)}`) : `Our Facade Work ${a.kind === "road" ? "on" : "in"} ${esc(place)}`}</h2>
+<div class="area-gallery">${photos.map((x, i) => `<figure><img src="${esc(x.src)}" alt="${esc(x.alt)}"${wh(x)} loading="${i ? "lazy" : "eager"}" decoding="async"><figcaption>${esc(x.alt)}</figcaption></figure>`).join("")}</div></div></section>` : "";
+  const others = areaLinks(areas, post.lang, url) + tagLink(ar ? "/ar/stone-cladding-riyadh/" : "/stone-cladding-riyadh/", ar ? "تركيب الحجر في الرياض" : "Stone cladding in Riyadh")
+    + tagLink(ar ? "/ar/marble-installation-riyadh/" : "/marble-installation-riyadh/", ar ? "تركيب الرخام في الرياض" : "Marble installation in Riyadh");
+  return `<main>
+<section class="hero short"><img src="${esc(hero.src)}" alt="${esc(hero.alt)}"${wh(hero)} fetchpriority="high" decoding="async">
+<div class="wrap"><div class="inner"><div class="eyebrow">${esc(stone)} · ${esc(place)}${ar ? "، الرياض" : ", Riyadh"}</div><h1>${esc(a.h1 || post.title)}</h1><div class="rule"></div>${post.meta_description ? `<p>${esc(post.meta_description)}</p>` : ""}${btns}</div></div></section>${stats}
+<section class="bt"><div class="wrap"><article class="post area-text"${ar ? ' dir="rtl"' : ""}>${twinLink}<div class="body">${md(post.body)}</div></article></div></section>
+${gallery}
+<section class="bt"><div class="wrap"><div class="eyebrow">${ar ? "مناطق نخدمها" : "Areas We Serve"}</div><h2>${ar ? "تركيب الحجر في أحياء الرياض" : "Stone Cladding Across Riyadh"}</h2><div class="tags">${others}</div></div></section>
+</main>`;
+}
+
+function areaPage(tpl, post, twin, photos, areas) {
+  const url = pathOf(post);
+  const hs = tpl.indexOf("<head>"), he = tpl.indexOf("</head>"), ms = tpl.indexOf("<main>"), me = tpl.indexOf("</main>");
+  if (hs < 0 || he < 0 || ms < 0 || me < 0) throw new Error("The district page template has changed: <head> or <main> not found");
+  const own = /^<(title|meta name="(description|twitter:)|link rel="(canonical|icon|alternate|apple-touch-icon|preload)"|meta property="(og|article):)/;
+  let business = null;
+  const keep = tpl.slice(hs + 6, he).split("\n").filter((l) => {
+    const t = l.trim();
+    if (!t || own.test(t)) return false;
+    const ld = t.match(/^<script type="application\/ld\+json">(\{[\s\S]*\})<\/script>$/);
+    if (!ld) return true;
+    try { const o = JSON.parse(ld[1]); if (o["@id"] === SITE + "/#business") { business = o; return false; } } catch {}
+    return false; // the stone cladding page's own FAQ, breadcrumb and service data are not this page's
+  });
+  const vp = keep.findIndex((l) => l.includes('name="viewport"'));
+  keep.splice(vp + 1, 0, areaHead(post, twin, url, photos, business));
+  let html = tpl.slice(0, hs + 6) + "\n" + keep.join("\n") + "\n" + tpl.slice(he, ms) + areaMain(post, twin, photos, tpl.slice(ms, me), areas) + tpl.slice(me + 7);
+  if (twin) html = html.replace(/<a class="lang" href="[^"]*">/g, `<a class="lang" href="${pathOf(twin)}">`);
+  return fixHtml(html);
+}
+
 // ───────── lists and sitemap ─────────
 const card = (post) => {
   const ar = post.lang === "ar", url = pathOf(post);
@@ -198,7 +345,7 @@ function between(html, open, close, inner, where) {
   if (i < 0) throw new Error("Place for the ERP posts not found: " + where);
   return html.slice(0, i + where.length) + open + inner + close + html.slice(i + where.length);
 }
-async function lists(all) {
+async function lists(all, areas = []) {
   for (const [file, lang] of [["blog/index.html", "en"], ["ar/blog/index.html", "ar"]]) {
     if (!(await exists(file))) continue;
     const html = await readFile(p(file), "utf8");
@@ -207,8 +354,8 @@ async function lists(all) {
   }
   if (await exists("sitemap.xml")) {
     const sm = await readFile(p("sitemap.xml"), "utf8");
-    const urls = all.map((post) => {
-      const twin = all.find((x) => x.id === post.twin_id);
+    const urls = [...all, ...areas].map((post) => {
+      const twin = [...all, ...areas].find((x) => x.id === post.twin_id);
       const alts = twin ? [[post.lang, pathOf(post)], [twin.lang, pathOf(twin)], ["x-default", post.lang === "en" ? pathOf(post) : pathOf(twin)]]
         .map(([l, u]) => `<xhtml:link rel="alternate" hreflang="${l}" href="${abs(u)}"/>`).join("") : "";
       return `<url><loc>${abs(pathOf(post))}</loc>${alts}<lastmod>${String(post.updated_at || post.published_at).slice(0, 10)}</lastmod></url>`;
@@ -259,9 +406,20 @@ const tplEn = await src("blog/stone-cladding-vs-porcelain-riyadh/index.html");
 const tplAr = await src("ar/blog/stone-installation-price-riyadh/index.html");
 const mine = new Set(await readFile(p(MANIFEST), "utf8").then(JSON.parse, () => []));
 const made = [], changed = [];
+const areas = all.filter((x) => x.area?.slug && x.target_path); // published district pages (for the links between them)
 for (const post of all) {
   const file = pathOf(post).slice(1) + "index.html", upgrade = !!post.target_path;
   if (made.includes(file)) { console.log("skip (another post already has this address):", file); continue; }
+  if (post.area?.slug) { // a Riyadh district page: its own address, in the look of the stone cladding page
+    if ((await exists(file)) && !mine.has(file)) { console.log("skip (a hand-made page has this address):", file); continue; }
+    const lang = post.lang === "ar" ? "ar" : "en";
+    let next;
+    try { next = areaPage(await src(AREA_TPL[lang]), post, areas.find((x) => x.id === post.twin_id) || null, await areaPhotos(post), areas); }
+    catch (e) { console.log("skip:", file, e.message); continue; }
+    await mkdir(dirname(p(file)), { recursive: true });
+    if ((await readFile(p(file), "utf8").catch(() => "")) !== next) { await writeFile(p(file), next); changed.push(abs(pathOf(post))); }
+    made.push(file); continue;
+  }
   let tpl = post.lang === "ar" ? tplAr : tplEn;
   if (upgrade) { // replaces a hand-made page: keep the original once, and build on it (same header, footer, language pair)
     const orig = `${ORIG}/${file}`;
@@ -276,6 +434,7 @@ for (const post of all) {
   await mkdir(dirname(p(file)), { recursive: true });
   let next;
   try { next = page(tpl, post, twin, upgrade); } catch (e) { console.log("skip:", file, e.message); continue; }
+  for (const [lang, f] of Object.entries(AREA_TPL)) if (f === file) next = withAreas(next, areas, lang); // an upgraded stone cladding page keeps its district links
   if ((await readFile(p(file), "utf8").catch(() => "")) !== next) { await writeFile(p(file), next); changed.push(abs(pathOf(post))); }
   made.push(file);
 }
@@ -286,9 +445,23 @@ for (const file of mine) if (!made.includes(file)) {
   else { await rm(p(dirname(file)), { recursive: true, force: true }); console.log("removed:", file); }
   changed.push(abs("/" + file.replace(/index\.html$/, "")));
 }
+// the "Stone cladding in Riyadh" pages link to every district page (a hand-made page: only the part between the markers changes)
+for (const [lang, file] of Object.entries(AREA_TPL)) {
+  if (made.includes(file) || !(await exists(file))) continue;
+  const before = await readFile(p(file), "utf8"), next = withAreas(before, areas.filter((x) => made.includes(pathOf(x).slice(1) + "index.html")), lang);
+  if (next !== before) { await writeFile(p(file), next); changed.push(abs("/" + file.replace(/index\.html$/, ""))); }
+}
+// photos of district pages that are no longer published
+const usedImgs = new Set(areas.flatMap((x) => (x.area.photos || []).map((ph) => `${AREA_IMG}/${x.area.slug}/${hash8(ph.url)}.jpg`)));
+for (const dir of await readdir(p(AREA_IMG)).catch(() => [])) {
+  const files = await readdir(p(AREA_IMG, dir)).catch(() => []);
+  for (const f of files) if (!usedImgs.has(`${AREA_IMG}/${dir}/${f}`)) await rm(p(AREA_IMG, dir, f), { force: true });
+  if (!(await readdir(p(AREA_IMG, dir)).catch(() => [])).length) await rm(p(AREA_IMG, dir), { recursive: true, force: true });
+}
 await writeFile(p(MANIFEST), JSON.stringify(made.sort(), null, 1) + "\n");
 await writeFile(p(INDEXNOW_KEY + ".txt"), INDEXNOW_KEY);
 if (changed.length) changed.push(SITE + "/blog/", SITE + "/ar/blog/", SITE + "/sitemap.xml");
 await writeFile(CHANGED, [...new Set(changed)].join("\n") + (changed.length ? "\n" : ""));
-await lists(all.filter((x) => !x.target_path && made.includes(pathOf(x).slice(1) + "index.html"))); // upgrades keep their page's own place in the sitemap
+const built = (x) => made.includes(pathOf(x).slice(1) + "index.html");
+await lists(all.filter((x) => !x.target_path && built(x)), areas.filter(built)); // upgrades keep their page's own place in the sitemap; district pages get theirs
 console.log(`ERP posts on the website: ${made.length}; pages with a fixed head: ${await fixHead()}`);
