@@ -443,7 +443,7 @@ function areaPage(tpl, post, twin, photos, areas, cases = []) { // a district pa
 const CASE_TPL = { en: "projects/index.html", ar: "ar/projects/index.html" };
 const CASE_IMG = "images/cases";
 const isCase = (x) => x?.area?.type === "case";
-const BUILD_NAME = { villa: ["Villa", "فيلا"], compound: ["Residential compound", "مجمع سكني"], commercial: ["Commercial building", "مبنى تجاري"], tower: ["Tower", "برج"], government: ["Government building", "مبنى حكومي"] };
+const BUILD_NAME = { villa: ["Villa", "فيلا"], compound: ["Residential compound", "مجمع سكني"], commercial: ["Commercial building", "مبنى تجاري"], tower: ["Tower", "برج"], villas: ["Villas", "فلل"], government: ["Government building", "مبنى حكومي"] };
 const n0 = (v) => Number(v || 0).toLocaleString("en-US");
 const casePhoto = (x) => (x.area?.photos?.[0] ? "/" + photoFile(x, x.area.photos[0], 0) : "/images/pages/projects/hero.webp");
 
