@@ -15,6 +15,7 @@ import { readFile, writeFile, mkdir, rm, readdir, access } from "node:fs/promise
 import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
 import { createHash } from "node:crypto";
+import { execFileSync } from "node:child_process";
 
 const ROOT = process.argv[2] || ".";
 const SITE = "https://al-swaticontracting.com";
@@ -294,6 +295,17 @@ function photoName(area, i) {
 }
 const photoFile = (post, ph, i) => `${isCase(post) ? CASE_IMG : AREA_IMG}/${post.area.slug}/${photoName(post.area, i)}-${hash8(ph.url).slice(0, 6)}.jpg`;
 const photoDesc = (a) => `Mechanical ${matOf(a)} cladding${a?.district ? ", " + a.district : ""}, Riyadh - AL-Swati Contracting`;
+// A big photo (a Higgsfield retouch, a phone original) is made at most 1600 px on its long side, as a JPEG, so the page stays fast.
+let pillow = false;
+function shrink(buf) {
+  const size = buf[0] === 0xff && buf[1] === 0xd8 ? jpegSize(buf) : null;
+  if (size && Math.max(size.w, size.h) <= 1600 && buf.length <= 700 * 1024) return buf;
+  try {
+    if (!pillow) { try { execFileSync("python3", ["-c", "import PIL"], { stdio: "ignore" }); } catch { execFileSync("python3", ["-m", "pip", "install", "--quiet", "pillow"], { stdio: "ignore" }); } pillow = true; }
+    const py = "import sys,io\nfrom PIL import Image, ImageOps\nim = ImageOps.exif_transpose(Image.open(io.BytesIO(sys.stdin.buffer.read()))).convert('RGB')\nim.thumbnail((1600, 1600), Image.LANCZOS)\nb = io.BytesIO(); im.save(b, 'JPEG', quality=82, optimize=True, progressive=True); sys.stdout.buffer.write(b.getvalue())";
+    return Buffer.from(execFileSync("python3", ["-c", py], { input: buf, maxBuffer: 64 << 20 }));
+  } catch (e) { console.log("photo kept at full size:", e.message); return buf; }
+}
 async function areaPhotos(post) { // the owner's photos, copied once onto the site (both languages share them)
   const out = [];
   for (const [i, ph] of (post.area?.photos || []).entries()) {
@@ -302,7 +314,7 @@ async function areaPhotos(post) { // the owner's photos, copied once onto the si
     if (!buf) {
       const r = await fetch(ph.url).catch(() => null);
       if (!r?.ok) { console.log("photo not reachable:", ph.url, r?.status); continue; }
-      buf = Buffer.from(withGps(new Uint8Array(await r.arrayBuffer()), Number(post.area.lat), Number(post.area.lng), { description: photoDesc(post.area) }));
+      buf = Buffer.from(withGps(new Uint8Array(shrink(Buffer.from(await r.arrayBuffer()))), Number(post.area.lat), Number(post.area.lng), { description: photoDesc(post.area) }));
       await mkdir(dirname(p(f)), { recursive: true }); await writeFile(p(f), buf);
     }
     out.push({ src: "/" + f, alt: ph.alt || "", size: jpegSize(buf) });
@@ -310,7 +322,7 @@ async function areaPhotos(post) { // the owner's photos, copied once onto the si
   return out;
 }
 const placeName = (a, ar) => (ar ? a.district_ar || a.district : a.district);
-const STONE_AR = { "Riyadh Limestone": "حجر الرياض", Granite: "الجرانيت", Marble: "الرخام", Porcelain: "البورسلان" };
+const STONE_AR = { "Riyadh Limestone": "حجر الرياض", Limestone: "الحجر الجيري", Granite: "الجرانيت", Marble: "الرخام", Porcelain: "البورسلان" };
 const tagLink = (href, text) => `<a href="${href}" style="border:1px solid rgba(201,167,74,.6);color:var(--gold);font-size:13px;padding:8px 14px">${esc(text)}</a>`;
 function areaLinks(areas, lang, except) { // "Areas we serve": every published district page in this language
   return areas.filter((x) => x.lang === lang && pathOf(x) !== except)
@@ -426,8 +438,8 @@ function areaPage(tpl, post, twin, photos, areas, cases = []) { // a district pa
 
 // ───────── project case studies (Projects → "Publish as SEO Case Study" in the ERP) ─────────
 // A published post with area.type "case" is a case study at /projects/<slug>/ (and /ar/projects/<slug>/), in the look of the
-// Projects page: hero with a site photo, a facts box (district, building, stone, m², fixing system, year), the text and the
-// photos. Article schema with the district as contentLocation (GeoCoordinates), a card in the Projects page grid, sitemap.xml.
+// Projects page: hero with a site photo, a facts box (district, building, stone, scope, m², fixing system, year - or "in progress"
+// when area.ongoing is set), the text and the photos. Article schema with the district as contentLocation (GeoCoordinates), a card in the Projects page grid, sitemap.xml.
 const CASE_TPL = { en: "projects/index.html", ar: "ar/projects/index.html" };
 const CASE_IMG = "images/cases";
 const isCase = (x) => x?.area?.type === "case";
@@ -439,7 +451,7 @@ function caseCards(cases, lang) { // cards in the Projects page grid (the page's
   const ar = lang === "ar";
   return cases.filter((x) => x.lang === lang).map((x) => {
     const a = x.area, stone = ar ? STONE_AR[a.stone] || a.stone : a.stone;
-    return `<a class="pcard" data-c="${esc(a.cat || "residential")}" href="${pathOf(x)}"><img src="${casePhoto(x)}" alt="${esc(a.photos?.[0]?.alt || x.title)}" loading="lazy" decoding="async"><span class="tag">${ar ? "دراسة حالة" : "Case Study"}</span><div class="info"><h3>${esc(x.title)}</h3><div class="meta"><span>⌖ ${esc(placeName(a, ar))}${ar ? "، الرياض" : ", Riyadh"}</span><span>▣ ${esc(a.year)}</span></div><div class="work">${esc(stone)} · ${n0(a.m2)} ${ar ? "م²" : "m²"}</div></div></a>`;
+    return `<a class="pcard" data-c="${esc(a.cat || "residential")}" href="${pathOf(x)}"><img src="${casePhoto(x)}" alt="${esc(a.photos?.[0]?.alt || x.title)}" loading="lazy" decoding="async"><span class="tag">${ar ? "دراسة حالة" : "Case Study"}</span><div class="info"><h3>${esc(x.title)}</h3><div class="meta"><span>⌖ ${esc(placeName(a, ar))}${ar ? "، الرياض" : ", Riyadh"}</span><span>▣ ${esc(a.ongoing ? (ar ? `قيد التنفيذ ${a.year}` : `In progress ${a.year}`) : a.year)}</span></div><div class="work">${esc(stone)} · ${n0(a.m2)} ${ar ? "م²" : "m²"}</div></div></a>`;
   }).join("");
 }
 function withCases(html, cases, lang) { // the cards go first in the grid, between <!--erp-cases--> markers
@@ -505,9 +517,9 @@ function caseMain(post, twin, photos, areas, cases) {
   const hero = photos[0] || { src: "/images/pages/projects/hero.webp", alt: a.h1 || post.title, size: { w: 1920, h: 900 } };
   const wh = (x) => (x.size ? ` width="${x.size.w}" height="${x.size.h}"` : "");
   const stone = ar ? STONE_AR[a.stone] || a.stone : a.stone, bn = (BUILD_NAME[a.building] || [a.building, a.building])[ar ? 1 : 0];
-  const facts = [[ar ? "الموقع" : "Location", `${place}${ar ? "، الرياض" : ", Riyadh"}`], [ar ? "نوع المبنى" : "Building", bn], [ar ? "المادة" : "Stone", stone],
+  const facts = [[ar ? "الموقع" : "Location", `${place}${ar ? "، الرياض" : ", Riyadh"}`], [ar ? "نوع المبنى" : "Building", bn], [ar ? "المادة" : "Stone", stone], ...(a.scope ? [[ar ? "نطاق العمل" : "Scope", a.scope]] : []),
     [ar ? "مساحة الواجهات" : "Facade area", `${n0(a.m2)} ${ar ? "م²" : "m²"}`], [ar ? "نظام التثبيت" : "Fixing system", (a.fixing || []).join(ar ? "، " : ", ") || (ar ? "تثبيت ميكانيكي" : "Mechanical fixing")],
-    [ar ? "سنة الإنجاز" : "Completed", String(a.year)], ...(a.client ? [[ar ? "العميل" : "Client", a.client]] : [])];
+    a.ongoing ? [ar ? "الحالة" : "Status", ar ? `قيد التنفيذ (${a.year})` : `In progress (${a.year})`] : [ar ? "سنة الإنجاز" : "Completed", String(a.year)], ...(a.client ? [[ar ? "العميل" : "Client", a.client]] : [])];
   const twinLink = twin ? `<p class="twin"><a class="link-gold" href="${pathOf(twin)}" hreflang="${twin.lang}" lang="${twin.lang}">${twin.lang === "ar" ? "اقرأ هذه الصفحة بالعربية" : "Read this page in English"}</a></p>` : "";
   const gallery = photos.length ? `<section class="alt bt"><div class="wrap"><div class="eyebrow">${ar ? "صور المشروع" : "Project Photos"}</div><h2>${esc(a.h1 || post.title)}</h2>
 <div class="area-gallery">${photos.map((x, i) => `<figure><img src="${esc(x.src)}" alt="${esc(x.alt)}"${wh(x)} loading="${i ? "lazy" : "eager"}" decoding="async"><figcaption>${esc(x.alt)}</figcaption></figure>`).join("")}</div></div></section>` : "";
