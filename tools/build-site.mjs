@@ -614,9 +614,27 @@ function withTech(h) {
   }
   return h;
 }
-/** Square icon for Google, JPG share picture for WhatsApp, the cost calculator and Technical Hub links: the same fix for every page, made or hand-written. */
+// The website's own visit counter (no cookies; see the Privacy page): every page sends one small note to the ERP's "visit"
+// function when it opens, and one when the visitor presses WhatsApp, call, email or the quote form. Notes say the page,
+// where the visit started (kept by the browser for this tab only), our link tag (?src=tt-…), and phone or computer -
+// never the address typed, the number or the WhatsApp message. Put before </body> on every page, replaced when it changes.
+const VISITS = `<!--visits--><script>(function(){try{if(navigator.webdriver)return;var E="${API}/functions/v1/visit",L=location,D=document,S=null;try{S=sessionStorage}catch(e){}
+function g(k){try{return S?S.getItem(k):null}catch(e){return null}}function s(k,v){try{S&&S.setItem(k,v)}catch(e){}}
+var q=new URLSearchParams(L.search),t=(q.get("src")||q.get("utm_source")||"").slice(0,60),r=D.referrer||"",h="";try{h=r?new URL(r).hostname.replace(/^www\\./,""):""}catch(e){}
+var own=h==="al-swaticontracting.com";if(!g("v_l")||(h&&!own)||t){s("v_f",own?"":h);s("v_g",t);s("v_l",L.pathname)}
+var m=/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+function send(k){try{var b=JSON.stringify({k:k,p:L.pathname,r:h&&!own?"https://"+h:"",s:t,f:S?(g("v_f")||""):(own?"":h),g:S?(g("v_g")||""):t,l:(S&&g("v_l"))||L.pathname,m:m});if(navigator.sendBeacon&&navigator.sendBeacon(E,b))return;fetch(E,{method:"POST",body:b,keepalive:true,mode:"no-cors"})}catch(e){}}
+D.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var x=a.getAttribute("href")||"";
+if(/^(https?:)?\\/\\/(wa\\.me|api\\.whatsapp\\.com|web\\.whatsapp\\.com)|^whatsapp:/i.test(x))send("whatsapp");else if(/^tel:/i.test(x))send("call");else if(/^mailto:/i.test(x))send("email")},true);
+D.addEventListener("submit",function(){send("form")},true);send("view")}catch(e){}})();</script><!--/visits-->`;
+function withVisits(h) {
+  h = h.replace(/<!--visits-->[\s\S]*?<!--\/visits-->/g, "");
+  const i = h.lastIndexOf("</body>");
+  return i < 0 ? h : h.slice(0, i) + VISITS + h.slice(i);
+}
+/** Square icon for Google, JPG share picture for WhatsApp, the cost calculator and Technical Hub links, the visit counter: the same fix for every page, made or hand-written. */
 function fixHtml(h) {
-  h = withTech(withCalc(h));
+  h = withVisits(withTech(withCalc(h)));
   if (ICONS) h = h.replace(/<link rel="icon" href="\/images\/logo\/horizontal\/dark\.png">/g,
     '<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="icon" type="image/png" sizes="192x192" href="/images/icons/icon-192.png">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<meta name="theme-color" content="#1a1a1a">');
   if (HAS_SHARE && /<meta property="og:image" content="[^"]+\.webp">/.test(h)) {

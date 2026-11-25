@@ -30,7 +30,8 @@ for (const url of urls) {
   if (!/<link\s+rel="canonical"/i.test(h)) add("warn", "no canonical link");
   const alts = [...h.matchAll(/<link\s+rel="alternate"\s+hreflang="(ar|en)"\s+href="([^"]+)"/gi)];
   for (const [, , href] of alts) if (href.startsWith(SITE) && !(await exists(fileOf(href.replace(SITE, ""))))) add("bad", `hreflang page missing: ${href}`);
-  for (const m of h.matchAll(/<img\b[^>]*>/gi)) {
+  // images in the page itself (an <img> written inside a script, like the home page's hidden intro logo, is not one)
+  for (const m of h.replace(/<script[\s\S]*?<\/script>/gi, " ").matchAll(/<img\b[^>]*>/gi)) {
     const tag = m[0], src = (tag.match(/\ssrc="([^"]+)"/) || [])[1] || "", alt = (tag.match(/\salt="([^"]*)"/) || [null, null])[1];
     if (alt === null || !alt.trim()) add("warn", `image without alt text: ${src}`);
     if (src.startsWith("/") && !(await exists(fileOf(src)))) add("bad", `image missing: ${src}`);
