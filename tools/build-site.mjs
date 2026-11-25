@@ -451,7 +451,7 @@ function caseCards(cases, lang) { // cards in the Projects page grid (the page's
   const ar = lang === "ar";
   return cases.filter((x) => x.lang === lang).map((x) => {
     const a = x.area, stone = ar ? STONE_AR[a.stone] || a.stone : a.stone;
-    return `<a class="pcard" data-c="${esc(a.cat || "residential")}" href="${pathOf(x)}"><img src="${casePhoto(x)}" alt="${esc(a.photos?.[0]?.alt || x.title)}" loading="lazy" decoding="async"><span class="tag">${ar ? "دراسة حالة" : "Case Study"}</span><div class="info"><h3>${esc(x.title)}</h3><div class="meta"><span>⌖ ${esc(placeName(a, ar))}${ar ? "، الرياض" : ", Riyadh"}</span><span>▣ ${esc(a.ongoing ? (ar ? `قيد التنفيذ ${a.year}` : `In progress ${a.year}`) : a.year)}</span></div><div class="work">${esc(stone)} · ${n0(a.m2)} ${ar ? "م²" : "m²"}</div></div></a>`;
+    return `<a class="pcard" data-c="${esc(a.cat || "residential")}" href="${pathOf(x)}"><img src="${casePhoto(x)}" alt="${esc(a.photos?.[0]?.alt || x.title)}" loading="lazy" decoding="async"><span class="tag">${ar ? "دراسة حالة" : "Case Study"}</span><div class="info"><h3>${esc(x.title)}</h3><div class="meta"><span>⌖ ${esc(placeName(a, ar))}${ar ? "، الرياض" : ", Riyadh"}</span><span>▣ ${esc(a.ongoing ? (ar ? `قيد التنفيذ ${a.year}` : `In progress ${a.year}`) : a.year)}</span></div><div class="work">${esc(stone)}${a.m2 ? ` · ${n0(a.m2)} ${ar ? "م²" : "m²"}` : ""}</div></div></a>`;
   }).join("");
 }
 function withCases(html, cases, lang) { // the cards go first in the grid, between <!--erp-cases--> markers
@@ -518,7 +518,7 @@ function caseMain(post, twin, photos, areas, cases) {
   const wh = (x) => (x.size ? ` width="${x.size.w}" height="${x.size.h}"` : "");
   const stone = ar ? STONE_AR[a.stone] || a.stone : a.stone, bn = (BUILD_NAME[a.building] || [a.building, a.building])[ar ? 1 : 0];
   const facts = [[ar ? "الموقع" : "Location", `${place}${ar ? "، الرياض" : ", Riyadh"}`], [ar ? "نوع المبنى" : "Building", bn], [ar ? "المادة" : "Stone", stone], ...(a.scope ? [[ar ? "نطاق العمل" : "Scope", a.scope]] : []),
-    [ar ? "مساحة الواجهات" : "Facade area", `${n0(a.m2)} ${ar ? "م²" : "m²"}`], [ar ? "نظام التثبيت" : "Fixing system", (a.fixing || []).join(ar ? "، " : ", ") || (ar ? "تثبيت ميكانيكي" : "Mechanical fixing")],
+    ...(a.m2 ? [[ar ? "مساحة الواجهات" : "Facade area", `${n0(a.m2)} ${ar ? "م²" : "m²"}`]] : []), [ar ? "نظام التثبيت" : "Fixing system", (a.fixing || []).join(ar ? "، " : ", ") || (ar ? "تثبيت ميكانيكي" : "Mechanical fixing")],
     a.ongoing ? [ar ? "الحالة" : "Status", ar ? `قيد التنفيذ (${a.year})` : `In progress (${a.year})`] : [ar ? "سنة الإنجاز" : "Completed", String(a.year)], ...(a.client ? [[ar ? "العميل" : "Client", a.client]] : [])];
   const twinLink = twin ? `<p class="twin"><a class="link-gold" href="${pathOf(twin)}" hreflang="${twin.lang}" lang="${twin.lang}">${twin.lang === "ar" ? "اقرأ هذه الصفحة بالعربية" : "Read this page in English"}</a></p>` : "";
   const gallery = photos.length ? `<section class="alt bt"><div class="wrap"><div class="eyebrow">${ar ? "صور المشروع" : "Project Photos"}</div><h2>${esc(a.h1 || post.title)}</h2>
