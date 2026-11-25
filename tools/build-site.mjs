@@ -110,14 +110,14 @@ let HAS_SHARE = false; // the JPG share picture exists (made by tools/make-icons
 const shareImg = (post) => (post.image_url && !/\.webp(\?|$)/i.test(post.image_url) ? post.image_url : HAS_SHARE ? SHARE_JPG : imgOf(post));
 
 function headBlock(post, twin, url, upgrade) {
-  const ar = post.lang === "ar", brand = ar ? "شركة السواطي" : "AL-Swati";
+  const ar = post.lang === "ar", brand = ar ? "شركة السواتي" : "AL-Swati";
   const title = `${post.title} | ${brand}`, desc = post.meta_description || "";
   const img = abs(shareImg(post)), jpg = img.endsWith(SHARE_JPG);
   const alt = (lang, u) => `<link rel="alternate" hreflang="${lang}" href="${abs(u)}">`;
   const pair = twin ? [alt(post.lang, url), alt(twin.lang, pathOf(twin)), alt("x-default", post.lang === "en" ? url : pathOf(twin))] : [];
   const ld = { "@context": "https://schema.org", "@type": "Article", headline: post.title, description: desc, image: [abs(imgOf(post))],
     datePublished: post.published_at, dateModified: post.updated_at || post.published_at, inLanguage: ar ? "ar" : "en", mainEntityOfPage: abs(url),
-    author: { "@type": "Organization", name: ar ? "شركة السواطي للمقاولات" : "AL-Swati Contracting", url: SITE + "/" },
+    author: { "@type": "Organization", name: ar ? "شركة السواتي للمقاولات" : "AL-Swati Contracting", url: SITE + "/" },
     publisher: { "@id": SITE + "/#business" }, keywords: (post.keywords || []).join(", ") };
   const qa = faqs(post.body);
   const faq = qa.length >= 2 ? { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: ar ? "ar" : "en",
@@ -132,7 +132,7 @@ function headBlock(post, twin, url, upgrade) {
     `<meta property="og:description" content="${esc(desc)}">`,
     `<meta property="og:url" content="${abs(url)}">`,
     `<meta property="og:type" content="article">`,
-    `<meta property="og:site_name" content="${ar ? "شركة السواطي للمقاولات" : "AL-Swati Contracting"}">`,
+    `<meta property="og:site_name" content="${ar ? "شركة السواتي للمقاولات" : "AL-Swati Contracting"}">`,
     `<meta property="og:locale" content="${ar ? "ar_SA" : "en_US"}">`,
     `<meta property="og:locale:alternate" content="${ar ? "en_US" : "ar_SA"}">`,
     `<meta property="og:image" content="${esc(img)}">`,
@@ -165,7 +165,7 @@ function mainBlock(post, twin, upgrade) {
   return `<main>
 <div class="post-hero"><img src="${esc(imgOf(post))}" alt="${esc(post.image_alt || post.title)}" fetchpriority="high" width="1280" height="720" decoding="async"></div>
 <article class="post"${ar ? ' dir="rtl"' : ""}>${upgrade ? "" : `<a class="back" href="${list}">${ar ? "→ العودة إلى المدونة" : "← Back to Blog"}</a>`}
-<div class="bmeta"><span class="cat">${ar ? "دليل عملي" : "Guide"}</span><span>▣ ${upgrade ? (ar ? "آخر تحديث " : "Updated ") : ""}${dateText(upgrade ? post.updated_at || post.published_at : post.published_at, ar)}</span><span>👤 ${ar ? "فريق شركة السواطي للمقاولات" : "AL-Swati Contracting Team"}</span></div>
+<div class="bmeta"><span class="cat">${ar ? "دليل عملي" : "Guide"}</span><span>▣ ${upgrade ? (ar ? "آخر تحديث " : "Updated ") : ""}${dateText(upgrade ? post.updated_at || post.published_at : post.published_at, ar)}</span><span>👤 ${ar ? "فريق شركة السواتي للمقاولات" : "AL-Swati Contracting Team"}</span></div>
 <h1>${esc(post.title)}</h1>${post.meta_description ? `<p class="lead">${esc(post.meta_description)}</p>` : ""}
 ${twinLink}
 <div class="body">${md(post.body)}${related(ar)}</div>${tags ? `<div class="ptags">${tags}</div>` : ""}
@@ -332,7 +332,7 @@ function withAreas(html, areas, lang) { // put the block between <!--erp-areas--
 }
 
 function areaHead(post, twin, url, photos, business) {
-  const ar = post.lang === "ar", a = post.area, brand = ar ? "شركة السواطي" : "AL-Swati";
+  const ar = post.lang === "ar", a = post.area, brand = ar ? "شركة السواتي" : "AL-Swati";
   const title = `${post.title} | ${brand}`, desc = post.meta_description || "";
   const hero = photos[0]?.src, img = hero ? abs(hero) : abs(HAS_SHARE ? SHARE_JPG : DEFAULT_IMG);
   const alt = (lang, u) => `<link rel="alternate" hreflang="${lang}" href="${abs(u)}">`;
@@ -358,7 +358,7 @@ function areaHead(post, twin, url, photos, business) {
     `<meta property="og:description" content="${esc(desc)}">`,
     `<meta property="og:url" content="${abs(url)}">`,
     `<meta property="og:type" content="website">`,
-    `<meta property="og:site_name" content="${ar ? "شركة السواطي للمقاولات" : "AL-Swati Contracting"}">`,
+    `<meta property="og:site_name" content="${ar ? "شركة السواتي للمقاولات" : "AL-Swati Contracting"}">`,
     `<meta property="og:locale" content="${ar ? "ar_SA" : "en_US"}">`,
     `<meta property="og:locale:alternate" content="${ar ? "en_US" : "ar_SA"}">`,
     `<meta property="og:image" content="${esc(img)}">`,
@@ -454,7 +454,7 @@ function withCases(html, cases, lang) { // the cards go first in the grid, betwe
 }
 
 function caseHead(post, twin, url, photos, business) {
-  const ar = post.lang === "ar", a = post.area, brand = ar ? "شركة السواطي" : "AL-Swati";
+  const ar = post.lang === "ar", a = post.area, brand = ar ? "شركة السواتي" : "AL-Swati";
   const title = `${post.title} | ${brand}`, desc = post.meta_description || "";
   const hero = photos[0]?.src, img = hero ? abs(hero) : abs(HAS_SHARE ? SHARE_JPG : DEFAULT_IMG);
   const alt = (lang, u) => `<link rel="alternate" hreflang="${lang}" href="${abs(u)}">`;
@@ -463,7 +463,7 @@ function caseHead(post, twin, url, photos, business) {
   const script = (o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u" + "003c")}</script>`;
   const article = { "@context": "https://schema.org", "@type": "Article", "@id": abs(url) + "#article", headline: a.h1 || post.title, description: desc, inLanguage: ar ? "ar" : "en",
     image: photos.length ? photos.map((x) => abs(x.src)) : [img], datePublished: post.published_at, dateModified: post.updated_at || post.published_at,
-    author: { "@type": "Organization", name: ar ? "شركة السواطي للمقاولات" : "AL-Swati Contracting", url: SITE + "/" }, publisher: { "@id": SITE + "/#business" }, mainEntityOfPage: abs(url),
+    author: { "@type": "Organization", name: ar ? "شركة السواتي للمقاولات" : "AL-Swati Contracting", url: SITE + "/" }, publisher: { "@id": SITE + "/#business" }, mainEntityOfPage: abs(url),
     about: { "@type": "Service", name: ar ? "تركيب واجهات الحجر بالتثبيت الميكانيكي" : "Stone facade cladding with mechanical fixing", provider: { "@id": SITE + "/#business" } },
     contentLocation: place, keywords: (post.keywords || []).join(", ") };
   const qa = faqs(post.body);
@@ -478,7 +478,7 @@ function caseHead(post, twin, url, photos, business) {
     `<meta property="og:description" content="${esc(desc)}">`,
     `<meta property="og:url" content="${abs(url)}">`,
     `<meta property="og:type" content="article">`,
-    `<meta property="og:site_name" content="${ar ? "شركة السواطي للمقاولات" : "AL-Swati Contracting"}">`,
+    `<meta property="og:site_name" content="${ar ? "شركة السواتي للمقاولات" : "AL-Swati Contracting"}">`,
     `<meta property="og:locale" content="${ar ? "ar_SA" : "en_US"}">`,
     `<meta property="og:locale:alternate" content="${ar ? "en_US" : "ar_SA"}">`,
     `<meta property="og:image" content="${esc(img)}">`,
@@ -698,3 +698,25 @@ await writeFile(CHANGED, [...new Set(changed)].join("\n") + (changed.length ? "\
 const built = (x) => made.includes(pathOf(x).slice(1) + "index.html");
 await lists(all.filter((x) => !x.target_path && built(x)), [...areas, ...cases].filter(built)); // upgrades keep their page's own place in the sitemap; district pages and case studies get theirs
 console.log(`ERP posts on the website: ${made.length}; pages with a fixed head: ${await fixHead()}`);
+// ───────── the company's Arabic name ─────────
+// It is السواتي (the family is from Swat). One pass over every file of the site, the hand-made pages too, so no page keeps
+// the old spelling; the pages it changes are added to the IndexNow list so the search engines read them again.
+const OLD_NAME = "السواطي", NEW_NAME = "السواتي", renamed = [];
+async function rename(dir) {
+  for (const e of await readdir(p(dir), { withFileTypes: true })) {
+    if (e.name === ".git" || e.name === "node_modules") continue;
+    const f = dir ? dir + "/" + e.name : e.name;
+    if (e.isDirectory()) await rename(f);
+    else if (/\.(html|txt|xml|json|webmanifest)$/.test(e.name)) {
+      const s = await readFile(p(f), "utf8");
+      if (s.includes(OLD_NAME)) { await writeFile(p(f), s.split(OLD_NAME).join(NEW_NAME)); renamed.push(f); }
+    }
+  }
+}
+await rename("");
+if (renamed.length) {
+  const urls = renamed.filter((f) => f.endsWith("index.html") && !f.startsWith("tools/")).map((f) => abs("/" + f.replace(/index\.html$/, "")));
+  const before = (await readFile(CHANGED, "utf8").catch(() => "")).split("\n").filter(Boolean);
+  await writeFile(CHANGED, [...new Set([...before, ...urls])].join("\n") + "\n");
+  console.log(`Arabic name updated in ${renamed.length} files`);
+}
