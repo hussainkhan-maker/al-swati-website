@@ -13,7 +13,7 @@ sys.path.insert(0, HERE)
 SITE = "https://al-swaticontracting.com"
 BASE = "for-consultants"
 DATE_ISO = "2026-11-26"
-ORDER = ["", "how-we-deliver", "fixing-systems", "typical-details", "thickness-and-fixing", "quality", "maintenance", "glossary", "specification", "send-drawings"]
+ORDER = ["", "how-we-deliver", "fixing-systems", "typical-details", "brand-systems", "stone-materials", "thickness-and-fixing", "quality", "maintenance", "glossary", "specification", "send-drawings"]
 
 # Public sources (from the research files). key: (label, url)
 SOURCES = {
@@ -32,6 +32,16 @@ SOURCES = {
  "laminam": ("Laminam, Technical guide for external facades, edition 07/2025", "https://www.laminam.com/usa/wp-content/uploads/sites/12/2025/10/Guida-tecnica-per-facciate-esterne_ENG_2025-07.pdf"),
  "iso17870": ("ISO/TS 17870-3:2023, mechanical installation of large-format porcelain tiles and panels (catalogue page)", "https://www.iso.org/standard/80653.html"),
  "mirage": ("Mirage Engineering, concealed anchoring system for ventilated facades", "https://engineering.mirage.it/en/facades/ventilated-facades/walltech-invisible-open-joint"),
+ "hilti_design": ("Hilti UK, ventilated facade design centre", "https://www.hilti.co.uk/content/hilti/E1/GB/en/engineering/design-center/ventilated-facade"),
+ "fischer_range": ("fischer, facade systems range overview", "https://www.fischer-international.com/en/products/facade-systems"),
+ "rockany_uni": ("Rockany, Universal System", "https://rockany.com/rockany-universal-system/"),
+ "rockany_y": ("Rockany, Y-Profile System", "https://rockany.com/rockany-y-profile-system/"),
+ "rockany_tl": ("Rockany, T and L Profiles System", "https://rockany.com/rockanyt-and-l-profiles-system/"),
+ "rockany_srv": ("Rockany, services", "https://rockany.com/services/"),
+ "c568": ("ASTM C568/C568M-22, Standard Specification for Limestone Dimension Stone (free preview)", "https://cdn.standards.iteh.ai/samples/113164/2fc452d051704fc5a8e654c540741900/ASTM-C568-C568M-22.pdf"),
+ "c503": ("ASTM C503/C503M-22, Standard Specification for Marble Dimension Stone (free preview)", "https://cdn.standards.iteh.ai/samples/113163/f55e640d65104631bd4873e5ca8a8999/ASTM-C503-C503M-22.pdf"),
+ "riyadh_rock": ("Abd El-Aal and Masoud (2017), engineering properties of limestone foundation bed, Ar Riyadh, Arabian Journal of Geosciences 10:347", "https://link.springer.com/article/10.1007/s12517-017-3089-7"),
+ "arabnews": ("Arab News, “Saudi stone gains ground against Italian marble in construction market”, 24 March 2026", "https://www.arabnews.com/node/2637470/amp"),
  "rockany": ("Rockany, Undercut Railing System", "https://rockany.com/rockany-undercut-railing-system/"),
  "hilti_mft": ("Hilti, MFT ventilated facade Technical Manual", "https://www.hilti.it/content/dam/documents/pdf/e4/engineering/manuals/MFT_Technical%20Manual%20PRINTING%20V1.0%20low_RIGHT_CUT.pdf"),
  "yates": ("Stone Specialist, “Technical: The thickness of stone cladding” (T. Yates, BRE, 2009)", "https://stonespecialist.com/news/technical-thickness-stone-cladding"),

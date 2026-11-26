@@ -34,6 +34,8 @@ def pages(h):
              h.cards([
                  ("Process", "How we deliver", "Routes A and B for engineering, submittals, mock-up, installation, site visits, tests, handover and warranty, including the steel substructure.", u("how-we-deliver"), "Open"),
                  ("Drawings", "Typical details", "Seven reference drawings: the load path, five fixing systems in section, and the steel substructure in elevation.", u("typical-details"), "Open"),
+                 ("Makers' data", "Hilti, fischer and Rockany", "What each maker publishes for stone and porcelain: the system, its assessment, panel thickness and services.", u("brand-systems"), "Open"),
+                 ("Materials", "Stone and panels", "Riyadh limestone, travertine, marble, granite and porcelain: typical thickness, the material standard and what to check.", u("stone-materials"), "Open"),
                  ("Comparison", "Fixing systems", "Up-Down, pin, C-Channel, kerf rail, undercut and porcelain clips in one table: mechanism, use, thickness, limits.", u("fixing-systems"), "Open"),
                  ("Explainer", "Thickness and fixing", "Why 30 mm for edge fixings, what 20 mm marble or granite needs, the square law and published safety factors.", u("thickness-and-fixing"), "Open"),
                  ("QA/QC", "Quality", "Inspection and test stages, hold points, records, non-conformance and no substitution without approval.", u("quality"), "Open"),
@@ -194,6 +196,79 @@ def pages(h):
             ("Use of these drawings", "Reference, Not Construction",
              h.prose(h.p("These are typical details, not to scale. On a project, the approved shop drawings by the project engineer or consultant govern. Anchor and bolt sizes are " + SIZES + "; we do not publish sizes. Bracket material is stainless steel or hot-dip galvanised steel, according to the project specification.",
                          "To have a detail discussed against your elevations, <a href=\"" + u("send-drawings") + "\">send us your drawings</a>. The <a href=\"" + u("specification") + "\">guide specification</a> names the same systems as Options A, B and C."))),
+        ])
+
+    # ------------------------------------------------------------------ 3c. brand systems (from the makers' own publications)
+    P["brand-systems"] = dict(
+        title="Hilti, fischer and Rockany Stone Fixing Systems | AL-Swati",
+        desc="What Hilti, fischer and Rockany publish for stone and porcelain facades: undercut anchors, rail systems, assessments, panel thickness and services.",
+        crumb="Brand systems", eyebrow="Makers' data", h1="Hilti, fischer and Rockany Systems",
+        lead="Three makers whose systems are used on Riyadh facades and that we can install. This page gathers what each maker publishes: how the system holds the panel, what evidence it carries and which panels it is for. It reports their documents; it does not replace them.",
+        sections=[
+            ("Side by side", "Three Makers, What They Publish",
+             h.table(["Maker", "System for stone and porcelain", "How it holds the panel", "Published evidence", "Published panel thickness", "Maker's services"], [
+                 ["Hilti", "HSU-R stone undercut anchor; Hilti also publishes a ventilated facade substructure system (MFT) {{hilti_hsu}}{{hilti_mft}}.", "The anchor locks by shape in an undercut hole in the back of the panel. All parts are stainless steel A4 {{hilti_hsu}}.", "European Technical Assessment ETA-16/0784, issued by DIBt, for rear fixing of facade panels of selected natural stones {{eta_hilti}}.", "Granite-type and hard metamorphic stone 20 to 70 mm; limestone, sandstone and basalt 25 to 70 mm, and 30 mm minimum where the stone's tested bending strength is low {{hilti_hsu}}.", "Facade design service: panel layout, static calculations, installation plans and a CAD/BIM library {{hilti_design}}."],
+                 ["fischer", "Zykon panel anchor FZP II, with the ATK substructure profiles (vertical profiles and horizontal profiles for concealed suspension) {{fischer_fzp}}{{fischer_range}}.", "An undercut anchor in the back of the panel; the range has separate anchors for soft natural stone and for thin ceramic panels {{fischer_range}}.", "European Technical Assessment ETA-11/0145, issued by DIBt, current version 22 August 2024 {{eta_fischer}}.", "Natural stone from 20 mm on the product page; thin ceramic and stoneware panels have their own anchor type {{fischer_fzp}}.", "Design software, static calculations, site pull-out tests, drilling machines and gauges {{fischer_site}}{{fischer_range}}."],
+                 ["Rockany", "Aluminium systems: Universal System, Undercut Railing System, Y-Profile System, and T and L profiles with clips {{rockany_uni}}{{rockany}}{{rockany_y}}{{rockany_tl}}.", "Aluminium profiles and rails with stainless fasteners; the panel hangs on undercut hangers, clips or profiles, depending on the system {{rockany_uni}}.", "Assembly instructions and technical datasheets for each system, provided by the maker on request {{rockany}}.", "Universal 10 to 50 mm; Undercut Railing 10 to 30 mm (natural stone, porcelain, fibre cement); Y-Profile 8 to 15 mm (porcelain, terracotta); T and L profiles 8 to 20 mm {{rockany_uni}}{{rockany}}{{rockany_y}}{{rockany_tl}}.", "Project study, structural calculations, anchor verification, CAD/BIM shop drawings, training and site supervision {{rockany_srv}}."],
+             ], wide=True) +
+             h.prose(h.p("Thickness ranges are the makers' published limits for the fixing, not a recommendation for a project. The panel itself is checked separately for bending under wind {{hilti_hsu}}."))),
+            ("Undercut anchors", "What the Two Assessed Anchors Have in Common",
+             h.prose(h.ul(
+                 "<b>The hole.</b> Drilled in the back of the panel with the maker's machine, cylindrical first and then widened at the base; every hole is checked with the maker's gauge {{hilti_hsu}}{{fischer_fzp}}.",
+                 "<b>The layout.</b> Hilti's data gives four anchors per panel in a rectangular layout, a largest panel of 3.0 m² and minimum edge distances {{hilti_hsu}}. The engineer sets the positions from the assessment.",
+                 "<b>The stone.</b> Each assessment covers selected natural stones. A stone that is not listed needs tests to the assessment document before it is used {{hilti_hsu}}.",
+                 "<b>The rail.</b> A hanger on each anchor hooks over a horizontal rail, so each panel hangs on its own. The rails and brackets are part of the system design. The section and the back-of-panel view are on the <a href=\"" + u("typical-details") + "#undercut\">typical details</a> page.",
+                 "<b>Porcelain.</b> Thin ceramic and stoneware panels use their own anchors and assessments, tied to the panel maker's system {{keil}}{{laminam}}."))),
+            ("An assessment", "What an ETA Covers and What It Does Not",
+             h.prose(h.ul(
+                 "An ETA describes the anchor: its materials, the hole, the resistance in the stones that were tested, and the assumptions of use {{eta_hilti}}{{eta_fischer}}.",
+                 "It does not approve a facade. The panel size, the wind load, the rail, the brackets and the anchors to the structure are the project engineer's calculation.",
+                 "It does not cover every stone. Riyadh limestone is a trade name for stone from several quarries, so the actual source is tested unless the maker confirms it in writing.",
+                 "It is not a certificate held by the installer. We can install these systems; we hold no manufacturer certification."))),
+            ("For a project", "What to Ask the Maker For",
+             h.prose(h.ul(
+                 "The current assessment with its annexes and the declaration of performance.",
+                 "Written confirmation that the project stone is covered, or the test plan if it is not.",
+                 "The system proposal: rails, brackets and anchors, with the static calculation for the project's wind loads.",
+                 "The drilling machine, the gauge and operator training.",
+                 "Site pull-out tests and site support, where the specification asks for them.",
+                 "For Rockany systems: the datasheet with the aluminium alloy and the stainless grade, and the project calculation.")) +
+             h.prose(h.p("In the <a href=\"" + u("specification") + "\">guide specification</a>, a maker's engineered system is Option B and assessed undercut anchors are Option C. Our experience with undercut fixing is with Hilti anchors, on 30 mm natural stone and on 20 mm porcelain.",
+                         "Hilti, fischer and Rockany are names of their owners. They are named here to say what we can install and where the published data comes from."))),
+        ])
+
+    # ------------------------------------------------------------------ 3d. stone and panel materials
+    P["stone-materials"] = dict(
+        title="Facade Stone: Riyadh Limestone, Marble, Granite | AL-Swati",
+        desc="The stones and panels we install on Riyadh facades: Riyadh limestone, travertine, marble, granite and porcelain. Typical thickness, standards and checks.",
+        crumb="Stone and panels", eyebrow="Materials", h1="Stone and Panel Materials",
+        lead="The stones and panels we install on facades, with what a specifier usually needs first: what the material is, the thickness we typically install, the standard that classifies it and what to check before it is approved. Strength values come from tests on the actual source, so none are published here.",
+        sections=[
+            ("One table", "Materials We Install",
+             h.table(["Material", "What it is", "Typical thickness we install", "Material standard", "Check before approval"], [
+                 ["Riyadh limestone (beige and yellow)", "Local limestone, the facade stone of Riyadh. A trade name: it comes from several quarries and beds.", "Typically 30 mm, thicker on demand.", "ASTM C568 classifies limestone in three classes by density {{c568}}.", "Tests on the actual quarry source; range samples that show the colour variation."],
+                 ["White Riyadh stone", "The light, near-white local limestone.", "Typically 30 mm, thicker on demand.", "ASTM C568, as above {{c568}}.", "As above. Light stone shows stains most clearly; mechanical fixing leaves no mortar behind the stone."],
+                 ["Travertine", "A banded stone with natural voids, filled or unfilled. Sold as travertine marble.", "Typically 30 mm.", "ASTM C1527 covers travertine {{astm_list}}.", "Direction of the bedding in the panel; filled or unfilled finish; tests at the project thickness."],
+                 ["Marble", "Crystalline stone that takes a polish. Mostly imported.", "Often 20 mm. Exterior 20 mm panels on edge fixings need the engineer's check and stone tests, or an undercut system.", "ASTM C503: absorption 0.20% at most, flexural strength 6.9 MPa at least, soundness Group A for exterior use {{c503}}.", "The soundness group; behaviour in heat (see below); test reports for the named marble."],
+                 ["Granite", "Hard, dense igneous stone.", "Often 20 mm, with the same condition as marble.", "ASTM C615 covers granite {{astm_list}}.", "Test reports for the named granite; the fixing type for 20 mm panels."],
+                 ["Large-format porcelain", "Manufactured slabs, uniform in colour.", "By the slab maker's system.", "ISO/TS 17870-3 covers its mechanical fixing {{iso17870}}.", "The slab maker's facade guide and the anchor's assessment for that slab."],
+             ], wide=True) +
+             h.prose(h.p("Why thickness follows the fixing, and what 20 mm panels need, is explained on the <a href=\"" + u("thickness-and-fixing") + "\">thickness and fixing</a> page."))),
+            ("Local stone", "Riyadh Limestone Is a Trade Name",
+             h.prose(h.p("There is no single data sheet for Riyadh limestone. Published figures for Riyadh carbonate rock differ widely: one academic study of hard limestone in Riyadh reports water absorption around 9% {{riyadh_rock}}, while trade sources quote much lower values. That range runs across the classes of ASTM C568, which allow at most 12%, 7.5% and 3% absorption for low, medium and high density limestone {{c568}}.",
+                         "So the class and the design strength of a facade's limestone come from current tests on the quarry source that will supply the project. This is why we publish no strength value, and why range samples and test reports are part of the material submittal."))),
+            ("Imported stone", "Marble and Granite on Exteriors",
+             h.prose(h.ul(
+                 "<b>Marble in the sun.</b> Thin marble outdoors can bow and lose strength under repeated heating {{thin_marble}}. A European test exists for it (EN 16306) {{en16306}}. For exterior marble in Riyadh, ask the engineer whether it is required.",
+                 "<b>Soundness.</b> ASTM C503 limits exterior marble to soundness Group A {{c503}}. Veined and decorative marbles in other groups belong indoors or need the engineer's review.",
+                 "<b>Granite.</b> Dense and strong. The fixing type still decides whether a 20 mm exterior panel is acceptable.",
+                 "<b>Supply.</b> Most marble used in Saudi Arabia is imported {{arabnews}}. Each imported stone needs the quarry's current test reports, and a petrographic check where the stone is unfamiliar {{iibec}}."))),
+            ("Submittal", "Samples and Tests",
+             h.prose(h.ul(
+                 "<b>Range samples.</b> Several samples that show the lightest, the darkest and the most veined stone that will be accepted, in the project finish.",
+                 "<b>Test reports.</b> Absorption and density, compressive strength, flexural strength and the strength at the fixing. The list with ASTM and EN numbers is in the <a href=\"" + u("thickness-and-fixing") + "\">tests table</a>.",
+                 "<b>Finish and thickness.</b> Bending tests are done at the project thickness and finish, because some finishes remove thickness {{yates}}{{nsi_lime}}.",
+                 "<b>No substitution.</b> Once approved, the stone source stays as approved unless the consultant approves a change in writing. See <a href=\"" + u("quality") + "\">quality</a>."))),
         ])
 
     # ------------------------------------------------------------------ 4. thickness and fixing
