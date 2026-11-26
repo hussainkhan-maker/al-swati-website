@@ -193,6 +193,15 @@ def pages(h):
                  ("Why it is used", "It takes the cladding load past infill walls, spans tall storeys and gives a true plane to set the stone from."),
                  ("Check before approval", "Design basis and wind loads per the current SBC 301; deflection limit of the members; corrosion protection; fixed and sliding points; the adjustment range between structure and stone."),
              ], O)),
+            ("Stand-off", "How Far the Stone Stands Off the Wall",
+             h.prose(h.p("Walls are never perfectly plumb, and a design may want the stone face a certain distance out. How that distance is made up decides the fixing, in three steps:")) +
+             h.table(["Stand-off wanted", "Solution", "How the line is brought true", "Note"], [
+                 ["Small, on a sound wall", "Up-Down angles (or pin brackets) fixed straight to the wall.", "By the size of the angle. Common sizes on Riyadh sites are 40 × 40, 40 × 50 and 40 × 60 mm, 3 mm thick; the longer leg sets the stone further out.", "A longer angle bends more and pulls harder on its anchor, so the engineer checks the angle and the anchor for the stand-off chosen."],
+                 ["Moderate, or an uneven or weak wall", "Vertical C-Channel on wall brackets. Common channel: 41 × 41 mm, 2 or 3 mm thick, in 3 m lengths.", "By wall brackets of different lengths, which take up the wall's deviations, and by their slotted holes.", "The brackets go to the concrete. Channel size and bracket spacing are the engineer's."],
+                 ["Large: deep cavities, projecting features", "A steel frame designed for the project, fixed to columns, beams or slab edges.", "The frame itself is set out to the stone line.", "Any of the fixing systems can then be mounted on the frame."],
+                 ["Undercut and kerf rail systems", "Rails on vertical profiles or on the frame.", "The profiles or the frame are set out to line; the hanger or the rail does not change size. The hanger's screw sets the last few millimetres of level.", "As built on our undercut work."],
+             ], wide=True) +
+             h.prose(h.p("The engineer chooses the vertical members from the panel weight (dead load), the wind load on their span and the deflection the stone can accept. Sizes named here are the common ones on site, for orientation only; the project sizes are on the approved shop drawings."))),
             ("Corners", "External Corners and Clean Cuts",
              h.det("corners", "Detail 08 · Plan", "Four ways to turn a corner", [
                  ("A · Butt joint", "One panel runs past the corner and the other stops against it. The edge of the first panel shows on the return face, so that edge is finished like the face. Simple and robust."),
