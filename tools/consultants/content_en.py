@@ -33,6 +33,7 @@ def pages(h):
             ("The section", "What You Will Find Here",
              h.cards([
                  ("Process", "How we deliver", "Routes A and B for engineering, submittals, mock-up, installation, site visits, tests, handover and warranty, including the steel substructure.", u("how-we-deliver"), "Open"),
+                 ("Drawings", "Typical details", "Seven reference drawings: the load path, five fixing systems in section, and the steel substructure in elevation.", u("typical-details"), "Open"),
                  ("Comparison", "Fixing systems", "Up-Down, pin, C-Channel, kerf rail, undercut and porcelain clips in one table: mechanism, use, thickness, limits.", u("fixing-systems"), "Open"),
                  ("Explainer", "Thickness and fixing", "Why 30 mm for edge fixings, what 20 mm marble or granite needs, the square law and published safety factors.", u("thickness-and-fixing"), "Open"),
                  ("QA/QC", "Quality", "Inspection and test stages, hold points, records, non-conformance and no substitution without approval.", u("quality"), "Open"),
@@ -139,6 +140,60 @@ def pages(h):
                  h.p("Brackets and angles are stainless steel or hot-dip galvanised steel, according to the project specification. " + f"Anchor and bolt sizes are {SIZES}; we do not publish sizes."),
                  h.p("As general guidance, published sources recommend stainless steel for the parts in direct contact with the stone, such as pins, tongues and kerf blades {{hg}}{{bsi_bp}}{{nsi_vert}}. One of them accepts hot-dip galvanised parts only where they do not touch the stone {{bsi_bp}}. The project specification decides."),
                  h.p("We can install systems from Hilti, fischer and Rockany {{rockany}}, and local or imported accessories."))),
+        ])
+
+    # ------------------------------------------------------------------ 3b. typical details (drawings from details.py)
+    O = "Open the drawing"
+    P["typical-details"] = dict(
+        title="Stone Cladding Fixing Details: Typical Sections | AL-Swati",
+        desc="Typical details of mechanically fixed stone cladding: Up-Down, PEN, C-Channel, kerf rail and undercut sections, the load path and the steel substructure.",
+        crumb="Typical details", eyebrow="Reference drawings", h1="Typical Fixing Details",
+        lead="Reference drawings of the fixing systems we install: where the anchor sits in the structure, how the bracket carries the panel, and how the load reaches the slabs, beams and columns. They are typical details for discussion at design stage, not for construction.",
+        sections=[
+            ("Load path", "Where the Load Goes",
+             h.det("loadpath", "Detail 01 · Section", "Load path on vertical channels", [
+                 ("Principle", "The dead load and the wind load of every panel must reach the reinforced concrete structure: slab edges, beams or columns."),
+                 ("Infill walls", "Hollow block and other infill walls are not counted on to carry the cladding. Where the wall behind the stone is infill, the brackets go to the concrete and vertical channels span between them."),
+                 ("Fixed and sliding points", "Each vertical member has one fixed point that carries its weight, and sliding points that hold it against wind and let it move with temperature. The engineer places them."),
+                 ("Who decides", "The load path, the member sizes and spacing and the anchors are the project engineer's design. See <a href=\"" + u("how-we-deliver") + "\">how we deliver</a>."),
+             ], O)),
+            ("Sections", "Five Fixing Systems in Section",
+             h.prose(h.p("One vertical section per system, drawn the same way so they can be compared: wall on the left, stone on the right, numbered parts and a legend. The systems are compared in words on the <a href=\"" + u("fixing-systems") + "\">fixing systems</a> page.")) +
+             h.det("updown", "Detail 02 · Section", "Up-Down angle fixing", [
+                 ("How it carries", "The upper panel bears on the blade of the angle and its bottom kerf sits on the up-tongue. The down-tongue restrains the top of the panel below; a clear gap under the blade keeps weight off that panel."),
+                 ("Typical use", "Low and medium rise, regular coursing, solid backup wall, stone of 30 mm and more."),
+                 ("Check before approval", "Kerf width and depth and the stone left on each side of it; the slotted hole for level adjustment; bracket material per the specification; anchor type per the engineer's calculation."),
+             ], O) +
+             h.det("pen", "Detail 03 · Section", "PEN (pin) fixing", [
+                 ("How it carries", "A bracket carries a pin that enters holes drilled in the edges of two adjacent panels. Bottom pins carry weight; top pins restrain against wind."),
+                 ("Typical use", "Hand-set stone of 30 mm and more on concrete or solid masonry."),
+                 ("Check before approval", "Stone on each side of the hole; a sliding sleeve on one side of the pin; the break-out strength at the hole proven by test in the project stone."),
+             ], O) +
+             h.det("cchannel", "Detail 04 · Section", "Vertical C-Channel", [
+                 ("How it carries", "Wall brackets anchored into slab edges or beams carry vertical steel channels. The stone brackets bolt to the channels, so the infill wall carries nothing."),
+                 ("Typical use", "Hollow block or weak infill walls, large cavities and tall storeys."),
+                 ("Check before approval", "Calculation of channels, brackets and anchors; one fixed point and sliding points per channel; coating repair at site cuts in galvanised channels; separation of dissimilar metals."),
+             ], O) +
+             h.det("kerfrail+kerfelev", "Detail 05 · Section and elevation", "Kerf rail system", [
+                 ("How it carries", "The blade of a horizontal rail sits in a kerf sawn along the top and bottom edges of the panels. The rail is continuous along the row and is fixed to the wall or to vertical profiles."),
+                 ("Typical use", "Regular grids of equal panels and rail-based ventilated facades; stone of 30 mm and more."),
+                 ("Check before approval", "Kerfs cut in the workshop, not by hand grinder; no rigid epoxy fill in the kerf; rail fixing spacing per the engineer; rail joints and movement."),
+             ], O) +
+             h.det("undercut+ucback", "Detail 06 · Section and elevation", "Undercut anchors on rails", [
+                 ("How it carries", "An anchor locks by shape into an undercut hole in the back of the panel. A hanger on the anchor hooks over a horizontal rail, so each panel hangs on its own and the face stays whole."),
+                 ("Typical use", "Thin hard stone, porcelain, large panels, and facades where single panels must be replaceable."),
+                 ("Check before approval", "The anchor's assessment covers the stone, or tests are done; holes drilled with the maker's machine and checked with its gauge; number and position of anchors per the assessment and the engineer."),
+                 ("Our experience", "Hilti undercut anchors on 30 mm natural stone and on 20 mm porcelain."),
+             ], O)),
+            ("Behind the stone", "The Steel Substructure in Elevation",
+             h.det("frame", "Detail 07 · Elevation", "Steel substructure", [
+                 ("What it is", "Vertical steel members fixed to the columns, beams or slab edges. Where the fixing system needs them, horizontal rails are added. We install it; the engineer designs it."),
+                 ("Why it is used", "It takes the cladding load past infill walls, spans tall storeys and gives a true plane to set the stone from."),
+                 ("Check before approval", "Design basis and wind loads per the current SBC 301; deflection limit of the members; corrosion protection; fixed and sliding points; the adjustment range between structure and stone."),
+             ], O)),
+            ("Use of these drawings", "Reference, Not Construction",
+             h.prose(h.p("These are typical details, not to scale. On a project, the approved shop drawings by the project engineer or consultant govern. Anchor and bolt sizes are " + SIZES + "; we do not publish sizes. Bracket material is stainless steel or hot-dip galvanised steel, according to the project specification.",
+                         "To have a detail discussed against your elevations, <a href=\"" + u("send-drawings") + "\">send us your drawings</a>. The <a href=\"" + u("specification") + "\">guide specification</a> names the same systems as Options A, B and C."))),
         ])
 
     # ------------------------------------------------------------------ 4. thickness and fixing

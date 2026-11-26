@@ -16,6 +16,10 @@ T = {
    pen=("PEN (PIN) FIXING", ["Bracket, stainless or hot-dip galvanised steel per the specification", "Pin through the blade: half in the panel above, half in the panel below", "Hole drilled in the panel edge; hardware hidden in the joint"]),
    cchannel=("VERTICAL C-CHANNEL", ["Wall bracket, anchored into the concrete", "Vertical steel channel, spanning between the brackets", "Stone bracket (Up-Down angle shown) bolted to the channel", "Backup wall that does not carry the stone (e.g. hollow block)"]),
    kerfrail=("KERF RAIL SYSTEM", ["Horizontal rail, continuous along the row, fixed to the wall or to vertical profiles", "Rail blade in the continuous kerf of the upper panel; the panel bears on the rail", "Rail blade in the continuous kerf of the lower panel, clear under the rail"]),
+   loadpath=("LOAD PATH: STONE ON VERTICAL CHANNELS", "Section through two floors · schematic", ["Slab edge or beam (reinforced concrete)", "Infill wall (e.g. hollow block): carries no cladding load", "Wall bracket at each slab edge or beam", "Vertical channel spanning from floor to floor", "Stone bracket at each horizontal joint", "Stone panel", "Dead load: panel → bracket → channel → wall bracket → slab", "Wind load: panel → brackets → channel → slabs above and below"]),
+   frame=("STEEL SUBSTRUCTURE: ELEVATION", "Elevation, stone partly removed · schematic", ["Column (reinforced concrete)", "Beam or slab edge (reinforced concrete)", "Infill wall: not loaded by the cladding", "Vertical steel member, spacing per the engineer", "Fixed point: carries the member's dead load", "Sliding point: holds against wind, free for thermal movement", "Stone brackets at each joint level", "Stone panels"]),
+   ucback=("UNDERCUT ANCHORS: BACK OF PANEL", "Elevation from the wall side · schematic", ["Stone or porcelain panel, back face", "Undercut anchor in the back of the panel; number per the engineer", "Hanger on each anchor, with level adjustment", "Horizontal rail; the hangers hook over it", "Rail fixing to the wall or to vertical profiles"]),
+   kerfelev=("KERF RAIL: ELEVATION", "Elevation · schematic", ["Stone panel", "Continuous rail in the horizontal joint (hidden)", "Kerf sawn along the whole top and bottom edge of the panel", "Rail fixing to the wall or to vertical profiles", "Vertical joint"]),
    undercut=("UNDERCUT ANCHOR ON RAIL", ["Horizontal rail on the wall (or on vertical profiles)", "Undercut anchor locked by shape in a hole in the BACK of the panel; the face stays whole", "Hanger on the anchor, hooked over the rail; each panel hangs on its own"])),
  "ar": dict(nfc="تفصيلة نموذجية · للاسترشاد فقط · ليست للتنفيذ", nts="قطاع رأسي · بدون مقياس رسم · المقاسات حسب مهندس المشروع", typ="30 غالباً", cav="فراغ", jt="فاصل",
    wall="جدار إنشائي (خرسانة مسلحة)", beam="حافة البلاطة أو الكمرة (خرسانة مسلحة)", anchor="انكر في الجدار، نوعه ومقاسه حسب حساب المهندس", stone="لوح حجر، 30 مم غالباً", cavity="فراغ مهوّى، بدون مونة", joint="فاصل حسب المخططات التنفيذية",
@@ -23,9 +27,14 @@ T = {
    pen=("التثبيت بالدبابيس PEN", ["زاوية حاملة من الستانلس ستيل أو الحديد المجلفن على الساخن حسب المواصفة", "دبوس يمر في الزاوية: نصفه في اللوح العلوي ونصفه في اللوح السفلي", "ثقب في حافة اللوح، والمكونات مخفية في الفاصل"]),
    cchannel=("مجاري C-Channel الرأسية", ["زاوية جدارية مثبتة في الخرسانة", "مجرى حديد رأسي يمتد بين الزوايا الجدارية", "زاوية الحجر (زاوية Up-Down في الرسم) مثبتة على المجرى بالبراغي", "جدار خلفي لا يحمل الحجر (مثل البلك المفرغ)"]),
    kerfrail=("نظام مجرى Kerf", ["مجرى أفقي مستمر على طول الصف، مثبت على الجدار أو على قوائم رأسية", "شفرة المجرى في الشق المستمر للوح العلوي، واللوح يرتكز على المجرى", "شفرة المجرى في الشق المستمر للوح السفلي، مع خلوص تحت المجرى"]),
+   loadpath=("مسار الحمل: الحجر على مجاري رأسية", "قطاع في دورين · رسم تخطيطي", ["حافة البلاطة أو الكمرة (خرسانة مسلحة)", "جدار حشو (مثل البلك المفرغ): لا يحمل أي حمل من الواجهة", "زاوية جدارية عند كل حافة بلاطة أو كمرة", "مجرى رأسي يمتد من دور إلى دور", "زاوية حجر عند كل فاصل أفقي", "لوح حجر", "الحمل الميت: اللوح ← الزاوية ← المجرى ← الزاوية الجدارية ← البلاطة", "حمل الرياح: اللوح ← الزوايا ← المجرى ← البلاطتان أعلى وأسفل"]),
+   frame=("الهيكل المعدني خلف الحجر: واجهة", "واجهة مع إزالة جزء من الحجر · رسم تخطيطي", ["عمود (خرسانة مسلحة)", "كمرة أو حافة بلاطة (خرسانة مسلحة)", "جدار حشو: لا تحمّله الواجهة", "قائم حديد رأسي، والمسافات حسب المهندس", "نقطة ثابتة: تحمل الحمل الميت للقائم", "نقطة منزلقة: تقاوم الرياح وتسمح بالتمدد الحراري", "زوايا الحجر عند كل منسوب فاصل", "ألواح الحجر"]),
+   ucback=("مراسي Undercut: ظهر اللوح", "واجهة من جهة الجدار · رسم تخطيطي", ["لوح حجر أو بورسلان، الوجه الخلفي", "مرساة Undercut في ظهر اللوح، والعدد حسب المهندس", "مشبك تعليق على كل مرساة مع ضبط للمنسوب", "مجرى أفقي تُعلّق عليه المشابك", "تثبيت المجرى في الجدار أو في قوائم رأسية"]),
+   kerfelev=("مجرى Kerf: واجهة", "واجهة · رسم تخطيطي", ["لوح حجر", "مجرى مستمر في الفاصل الأفقي (مخفي)", "شق على طول الحافة العلوية والسفلية للوح", "تثبيت المجرى في الجدار أو في قوائم رأسية", "فاصل رأسي"]),
    undercut=("مراسي Undercut على مجرى", ["مجرى أفقي على الجدار (أو على قوائم رأسية)", "مرساة Undercut تُقفل بشكلها داخل ثقب في ظهر اللوح، والوجه يبقى سليماً", "مشبك تعليق على المرساة يُعلّق على المجرى، وكل لوح معلّق وحده"])),
 }
 SYSTEMS = ["updown", "pen", "cchannel", "kerfrail", "undercut"]
+EXTRA = ["loadpath", "frame", "kerfelev", "ucback"]
 
 
 def f(x): return f"{x:.1f}".rstrip("0").rstrip(".")
@@ -70,7 +79,7 @@ class Draw:
         self.add(f'<path d="M{f(bx)} {f(by)} L{f(x)} {f(y)}" stroke="{INK}" stroke-width=".3"/><circle cx="{f(x)}" cy="{f(y)}" r="1" fill="{INK}"/>'
                  f'<circle cx="{f(bx)}" cy="{f(by)}" r="5.2" fill="#fff" stroke="{INK}" stroke-width=".45"/><text x="{f(bx)}" y="{f(by + 2)}" font-size="5.6" font-weight="700" text-anchor="middle" class="en">{n}</text>')
 
-    def svg(self, title, uid="d"):
+    def svg(self, title, uid="d", sub=None):
         x0, x1, y0, y1 = self.b; t = self.t; w = 760; u = min(3.4, 700 / (x1 - x0))
         dw = (x1 - x0) * u; ox = (w - dw) / 2 - x0 * u; oy = 78 - (y0 - 4) * u; hd = (y1 - y0 + 8) * u
         ly = 78 + hd + 26; lh = 24 * len(self.items); h = ly + lh + 44; anc = "start"
@@ -87,7 +96,7 @@ class Draw:
                 f'<rect width="{w}" height="{f(h)}" fill="#fff"/><rect x="6" y="6" width="{w - 12}" height="{f(h - 12)}" fill="none" stroke="{INK}" stroke-width="1.2"/>'
                 f'<g transform="translate({f(ox)} {f(oy)}) scale({u})"><g clip-path="url(#cp)">{"".join(self.clipped)}</g>{"".join(self.g)}</g><rect x="7" y="7" width="{w - 14}" height="62" fill="#fff"/>'
                 f'<text x="{w / 2}" y="38" font-size="19" font-weight="700" text-anchor="middle" class="{"ar" if self.ar else "en"}">{title}</text>'
-                f'<text x="{w / 2}" y="58" font-size="11.5" text-anchor="middle" class="{"ar" if self.ar else "en"}">{t["nts"]}</text>{leg}'
+                f'<text x="{w / 2}" y="58" font-size="11.5" text-anchor="middle" class="{"ar" if self.ar else "en"}">{sub or t["nts"]}</text>{leg}'
                 f'<path d="M6 {f(h - 32)} H{w - 6}" stroke="{INK}" stroke-width="1"/><text x="{w / 2}" y="{f(h - 14)}" font-size="11" font-weight="700" text-anchor="middle" class="{"ar" if self.ar else "en"}">{t["nfc"]} · AL-SWATI CONTRACTING</text></svg>')
         for k in ("h-stone", "h-conc", "h-block", "cp"): out = out.replace(f'id="{k}"', f'id="{k}-{uid}"').replace(f'url(#{k})', f'url(#{k}-{uid})')
         return out
@@ -136,12 +145,65 @@ def build(system, lang):
     return d.svg(title, f"{system}-{lang}")
 
 
-def svg(system, lang): return build(system, lang)
+def arrow(x1, y1, x2, y2, w=1.1):
+    import math
+    a = math.atan2(y2 - y1, x2 - x1); hx, hy = x2 - 5 * math.cos(a), y2 - 5 * math.sin(a); px, py = 2.2 * math.sin(a), -2.2 * math.cos(a)
+    return f'<path d="M{f(x1)} {f(y1)} L{f(hx)} {f(hy)}" stroke="{INK}" stroke-width="{w}"/><path d="M{f(x2)} {f(y2)} L{f(hx + px)} {f(hy + py)} L{f(hx - px)} {f(hy - py)} Z" fill="{INK}"/>'
+
+
+def extra(kind, lang):
+    """the schematic drawings: units are free (about 3.4 px each), not millimetres"""
+    t = T[lang]; title, subt, it = t[kind]; R = lambda x, y, w, h, fill, sw=.5, ex="": f'<rect x="{f(x)}" y="{f(y)}" width="{f(w)}" height="{f(h)}" fill="{fill}" stroke="{INK}" stroke-width="{sw}" {ex}/>'
+    if kind == "loadpath":
+        d = Draw(lang, 0, 206, 0, 176); g = []
+        g.append(R(74, -5, 18, 186, "url(#h-block)", .5))
+        for y in (30, 128): g.append(R(-10, y, 102, 12, "url(#h-conc)", .7))
+        g.append(R(100, -5, 8, 186, "#fff", .7))
+        for y in (34, 132): g.append(R(92, y, 8, 4, STEEL, .3))
+        ys = [8 + i * 32.5 for i in range(6)]
+        for y in ys: g.append(R(122, y + 1.25, 8, 30, "url(#h-stone)", .6)); g.append(R(108, y - .3, 17, 1.6, STEEL, .2))
+        g += [arrow(104, 52, 104, 120, 1.4), arrow(99, 141, 80, 141, 1.4)] + [arrow(160, y, 133, y) for y in (62, 78, 94)]
+        d.g = g; d.clipped, d.g = d.g, []
+        d.item(40, 36, 22, 14, it[0]); d.item(83, 85, 40, 85, it[1]); d.item(96, 134, 62, 162, it[2]); d.item(104, 12, 150, 12, it[3]); d.item(115, 73.5, 150, 34, it[4]); d.item(126, 150, 166, 150, it[5]); d.item(104, 105, 60, 110, it[6]); d.item(146, 94, 176, 112, it[7])
+    elif kind == "frame":
+        d = Draw(lang, 0, 206, 0, 170); g = [R(22, 26, 162, 118, "url(#h-block)", .4)]
+        for x in (6, 184): g.append(R(x, -5, 16, 180, "url(#h-conc)", .7))
+        for y in (14, 144): g.append(R(22, y, 162, 12, "url(#h-conc)", .7))
+        for x in (44, 74, 104, 134, 164):
+            g.append(R(x - 2, 17, 4, 136, "#fff", .6)); g.append(R(x - 5, 17, 10, 5, STEEL, .3)); g.append(R(x - 5, 148, 10, 5, "#fff", .5) + f'<path d="M{x - 3} 150.5 H{x + 3}" stroke="{INK}" stroke-width=".8"/>')
+            for y in (40, 64, 88, 112, 136): g.append(R(x - 4, y - 1, 8, 2, STEEL, .2))
+        for r in range(2):
+            for c in range(3): g.append(R(91 + c * 31, 89.5 + r * 24, 30, 23, "#fff", .6))
+        g.append(f'<path d="M89 88 l4 -3 l5 6 l4 -3" fill="none" stroke="{INK}" stroke-width=".35"/>')
+        d.g = g; d.clipped, d.g = d.g, []
+        d.item(14, 60, 14, 100, it[0]); d.item(60, 20, 60, 6, it[1]); d.item(30, 76, 30, 120, it[2]); d.item(74, 52, 89, 52, it[3]); d.item(104, 19.5, 119, 6, it[4]); d.item(134, 150.5, 119, 164, it[5]); d.item(164, 64, 176, 76, it[6]); d.item(136, 125, 150, 164, it[7])
+    elif kind == "ucback":
+        d = Draw(lang, 0, 206, 0, 150); g = [R(58, 30, 90, 90, "#fafaf8", .8)]
+        for y in (52, 98):
+            g.append(R(20, y - 2, 166, 4, "#fff", .5))
+            for x in (30, 176): g.append(R(x - 4, y - 4, 8, 8, "#fff", .5) + f'<path d="M{x - 2.5} {y - 2.5} l5 5 M{x + 2.5} {y - 2.5} l-5 5" stroke="{INK}" stroke-width=".35"/>')
+            for x in (74, 132): g.append(R(x - 4, y - 3, 8, 11, STEEL, .3) + f'<circle cx="{x}" cy="{y + 4.5}" r="1.6" fill="#fff" stroke="{INK}" stroke-width=".35"/>')
+        d.g = g; d.clipped, d.g = d.g, []
+        d.item(103, 75, 103, 134, it[0]); d.item(74, 56.5, 44, 22, it[1]); d.item(132, 50, 162, 22, it[2]); d.item(160, 98, 190, 80, it[3]); d.item(30, 98, 14, 124, it[4])
+    else:
+        d = Draw(lang, 0, 206, 0, 150); g = []
+        for r in range(3):
+            for c in range(3): g.append(R(28 + c * 51, 22 + r * 37, 48, 34, "#fafaf8", .7))
+        for y in (57.5, 94.5):
+            g.append(f'<path d="M20 {y - 1.6} H186 M20 {y + 1.6} H186" stroke="{INK}" stroke-width=".4" stroke-dasharray="3 1.6" fill="none"/>')
+            for x in (40, 78, 116, 154): g.append(f'<circle cx="{x}" cy="{y}" r="1.5" fill="#fff" stroke="{INK}" stroke-width=".4"/>')
+        g.append(f'<path d="M30 25 H74 M30 53 H74" stroke="{INK}" stroke-width=".3" stroke-dasharray="1.2 1.2"/>')
+        d.g = g; d.clipped, d.g = d.g, []
+        d.item(103, 76, 103, 140, it[0]); d.item(182, 57.5, 196, 40, it[1]); d.item(52, 25, 40, 8, it[2]); d.item(154, 94.5, 196, 110, it[3]); d.item(77.5, 112, 60, 140, it[4])
+    return d.svg(title, f"{kind}-{lang}", subt)
+
+
+def svg(system, lang): return extra(system, lang) if system in EXTRA else build(system, lang)
 
 
 if __name__ == "__main__":
     out = os.path.join(ROOT, "images", "details"); os.makedirs(out, exist_ok=True)
-    for s in SYSTEMS:
+    for s in SYSTEMS + EXTRA:
         for lang in ("en", "ar"):
-            open(os.path.join(out, f"{s}-{lang}.svg"), "w", encoding="utf8").write(build(s, lang))
-    print("details written:", len(SYSTEMS) * 2)
+            open(os.path.join(out, f"{s}-{lang}.svg"), "w", encoding="utf8").write(svg(s, lang))
+    print("details written:", len(SYSTEMS + EXTRA) * 2)

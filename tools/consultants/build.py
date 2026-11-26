@@ -13,7 +13,7 @@ sys.path.insert(0, HERE)
 SITE = "https://al-swaticontracting.com"
 BASE = "for-consultants"
 DATE_ISO = "2026-11-26"
-ORDER = ["", "how-we-deliver", "fixing-systems", "thickness-and-fixing", "quality", "maintenance", "glossary", "specification", "send-drawings"]
+ORDER = ["", "how-we-deliver", "fixing-systems", "typical-details", "thickness-and-fixing", "quality", "maintenance", "glossary", "specification", "send-drawings"]
 
 # Public sources (from the research files). key: (label, url)
 SOURCES = {
@@ -107,6 +107,9 @@ class H:
         return '<ol class="fc-steps">' + "".join(f"<li><b>{t}{f' <em>{tag}</em>' if tag else ''}</b><p>{x}</p></li>" for t, x, tag in items) + "</ol>"
     def dl(self, title, small, buttons):  # buttons: (label, href)
         return f'<div class="fc-dl"><div><b>{title}</b><small>{small}</small></div><div class="btns">' + "".join(f'<a class="btn {"btn-gold" if i == 0 else "btn-line"}" href="{h}" download><span>{l}</span></a>' for i, (l, h) in enumerate(buttons)) + "</div></div>"
+    def det(self, code, tag, title, rows, open_label):  # a reference drawing (details.py) beside its notes; rows: (label, text)
+        fig = "".join(f'<figure class="fc-sheet">%%SVG:{c}%%<figcaption><a href="/images/details/{c}-{self.lang}.svg" target="_blank" rel="noopener">{open_label}</a></figcaption></figure>' for c in code.split("+"))
+        return f'<article class="fc-det" id="{code.split("+")[0]}"><div class="fc-figs">{fig}</div><div class="fc-det-t"><small>{tag}</small><h3>{title}</h3><dl>' + "".join(f"<dt>{a}</dt><dd>{b}</dd>" for a, b in rows) + "</dl></div></article>"
     def math(self, s): return f'<div class="fc-math">{s}</div>'
 
 def shell(lang):
@@ -234,6 +237,8 @@ def page(lang, slug, pg, titles):
 </body>
 </html>
 '''
+    import details
+    out = re.sub(r"%%SVG:(\w+)%%", lambda m: details.svg(m.group(1), lang), out)
     f = os.path.join(ROOT, path.strip("/"), "index.html")
     os.makedirs(os.path.dirname(f), exist_ok=True)
     open(f, "w", encoding="utf8").write(out)
