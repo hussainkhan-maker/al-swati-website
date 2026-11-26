@@ -38,11 +38,11 @@ Every panel hangs on its own mechanical fixings; no panel is bedded on cement mo
 
 | System | How it holds the panel | Typical use |
 | --- | --- | --- |
-| Up-Down angle brackets | Metal angles engage kerfs cut in the top and bottom edges of each panel; the brackets bolt to the wall | Natural stone and porcelain facades, from villas to high-rise |
-| PEN (pin) fixing | Pins set into the panel edges, with all hardware hidden behind the face | Premium residential and hospitality facades |
+| Up-Down angle brackets | Metal angles engage kerfs cut in the top and bottom edges of each panel; the brackets bolt to the wall | Low and medium rise, regular coursing, solid backup wall, stone of 30 mm and more |
+| PEN (pin) fixing | A bracket carries a pin that enters holes drilled in the edges of two adjacent panels; the hardware is hidden in the joint | Hand-set stone of 30 mm and more on concrete or solid masonry |
 | Vertical C-Channel rails | Vertical channels set plumb and level on wall brackets; the stone brackets bolt to the channels | Hollow block or weak infill walls, large cavities and tall storeys |
-| Kerf rail system | The blade of a horizontal rail slides into a groove along the panel's top and bottom edges | Regular panel grids; marble walls in lobbies and corridors |
-| Undercut anchors | A stainless-steel anchor expands in a hole drilled in the panel back (not through it) and hangs on horizontal rails | Hidden-fix facades with no visible hardware |
+| Kerf rail system | The blade of a horizontal rail slides into a groove along the panel's top and bottom edges | Regular grids of equal panels and rail-based ventilated facades; stone of 30 mm and more |
+| Undercut anchors | An anchor locks by shape into an undercut hole drilled in the back of the panel (not through it); a hanger on it hooks onto a horizontal rail | Thin hard stone, porcelain, large panels and facades where single panels must be replaceable |
 
 ## Engineering and specifications
 
@@ -53,7 +53,7 @@ Every panel hangs on its own mechanical fixings; no panel is bedded on cement mo
 | Panel thickness | Natural stone typically 30 mm, thicker on demand; marble and granite often 20 mm (exterior 20 mm panels on edge fixings need the engineer's check and stone tests, or an undercut system); porcelain per the panel maker's system |
 | Anchors | Type and size per the engineer's calculation and the consultant's specification; site pull-out tests on request, arranged with the anchor manufacturer or a testing laboratory and witnessed by the consultant |
 | Metalwork | Brackets and angles in stainless steel or hot-dip galvanised steel according to the project specification |
-| Thermal movement | Each panel sits on its own anchors with a joint around it, so daily expansion and contraction is not passed to the next panel |
+| Thermal movement | Each panel is held by mechanical fixings with a joint around it, so daily expansion and contraction is not passed to the next panel |
 | Joints | Open or sealed, width per approved shop drawings |
 | Documents for consultants | Section for architects and consultants (process, fixing systems, thickness, QA/QC, maintenance guide, glossary, guide specification 04 42 00, send drawings): https://al-swaticontracting.com/for-consultants/ ; CAD fixing details (.DWG) and a method statement on request: https://al-swaticontracting.com/technical-specs/ |
 

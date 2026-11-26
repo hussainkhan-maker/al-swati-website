@@ -40,7 +40,7 @@ def pages(h):
                  ("Reference", "Arabic–English glossary", "The fixing, testing and submittal terms used on site and in specifications, in both languages.", u("glossary"), "Open"),
                  ("DOCX", "Guide specification 04 42 00", "Exterior stone cladding, mechanically fixed: three options and blanks for the project values.", u("specification"), "Open"),
                  ("Form", "Send us your drawings", "Send elevations and the stone choice; we reply with suitable systems, published thickness guidance, likely substructure needs and a test list.", u("send-drawings"), "Open"),
-                 ("Spec sheet", "Technical Hub", "The existing spec sheet, the mechanical versus wet fixing comparison and the CAD request form.", "/technical-specs/", "Open"),
+                 ("Spec sheet", "Spec sheet and CAD request", "A one-page spec sheet to save as PDF or Excel, the mechanical versus wet fixing comparison, and the form to request CAD details and a method statement.", "/technical-specs/", "Open"),
              ])),
             ("Plain facts", "What We Install, Scope and Limits",
              h.prose(
