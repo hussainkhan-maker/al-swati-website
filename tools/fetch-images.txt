@@ -14,3 +14,7 @@ images/stones/finish-split-face.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3M
 images/stones/finish-flamed.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151948_b7568d03-5d89-41f5-abd1-bd461572de41.png
 images/stones/finish-sawn.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151940_9771adea-db07-4074-a223-b134eb6a93a0.png
 images/stones/finish-brushed.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151939_6da206a5-4b6c-44a0-88c8-d5415107eea6.png
+images/pages/home/box-stone-cladding.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164817_b75c1c90-1ee1-4162-950d-413d3dac7db9.png
+images/pages/home/box-marble-cladding.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164819_a568548b-a15d-427b-9122-5a1319d2e312.png
+images/pages/home/box-porcelain-facades.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164823_81fdf1b5-81bb-41f7-bf83-3915fe40d6a8.png
+images/pages/home/box-villa-facades.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164822_e397213d-a9a3-4b6d-9364-6846a041bce2.png
