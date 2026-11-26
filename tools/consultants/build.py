@@ -71,11 +71,11 @@ SOURCES = {
 L = {
  "en": dict(home="Home", homeurl="/", pre="", crumb="For Architects & Consultants", note="General guidance. Each project is designed by its engineer or consultant.", date="November 2026",
    updated="Updated", src_h="Sources", src_p="Public sources used for the technical statements on this page. Standards are summarised in our own words; where a standard was read through a secondary report, the entry says so. The project engineer should check the current edition before using any value.",
-   spec="Spec sheet and CAD request", nav_e="In this section", nav_h="For Architects & Consultants", reach_e="Technical contact", reach_h="Reach the Technical Contact",
+   spec="Spec sheet and document request", nav_e="In this section", nav_h="For Architects & Consultants", reach_e="Technical contact", reach_h="Reach the Technical Contact",
    reach_p="Call, send a WhatsApp message or email, and ask for the technical contact. Or send your drawings through the form.", wa="WhatsApp", form="Send your drawings", aria="Breadcrumb", name="AL-Swati Contracting"),
  "ar": dict(home="الرئيسية", homeurl="/ar/", pre="/ar", crumb="للمعماريين والاستشاريين", note="إرشادات عامة. يُصمَّم كل مشروع من قِبل مهندسه أو استشاريه.", date="نوفمبر 2026",
    updated="تحديث", src_h="المصادر", src_p="مصادر منشورة استندنا إليها في المعلومات الفنية في هذه الصفحة. لخّصنا المواصفات القياسية بعباراتنا، وحيث قُرئت المواصفة من مصدر ثانوي ذُكر ذلك في المصدر. على مهندس المشروع الرجوع إلى الإصدار الساري قبل استخدام أي قيمة.",
-   spec="جدول المواصفات وطلب مخططات CAD", nav_e="في هذا القسم", nav_h="للمعماريين والاستشاريين", reach_e="جهة الاتصال الفنية", reach_h="تواصل مع جهة الاتصال الفنية",
+   spec="جدول المواصفات وطلب المستندات", nav_e="في هذا القسم", nav_h="للمعماريين والاستشاريين", reach_e="جهة الاتصال الفنية", reach_h="تواصل مع جهة الاتصال الفنية",
    reach_p="اتصل أو أرسل رسالة واتساب أو بريداً إلكترونياً واطلب جهة الاتصال الفنية، أو أرسل مخططاتك عبر النموذج.", wa="واتساب", form="أرسلوا مخططاتكم", aria="مسار التنقل", name="شركة السواتي للمقاولات"),
 }
 esc = lambda s: html.escape(str(s), quote=True)

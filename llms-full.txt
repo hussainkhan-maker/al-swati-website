@@ -48,14 +48,14 @@ Every panel hangs on its own mechanical fixings; no panel is bedded on cement mo
 
 | Item | Specification |
 | --- | --- |
-| Engineering | Design is by the project engineer or consultant. Either installation to approved shop drawings supplied by the consultant or main contractor, or an independent facade engineer appointed for the project (design basis, wind loads per the current SBC 301, calculations for the steel substructure, shop drawings, part list, weekly site visits on those projects) |
+| Engineering | Design is by the project engineer or consultant. Either installation to approved shop drawings supplied by the consultant or main contractor, or shop drawings and calculations by the project's facade engineer within AL-Swati's scope (design basis, wind loads per the current SBC 301, calculations for the steel substructure, shop drawings, part list, weekly site visits on those projects) |
 | Wind load | Calculated for each project by the project engineer to the current Saudi Building Code SBC 301 |
 | Panel thickness | Natural stone typically 30 mm, thicker on demand; marble and granite often 20 mm (exterior 20 mm panels on edge fixings need the engineer's check and stone tests, or an undercut system); porcelain per the panel maker's system |
 | Anchors | Type and size per the engineer's calculation and the consultant's specification; site pull-out tests on request, arranged with the anchor manufacturer or a testing laboratory and witnessed by the consultant |
 | Metalwork | Brackets and angles in stainless steel or hot-dip galvanised steel according to the project specification |
 | Thermal movement | Each panel is held by mechanical fixings with a joint around it, so daily expansion and contraction is not passed to the next panel |
 | Joints | Open or sealed, width per approved shop drawings |
-| Documents for consultants | Section for architects and consultants (process, fixing systems, thickness, QA/QC, maintenance guide, glossary, guide specification 04 42 00, send drawings): https://al-swaticontracting.com/for-consultants/ ; CAD fixing details (.DWG) and a method statement on request: https://al-swaticontracting.com/technical-specs/ |
+| Documents for consultants | Section for architects and consultants (process, fixing systems, thickness, QA/QC, maintenance guide, glossary, guide specification 04 42 00, send drawings): https://al-swaticontracting.com/for-consultants/ ; reference drawings and a method statement on request: https://al-swaticontracting.com/technical-specs/ |
 
 ## Why mechanical fixing in Riyadh
 
@@ -87,7 +87,7 @@ Indicative ranges in SAR per square metre for supply and installation on Up-Down
 
 1. Free site visit: survey of the wall line, levels and substrate (concrete, block or AAC), which decides the anchor type.
 2. Written quote: material, thickness, fixing system, quantity and price.
-3. Engineering: installation to approved shop drawings supplied by the consultant or main contractor, or an independent facade engineer appointed for the project (wind loads per the current SBC 301, substructure calculations, shop drawings). Material submittals and samples for the consultant's approval.
+3. Engineering: installation to approved shop drawings supplied by the consultant or main contractor, or shop drawings and calculations by the project's facade engineer within AL-Swati's scope (wind loads per the current SBC 301, substructure calculations, shop drawings). Material submittals and samples for the consultant's approval.
 4. Mock-up and anchor pull-out tests on request.
 5. Installation by AL-Swati's own teams, row by row from the bottom of each elevation, with inspection hold points for anchors, brackets, the first row and each completed elevation.
 6. Handover: final inspection, snag list, records, maintenance guide and the 5-year written workmanship warranty attested by the Chamber of Commerce, issued by the contracting company.
@@ -108,7 +108,7 @@ Supply and installation on Up-Down brackets for a villa facade costs about 230-2
 Natural stone is typically 30 mm, thicker on demand. Marble and granite are often 20 mm; exterior 20 mm panels on edge fixings need the engineer's check and stone tests, or an undercut system. Porcelain thickness follows the panel maker's system.
 
 ### How is wind load designed?
-The project engineer calculates the wind load for each project to the current Saudi Building Code SBC 301. AL-Swati installs to approved shop drawings supplied by the consultant or main contractor, or appoints an independent facade engineer for the project.
+The project engineer calculates the wind load for each project to the current Saudi Building Code SBC 301. AL-Swati installs to approved shop drawings supplied by the consultant or main contractor, or to shop drawings prepared by the project's facade engineer within its scope.
 
 ### Which fixing systems does AL-Swati install?
 Up-Down angle brackets, PEN pin fixing, vertical C-Channel rails, kerf rails and undercut anchors. Brackets are stainless or hot-dip galvanised steel according to the project specification. AL-Swati can install systems from Hilti, fischer and Rockany.
@@ -130,7 +130,7 @@ Call or WhatsApp +966 51 182 6313, email info@al-swaticontracting.com, or use th
 شركة السواتي للمقاولات مقاول تركيب حجر في الرياض له أكثر من 500 مشروع من الخبرة منذ 1994 بين فلل وأبراج ومبانٍ تجارية. تركّب الشركة واجهات الحجر الطبيعي (حجر الرياض الأبيض والحجر الجيري البيج والأصفر والحجر الرملي والجرانيت) والرخام والبورسلان بمقاسات كبيرة، بالتثبيت الميكانيكي فقط، وبفريق عمل مباشر من الشركة دون مقاولين من الباطن.
 
 - أنظمة التثبيت: زوايا Up-Down، وتثبيت PEN بالدبابيس، ومجاري C-Channel الرأسية، ونظام Kerf، ومراسي Undercut. الزوايا من الستانلس ستيل أو الحديد المجلفن على الساخن حسب مواصفة المشروع، ومقاسات الانكرات والبراغي حسب حساب المهندس ومواصفة الاستشاري.
-- الأعمال الهندسية: تنفّذ الشركة حسب مخططات تنفيذية معتمدة من الاستشاري أو المقاول الرئيسي، أو تعيّن مهندس واجهات مستقلاً للمشروع يُعدّ أحمال الرياح حسب كود البناء السعودي SBC 301 الساري وحسابات الهيكل المعدني والمخططات التنفيذية.
+- الأعمال الهندسية: تنفّذ الشركة حسب مخططات تنفيذية معتمدة من الاستشاري أو المقاول الرئيسي، أو يُعدّ مهندس واجهات المشروع ضمن نطاقها أحمال الرياح حسب كود البناء السعودي SBC 301 الساري وحسابات الهيكل المعدني والمخططات التنفيذية.
 - طلبات اعتماد المواد والعينات، ونموذج تجريبي واختبارات سحب للانكرات عند الطلب، وضمان مكتوب على التنفيذ لمدة 5 سنوات، مصدّق من الغرفة التجارية، تصدره شركة المقاولات.
 - قسم المعماريين والاستشاريين: https://al-swaticontracting.com/ar/for-consultants/
 - أسعار 2026 للتوريد والتركيب على زوايا Up-Down لواجهة فيلا، بالريال للمتر المربع ودون ضريبة القيمة المضافة: حجر الرياض الأبيض 230-280، الحجر الجيري البيج أو الأصفر 290-375، الجرانيت 265-340، الترافرتين والرخام 505-700، البورسلان بمقاسات كبيرة 265-340.

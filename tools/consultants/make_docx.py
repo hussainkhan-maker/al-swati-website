@@ -104,7 +104,7 @@ items([
         "Delegated design of the cladding system by the Contractor's facade engineer [where shop drawings are not issued by the Consultant]."]),
     ("Related sections:", [f"Section {B} – Joint Sealants.", f"Section {B} – Waterproofing and Thermal Insulation.", f"Section {B} – Fire Stopping and Cavity Barriers.", f"Section {B} – Structural Steel / Metal Fabrications."]),
 ])
-note("State who designs: either the Consultant or Main Contractor issues approved shop drawings and the installer builds to them, or the installer appoints an independent facade engineer for the project. Edit 1.1.A.6, 1.4.A and 1.5 to match.")
+note("State who designs: either the Consultant or Main Contractor issues approved shop drawings and the installer builds to them, or the design is delegated to the installer's facade engineer. Edit 1.1.A.6, 1.4.A and 1.5 to match.")
 art("1.2", "REFERENCES")
 P("Use the edition current at the date of the Contract unless a date is given. Where standards conflict, the Engineer decides.", after=3)
 items([

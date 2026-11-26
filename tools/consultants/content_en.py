@@ -27,7 +27,7 @@ def pages(h):
             ("When to call us", "Three Moments a Consultant Needs Us",
              h.cards([
                  ("1 · Design stage", "Which system, which thickness", h.ul("Which fixing systems suit the stone, the backup wall and the height", "What published guidance says about panel thickness", "Which tests to ask for before the stone is approved"), u("thickness-and-fixing"), "Thickness and fixing"),
-                 ("2 · Tender and prequalification", "How the work will be delivered", h.ul("Two engineering routes, stated openly", "Own installation team with a site supervisor", "5-year written workmanship warranty"), u("how-we-deliver"), "How we deliver"),
+                 ("2 · Tender and prequalification", "How the work will be delivered", h.ul("Two engineering routes", "Own installation team with a site supervisor", "5-year written workmanship warranty"), u("how-we-deliver"), "How we deliver"),
                  ("3 · Construction submittals", "What we submit and record", h.ul("Material submittals and samples", "Mock-up and anchor pull-out tests on request", "Inspection stages, hold points and records"), u("quality"), "Quality"),
              ])),
             ("The section", "What You Will Find Here",
@@ -41,7 +41,7 @@ def pages(h):
                  ("Reference", "Arabic–English glossary", "The fixing, testing and submittal terms used on site and in specifications, in both languages.", u("glossary"), "Open"),
                  ("DOCX", "Guide specification 04 42 00", "Exterior stone cladding, mechanically fixed: three options and blanks for the project values.", u("specification"), "Open"),
                  ("Form", "Send us your drawings", "Send elevations and the stone choice; we reply with suitable systems, published thickness guidance, likely substructure needs and a test list.", u("send-drawings"), "Open"),
-                 ("Spec sheet", "Spec sheet and CAD request", "A one-page spec sheet to save as PDF or Excel, the mechanical versus wet fixing comparison, and the form to request CAD details and a method statement.", "/technical-specs/", "Open"),
+                 ("Spec sheet", "Spec sheet and document request", "A one-page spec sheet to save as PDF or Excel, the mechanical versus wet fixing comparison, and the form to request a method statement.", "/technical-specs/", "Open"),
              ])),
             ("Plain facts", "What We Install, Scope and Limits",
              h.prose(
@@ -55,7 +55,7 @@ def pages(h):
                      "Brands we can install: Hilti, fischer, Rockany, and local or imported accessories.",
                      "Warranty: a 5-year written workmanship warranty attested by the Chamber of Commerce, issued by the contracting company."),
                  h.h3("Scope and limits"),
-                 h.p("Design is by the project engineer or consultant: we install to approved shop drawings, or appoint an independent facade engineer for the project. Brand names say what we can install; we hold no manufacturer certification. Sizes, wind values and stone strengths belong to each project's calculation and tests."))),
+                 h.p("Design is by the project engineer or consultant: we install to approved shop drawings, issued to us or prepared by the project's facade engineer. Brand names say what we can install; we hold no manufacturer certification. Sizes, wind values and stone strengths belong to each project's calculation and tests."))),
         ])
 
     # ------------------------------------------------------------------ 2. how we deliver
@@ -68,23 +68,23 @@ def pages(h):
             ("Scope", "What We Do",
              h.prose(h.p("We supply and install mechanically fixed natural stone (mainly Riyadh limestone), marble, granite and porcelain facades. We also install the steel substructure behind them, to the engineer's design. Installation is by our own team with a site supervisor.",
                          "The fixing systems we install are Up-Down angles, pin (PEN) fixing, C-Channel, kerf rail and undercut anchors. They are compared on the <a href=\"" + u("fixing-systems") + "\">fixing systems</a> page."))),
-            ("Engineering", "Two Routes, Stated Openly",
+            ("Engineering", "Two Engineering Routes",
              h.cards([
                  ("Route A", "We install to your approved shop drawings", "The consultant or the main contractor supplies approved shop drawings. We install to them and raise any site conflict before proceeding.", "", ""),
-                 ("Route B", "We appoint an independent facade engineer", "For the project, the engineer prepares the design basis, wind loads per the current SBC 301, calculations for the steel substructure, shop drawings and a part list, and visits the site weekly.", "", ""),
+                 ("Route B", "Engineering within our scope", "The project's facade engineer prepares the design basis, wind loads per the current SBC 301, calculations for the steel substructure, shop drawings and a part list, and visits the site weekly.", "", ""),
              ]) + h.prose(h.p("On both routes the design belongs to the project engineer or consultant, and the installation follows the approved documents.",
                               "Under the Law of Practising Engineering Professions (Art. 8), accredited engineers write their name, professional grade and accreditation number on their engineering works {{sce}}. Wind loads are calculated for each project to the current SBC 301 {{sbc}}; the calculation states the code edition used."))),
             ("Step by step", "From Enquiry to Warranty",
              h.steps([
                  ("Enquiry and drawings", "We review the elevations, the stone, the backup wall and the heights, and say which fixing systems suit them. You can start with the <a href=\"" + u("send-drawings") + "\" style=\"color:var(--gold);text-decoration:underline\">send drawings</a> form.", ""),
-                 ("Engineering route agreed", "Route A (your approved shop drawings) or Route B (an independent facade engineer appointed for the project) is fixed before pricing is final.", ""),
+                 ("Engineering route agreed", "Route A (your approved shop drawings) or Route B (shop drawings and calculations by the project's facade engineer, within our scope) is fixed before pricing is final.", ""),
                  ("Material submittals and samples", "Stone samples that show the range, and data for the fixings, brackets and anchors, are submitted for approval. Bracket material is stainless steel or hot-dip galvanised steel, according to the project specification.", ""),
                  ("Mock-up", "Built from the approved materials and drawings, by the same crew, and kept as the benchmark once approved.", "On request"),
                  ("Setting out", "Grid and level lines are set and the wall is checked against the drawings before any anchor is drilled.", ""),
                  ("Steel substructure", f"Wall brackets, channels or frames are installed to the engineer's design. Anchor and bolt sizes are {SIZES}.", ""),
                  ("Anchor pull-out tests", "Arranged with the anchor manufacturer or a testing laboratory, and witnessed by the consultant.", "On request"),
                  ("Stone installation", "By our own team with a site supervisor, panel by panel to the approved drawings: fixing engagement, clearances and joints are checked as the work rises.", ""),
-                 ("Engineer's site visits", "On projects where we appoint the engineer (Route B), the engineer visits the site weekly.", "Route B"),
+                 ("Engineer's site visits", "On Route B projects the facade engineer visits the site weekly.", "Route B"),
                  ("Handover", "Final inspection and snagging with the consultant, the project records, and the <a href=\"" + u("maintenance") + "\" style=\"color:var(--gold);text-decoration:underline\">maintenance and handover guide</a>.", ""),
                  ("Warranty", "A 5-year written workmanship warranty attested by the Chamber of Commerce, issued by the contracting company.", ""),
              ])),
@@ -308,7 +308,7 @@ def pages(h):
                  "Material and work inspection requests, with the consultant's comments.",
                  "Pull-out test reports, when tests are done.",
                  "For undercut anchors, the hole checks and tightening records that the anchor manufacturer's instructions require.",
-                 "The engineer's site visit reports, on projects where we appoint the engineer.",
+                 "The facade engineer's site visit reports, on Route B projects.",
                  "Non-conformance reports and their close-out.",
                  "Photographs of anchors and substructure before the stone covers them."))),
             ("When it goes wrong", "Non-Conformance",
