@@ -18,10 +18,10 @@ T = {
    kerfrail=("KERF RAIL SYSTEM", ["Horizontal rail, continuous along the row, fixed to the wall or to vertical profiles", "Rail blade in the continuous kerf of the upper panel; the panel bears on the rail", "Rail blade in the continuous kerf of the lower panel, clear under the rail"]),
    loadpath=("LOAD PATH: STONE ON VERTICAL CHANNELS", "Section through two floors · schematic", ["Slab edge or beam (reinforced concrete)", "Infill wall (e.g. hollow block): carries no cladding load", "Wall bracket at each slab edge or beam", "Vertical channel spanning from floor to floor", "Stone bracket at each horizontal joint", "Stone panel", "Dead load: panel → bracket → channel → wall bracket → slab", "Wind load: panel → brackets → channel → slabs above and below"]),
    frame=("STEEL SUBSTRUCTURE: ELEVATION", "Elevation, stone partly removed · schematic", ["Column (reinforced concrete)", "Beam or slab edge (reinforced concrete)", "Infill wall: not loaded by the cladding", "Vertical steel member, spacing per the engineer", "Fixed point: carries the member's dead load", "Sliding point: holds against wind, free for thermal movement", "Stone brackets at each joint level", "Stone panels"]),
-   ucback=("UNDERCUT ANCHORS: BACK OF PANEL", "Elevation from the wall side · schematic", ["Stone or porcelain panel, back face", "Undercut anchor in the back of the panel; number per the engineer", "Hanger on each anchor, with level adjustment", "Horizontal aluminium rail; the hangers hook over it", "Vertical profile behind the rails; each rail is screwed to it"]),
+   ucback=("UNDERCUT ANCHORS: BACK OF PANEL", "Elevation from the wall side · schematic", ["Stone or porcelain panel, back face", "Undercut anchor in the back of the panel; number per the engineer", "Hanger on each anchor, with a level-adjusting screw", "Horizontal aluminium rail; the hangers hook over it", "Vertical profile behind the rails; each rail is screwed to it"]),
    kerfelev=("KERF RAIL: ELEVATION", "Elevation · schematic", ["Stone panel", "Continuous rail in the horizontal joint (hidden)", "Kerf sawn along the whole top and bottom edge of the panel", "Rail fixing to the wall or to vertical profiles", "Vertical joint"]),
    corners=("EXTERNAL CORNERS: FOUR WAYS", "Plan (horizontal section) · schematic", ["Structure at the corner", "Cavity", "Stone panel", "Fixings on each side of the corner: each leg is carried on its own"], ["A · BUTT JOINT", "B · MITRE", "C · QUIRK MITRE", "D · SOLID CORNER PIECE"]),
-   undercut=("UNDERCUT ANCHOR ON RAIL", ["Horizontal aluminium rail, screwed to the vertical profiles", "Undercut anchor locked by shape in a hole in the BACK of the panel; the face stays whole", "Hanger on the anchor, hooked over the rail; each panel hangs on its own", "Vertical profile on wall brackets, fixed to the structure"])),
+   undercut=("UNDERCUT ANCHOR ON RAIL", ["Horizontal aluminium rail, screwed to the vertical profiles", "Undercut anchor locked by shape in a hole in the BACK of the panel; the face stays whole", "Hanger (aluminium clip) on the anchor: its hook sits in the rail's channel; each panel hangs on its own", "Vertical profile on wall brackets, fixed to the structure", "Adjusting screw on the hanger: it bears on the rail and sets the panel's level"])),
  "ar": dict(nfc="تفصيلة نموذجية · للاسترشاد فقط · ليست للتنفيذ", nts="قطاع رأسي · بدون مقياس رسم · المقاسات حسب مهندس المشروع", typ="30 غالباً", cav="فراغ", jt="فاصل",
    wall="جدار إنشائي (خرسانة مسلحة)", beam="حافة البلاطة أو الكمرة (خرسانة مسلحة)", anchor="انكر في الجدار، نوعه ومقاسه حسب حساب المهندس", stone="لوح حجر، 30 مم غالباً", panel="لوح حجر أو بورسلان", cavity="فراغ مهوّى، بدون مونة", joint="فاصل حسب المخططات التنفيذية",
    updown=("التثبيت بزوايا Up-Down", ["زاوية Up-Down من الستانلس ستيل أو الحديد المجلفن على الساخن حسب المواصفة، بثقب طولي للضبط", "اللسان العلوي في شق اللوح العلوي، واللوح يرتكز على الزاوية", "اللسان السفلي في شق اللوح السفلي، مع خلوص تحت الزاوية"]),
@@ -33,7 +33,7 @@ T = {
    ucback=("مراسي Undercut: ظهر اللوح", "واجهة من جهة الجدار · رسم تخطيطي", ["لوح حجر أو بورسلان، الوجه الخلفي", "مرساة Undercut في ظهر اللوح، والعدد حسب المهندس", "مشبك تعليق على كل مرساة مع ضبط للمنسوب", "مجرى ألمنيوم أفقي تُعلّق عليه المشابك", "قائم رأسي خلف المجاري، ويُثبّت كل مجرى عليه بالبراغي"]),
    kerfelev=("مجرى Kerf: واجهة", "واجهة · رسم تخطيطي", ["لوح حجر", "مجرى مستمر في الفاصل الأفقي (مخفي)", "شق على طول الحافة العلوية والسفلية للوح", "تثبيت المجرى في الجدار أو في قوائم رأسية", "فاصل رأسي"]),
    corners=("الزوايا الخارجية: أربع طرق", "مسقط أفقي (قطاع أفقي) · رسم تخطيطي", ["الهيكل الإنشائي عند الزاوية", "الفراغ", "لوح الحجر", "تثبيت على كل جانب من الزاوية: كل ضلع محمول وحده"], ["A · وصلة تراكب", "B · قص 45°", "C · قص 45° مع أنف", "D · قطعة زاوية مصمتة"]),
-   undercut=("مراسي Undercut على مجرى", ["مجرى ألمنيوم أفقي مثبت بالبراغي على القوائم الرأسية", "مرساة Undercut تُقفل بشكلها داخل ثقب في ظهر اللوح، والوجه يبقى سليماً", "مشبك تعليق على المرساة يُعلّق على المجرى، وكل لوح معلّق وحده", "قائم رأسي على زوايا جدارية مثبتة في الهيكل الإنشائي"])),
+   undercut=("مراسي Undercut على مجرى", ["مجرى ألمنيوم أفقي مثبت بالبراغي على القوائم الرأسية", "مرساة Undercut تُقفل بشكلها داخل ثقب في ظهر اللوح، والوجه يبقى سليماً", "مشبك تعليق (ألمنيوم) على المرساة، يدخل خطّافه في مجرى القطاع، وكل لوح معلّق وحده", "قائم رأسي على زوايا جدارية مثبتة في الهيكل الإنشائي", "برغي ضبط في المشبك يرتكز على المجرى ويضبط منسوب اللوح"])),
 }
 SYSTEMS = ["updown", "pen", "cchannel", "kerfrail", "undercut"]
 EXTRA = ["loadpath", "frame", "kerfelev", "ucback", "corners"]
@@ -122,12 +122,15 @@ def build(system, lang):
         d.add(f'<rect x="20" y="{y0 - 20}" width="30" height="{y1 - y0 + 40}" fill="#fff" stroke="{INK}" stroke-width=".7"/><rect x="23" y="{y0 - 20}" width="24" height="{y1 - y0 + 40}" fill="none" stroke="{INK}" stroke-width=".3" stroke-dasharray="3 2"/>')
         d.bolt(24, 56, 8)
         d.add(f'<g transform="translate({off} 0)">')
-        d.steel(f"M0 {yR - 18} h4 v26 h18 v-20 h-3 v17 h-15 v25 h-4 Z")
-        d.add(f'<rect x="-6" y="{yR + 15}" width="13" height="5" fill="#fff" stroke="{INK}" stroke-width=".45"/><rect x="7" y="{yR + 13}" width="3" height="9" fill="#fff" stroke="{INK}" stroke-width=".45"/>')
+        # the rail (aluminium): a web on the vertical profile, a head the adjusting screw bears on, and a channel with a lip for the hanger's hook
+        d.steel("M0 -20 h9 v4 h-6 v21 h14 v-5 h3 v8 h-20 Z")
+        d.add(f'<rect x="-6" y="-11" width="9.5" height="4.4" fill="#fff" stroke="{INK}" stroke-width=".45"/><rect x="3" y="-13" width="2.6" height="8.4" fill="#fff" stroke="{INK}" stroke-width=".45"/>')
         d.stone(j + 4, y1 + 20); d.stone(y0 - 20, 0)
         d.add(f'<path d="M{g - .3} {-12.5} H{g + 11} L{g + 16} {-15.1} V{-2.9} L{g + 11} {-5.5} H{g - .3} Z" fill="#fff" stroke="{INK}" stroke-width=".4"/>')
         d.add(f'<path d="M{g + 11} -12.2 L{g + 16} -14.6 V-3.4 L{g + 11} -5.8 Z" fill="{STEEL}"/><rect x="{g - 12}" y="-11.4" width="24" height="4.8" fill="#fff" stroke="{INK}" stroke-width=".45"/>')
-        d.steel(f"M{g} -18 h-4 v-7 h-22 v14 h3 v-10 h15 v20 h8 Z")
+        # the hanger (aluminium clip, as on site): a plate on the anchor, a top flange with the level-adjusting screw, a hook in the rail's channel
+        d.steel(f"M{g} -28 H2 v3 H{g - 3} V-3 H12 V4.5 h3 V0 H{g} Z")
+        d.add(f'<rect x="3.6" y="-37" width="2.8" height="17" fill="#fff" stroke="{INK}" stroke-width=".45"/><rect x="2" y="-40" width="6" height="3" fill="#fff" stroke="{INK}" stroke-width=".45"/><rect x="{g - 8}" y="-13" width="5" height="8" fill="#fff" stroke="{INK}" stroke-width=".45"/>')
         d.add('</g>')
     else:
         d.wall(); d.stone(j, y1 + 20, slot_top=True, **(dict(w=6.5, dp=30) if system == "pen" else {})); d.stone(y0 - 20, 0, slot_bottom=True, **(dict(w=6.5, dp=30) if system == "pen" else {}))
@@ -145,7 +148,7 @@ def build(system, lang):
     if system == "cchannel":
         d.item(-30, 60, L, 30, t["anchor"]); d.item(30, 45, L, -2, own[0]); d.item(70, -70, L, -70, own[1]); d.item(off + 22, 1.5, R, -22, own[2])
     elif system == "undercut":
-        d.item(-30, 64, L, 84, t["anchor"]); d.item(35, -75, L, -75, own[3]); d.item(off + 12, -23, L, -40, own[0]); d.item(off + g + 13, -9, R, -40, own[1]); d.item(off + g - 16, -22, R, -62, own[2])
+        d.item(-30, 64, L, 84, t["anchor"]); d.item(35, -75, L, -75, own[3]); d.item(off + 10, 6.5, L, -40, own[0]); d.item(off + g + 13, -9, R, -40, own[1]); d.item(off + 24, -26.5, R, -62, own[2]); d.item(off + 5, -34, L + 40, -100, own[4])
     else:
         d.item(-30, D["ay"], L, D["ay"], t["anchor"]); d.item(18, 1.5, L, -70, own[0]); d.item(kx + 1.5, -8, R, -22, own[1]); d.item(kx + 1.5, 14, R, 26, own[2])
     d.item(off + g + st - 5, (-94 if system == "undercut" else -80), R, (-94 if system == "undercut" else -80), t["panel"] if system == "undercut" else t["stone"]); d.item(off + g / 2 + (0 if system != "cchannel" else 0), 50, R, 58, t["cavity"])
