@@ -25,3 +25,6 @@ images/pages/services/hero-travertine-courses.jpg https://d8j0ntlcm91z4.cloudfro
 images/pages/services/travertine-courses-intro.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_205111_0c3581d6-726f-4a4c-ad12-1fa34885a0e8.png 1200
 images/pages/home/box-travertine-courses.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_205113_c4037434-9290-4c0c-9baf-e9f8dc274209.png 1200
 images/pages/about/tools-fixing-reference.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_205940_b3187ed3-e32c-48d4-9a55-060637f7f2ee.png 1200
+images/blog/choose-stone-contractor-riyadh.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_210141_b9032824-163f-4f75-b740-eb17244b0343.png 1200
+images/blog/choose-stone-contractor-riyadh-ar.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_210142_9d921d45-020a-42de-9c44-f0fbf788faba.png 1200
+images/blog/stone-vs-porcelain-wall.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_210141_7ce549b6-81b4-4773-b79a-6798578ed073.png 1200
