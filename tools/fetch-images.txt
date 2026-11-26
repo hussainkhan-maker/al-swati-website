@@ -18,7 +18,3 @@ images/pages/home/box-stone-cladding.jpg https://d8j0ntlcm91z4.cloudfront.net/us
 images/pages/home/box-marble-cladding.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164819_a568548b-a15d-427b-9122-5a1319d2e312.png
 images/pages/home/box-porcelain-facades.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164823_81fdf1b5-81bb-41f7-bf83-3915fe40d6a8.png
 images/pages/home/box-villa-facades.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164822_e397213d-a9a3-4b6d-9364-6846a041bce2.png
-images/pages/home/box2-stone-cladding.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_165054_3f0bfd4c-e162-4964-8c6c-590f70f5c4d7.png
-images/pages/home/box2-marble-cladding.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_165052_821dbc3d-8395-4336-bf64-9930af8f9ccb.png
-images/pages/home/box2-porcelain-facades.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_165053_1ec1de52-d776-49be-af81-1b0f316d096b.png
-images/pages/home/box2-villa-facades.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_165055_d18a2b13-50c5-45e3-b76b-0bba6ef5de7d.png
