@@ -1,0 +1,4 @@
+# <path in the site> <link>   (see tools/fetch-images.py)
+images/stones/marble-illustration.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_150631_5e1d97ce-0880-464f-b70c-c6130a013f61.png
+images/stones/granite-illustration.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_150633_91e299f2-4030-47cb-b342-e73933946ad1.png
+images/stones/sandstone-illustration.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_150629_5c718183-0c6a-4785-a740-7e0f048790f5.png

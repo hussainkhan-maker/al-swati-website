@@ -20,6 +20,7 @@ T = {
    frame=("STEEL SUBSTRUCTURE: ELEVATION", "Elevation, stone partly removed · schematic", ["Column (reinforced concrete)", "Beam or slab edge (reinforced concrete)", "Infill wall: not loaded by the cladding", "Vertical steel member, spacing per the engineer", "Fixed point: carries the member's dead load", "Sliding point: holds against wind, free for thermal movement", "Stone brackets at each joint level", "Stone panels"]),
    ucback=("UNDERCUT ANCHORS: BACK OF PANEL", "Elevation from the wall side · schematic", ["Stone or porcelain panel, back face", "Undercut anchor in the back of the panel; number per the engineer", "Hanger on each anchor, with level adjustment", "Horizontal rail; the hangers hook over it", "Rail fixing to the wall or to vertical profiles"]),
    kerfelev=("KERF RAIL: ELEVATION", "Elevation · schematic", ["Stone panel", "Continuous rail in the horizontal joint (hidden)", "Kerf sawn along the whole top and bottom edge of the panel", "Rail fixing to the wall or to vertical profiles", "Vertical joint"]),
+   corners=("EXTERNAL CORNERS: FOUR WAYS", "Plan (horizontal section) · schematic", ["Structure at the corner", "Cavity", "Stone panel", "Fixings on each side of the corner: each leg is carried on its own"], ["A · BUTT JOINT", "B · MITRE", "C · QUIRK MITRE", "D · SOLID CORNER PIECE"]),
    undercut=("UNDERCUT ANCHOR ON RAIL", ["Horizontal rail on the wall (or on vertical profiles)", "Undercut anchor locked by shape in a hole in the BACK of the panel; the face stays whole", "Hanger on the anchor, hooked over the rail; each panel hangs on its own"])),
  "ar": dict(nfc="تفصيلة نموذجية · للاسترشاد فقط · ليست للتنفيذ", nts="قطاع رأسي · بدون مقياس رسم · المقاسات حسب مهندس المشروع", typ="30 غالباً", cav="فراغ", jt="فاصل",
    wall="جدار إنشائي (خرسانة مسلحة)", beam="حافة البلاطة أو الكمرة (خرسانة مسلحة)", anchor="انكر في الجدار، نوعه ومقاسه حسب حساب المهندس", stone="لوح حجر، 30 مم غالباً", cavity="فراغ مهوّى، بدون مونة", joint="فاصل حسب المخططات التنفيذية",
@@ -31,10 +32,11 @@ T = {
    frame=("الهيكل المعدني خلف الحجر: واجهة", "واجهة مع إزالة جزء من الحجر · رسم تخطيطي", ["عمود (خرسانة مسلحة)", "كمرة أو حافة بلاطة (خرسانة مسلحة)", "جدار حشو: لا تحمّله الواجهة", "قائم حديد رأسي، والمسافات حسب المهندس", "نقطة ثابتة: تحمل الحمل الميت للقائم", "نقطة منزلقة: تقاوم الرياح وتسمح بالتمدد الحراري", "زوايا الحجر عند كل منسوب فاصل", "ألواح الحجر"]),
    ucback=("مراسي Undercut: ظهر اللوح", "واجهة من جهة الجدار · رسم تخطيطي", ["لوح حجر أو بورسلان، الوجه الخلفي", "مرساة Undercut في ظهر اللوح، والعدد حسب المهندس", "مشبك تعليق على كل مرساة مع ضبط للمنسوب", "مجرى أفقي تُعلّق عليه المشابك", "تثبيت المجرى في الجدار أو في قوائم رأسية"]),
    kerfelev=("مجرى Kerf: واجهة", "واجهة · رسم تخطيطي", ["لوح حجر", "مجرى مستمر في الفاصل الأفقي (مخفي)", "شق على طول الحافة العلوية والسفلية للوح", "تثبيت المجرى في الجدار أو في قوائم رأسية", "فاصل رأسي"]),
+   corners=("الزوايا الخارجية: أربع طرق", "مسقط أفقي (قطاع أفقي) · رسم تخطيطي", ["الهيكل الإنشائي عند الزاوية", "الفراغ", "لوح الحجر", "تثبيت على كل جانب من الزاوية: كل ضلع محمول وحده"], ["A · وصلة تراكب", "B · قص 45°", "C · قص 45° مع أنف", "D · قطعة زاوية مصمتة"]),
    undercut=("مراسي Undercut على مجرى", ["مجرى أفقي على الجدار (أو على قوائم رأسية)", "مرساة Undercut تُقفل بشكلها داخل ثقب في ظهر اللوح، والوجه يبقى سليماً", "مشبك تعليق على المرساة يُعلّق على المجرى، وكل لوح معلّق وحده"])),
 }
 SYSTEMS = ["updown", "pen", "cchannel", "kerfrail", "undercut"]
-EXTRA = ["loadpath", "frame", "kerfelev", "ucback"]
+EXTRA = ["loadpath", "frame", "kerfelev", "ucback", "corners"]
 
 
 def f(x): return f"{x:.1f}".rstrip("0").rstrip(".")
@@ -98,7 +100,7 @@ class Draw:
                 f'<text x="{w / 2}" y="38" font-size="19" font-weight="700" text-anchor="middle" class="{"ar" if self.ar else "en"}">{title}</text>'
                 f'<text x="{w / 2}" y="58" font-size="11.5" text-anchor="middle" class="{"ar" if self.ar else "en"}">{sub or t["nts"]}</text>{leg}'
                 f'<path d="M6 {f(h - 32)} H{w - 6}" stroke="{INK}" stroke-width="1"/><text x="{w / 2}" y="{f(h - 14)}" font-size="11" font-weight="700" text-anchor="middle" class="{"ar" if self.ar else "en"}">{t["nfc"]} · AL-SWATI CONTRACTING</text></svg>')
-        for k in ("h-stone", "h-conc", "h-block", "cp"): out = out.replace(f'id="{k}"', f'id="{k}-{uid}"').replace(f'url(#{k})', f'url(#{k}-{uid})')
+        for k in ("h-stone", "h-conc", "h-block", "cp", "cc0", "cc1", "cc2", "cc3"): out = out.replace(f'id="{k}"', f'id="{k}-{uid}"').replace(f'url(#{k})', f'url(#{k}-{uid})')
         return out
 
 
@@ -153,7 +155,7 @@ def arrow(x1, y1, x2, y2, w=1.1):
 
 def extra(kind, lang):
     """the schematic drawings: units are free (about 3.4 px each), not millimetres"""
-    t = T[lang]; title, subt, it = t[kind]; R = lambda x, y, w, h, fill, sw=.5, ex="": f'<rect x="{f(x)}" y="{f(y)}" width="{f(w)}" height="{f(h)}" fill="{fill}" stroke="{INK}" stroke-width="{sw}" {ex}/>'
+    t = T[lang]; title, subt, it = t[kind][:3]; R = lambda x, y, w, h, fill, sw=.5, ex="": f'<rect x="{f(x)}" y="{f(y)}" width="{f(w)}" height="{f(h)}" fill="{fill}" stroke="{INK}" stroke-width="{sw}" {ex}/>'
     if kind == "loadpath":
         d = Draw(lang, 0, 206, 0, 176); g = []
         g.append(R(74, -5, 18, 186, "url(#h-block)", .5))
@@ -177,6 +179,24 @@ def extra(kind, lang):
         g.append(f'<path d="M89 88 l4 -3 l5 6 l4 -3" fill="none" stroke="{INK}" stroke-width=".35"/>')
         d.g = g; d.clipped, d.g = d.g, []
         d.item(14, 60, 14, 100, it[0]); d.item(60, 20, 60, 6, it[1]); d.item(30, 76, 30, 120, it[2]); d.item(74, 52, 89, 52, it[3]); d.item(104, 19.5, 119, 6, it[4]); d.item(134, 150.5, 119, 164, it[5]); d.item(164, 64, 176, 76, it[6]); d.item(136, 125, 150, 164, it[7])
+    elif kind == "corners":
+        d = Draw(lang, 0, 206, 0, 172); g = []; caps = t[kind][3]
+        P = lambda pts, fill, sw=.6: f'<path d="M' + " L".join(f"{f(a)} {f(b)}" for a, b in pts) + f' Z" fill="{fill}" stroke="{INK}" stroke-width="{sw}" stroke-linejoin="round"/>'
+        shapes = {
+            0: [[(0, 15), (60, 15), (60, 22), (0, 22)], [(53, 23.2), (60, 23.2), (60, 80), (53, 80)]],
+            1: [[(0, 15), (59.2, 15), (52.2, 22), (0, 22)], [(60, 15.8), (60, 80), (53, 80), (53, 22.8)]],
+            2: [[(0, 15), (58, 15), (58, 16.8), (52.8, 22), (0, 22)], [(60, 17), (60, 80), (53, 80), (53, 23), (58.2, 17)]],
+            3: [[(0, 15), (38.8, 15), (38.8, 22), (0, 22)], [(40, 15), (60, 15), (60, 35), (53, 35), (53, 22), (40, 22)], [(53, 36.2), (60, 36.2), (60, 80), (53, 80)]],
+        }
+        for i in range(4):
+            ox, oy = 14 + (i % 2) * 98, 4 + (i // 2) * 84
+            c = f'<rect x="-2" y="30" width="47" height="52" fill="url(#h-conc)"/><path d="M-2 30 H45 V82" fill="none" stroke="{INK}" stroke-width=".8"/>'
+            c += "".join(P(pts, "url(#h-stone)") for pts in shapes[i])
+            c += R(28, 22, 2.2, 8, STEEL, .2) + R(45, 48, 8, 2.2, STEEL, .2) + (R(45, 26, 8, 2.2, STEEL, .2) if i == 3 else "")
+            c += f'<text x="30" y="8" font-size="5.2" font-weight="700" text-anchor="middle" class="{"ar" if d.ar else "en"}">{caps[i]}</text>'
+            g.append(f'<g transform="translate({ox} {oy})"><clipPath id="cc{i}"><rect x="-2" y="0" width="74" height="78"/></clipPath><g clip-path="url(#cc{i})">{c}</g></g>')
+        d.g = g; d.clipped, d.g = d.g, []
+        d.item(14 + 20, 4 + 55, 14 + 20, 4 + 70, it[0]); d.item(14 + 49, 4 + 60, 14 + 76, 4 + 66, it[1]); d.item(14 + 12, 4 + 18.5, 14 + 76, 4 + 30, it[2]); d.item(14 + 49, 4 + 49, 14 + 76, 4 + 48, it[3])
     elif kind == "ucback":
         d = Draw(lang, 0, 206, 0, 150); g = [R(58, 30, 90, 90, "#fafaf8", .8)]
         for y in (52, 98):
