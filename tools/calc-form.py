@@ -13,7 +13,7 @@ WA_ICON = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9 3 3.3 8.
 ICON = {
     "villa": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 40h38M9 40V22h16v18M25 40V14h14v26M13 27h8M13 33h8M29 20h6M29 27h6M29 34h6"/></svg>',
     "tower": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 42h34M14 42V8h14v34M28 42V18h8v24M18 14h6M18 20h6M18 26h6M18 32h6M31 24h2M31 30h2M31 36h2"/></svg>',
-    "interior": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 40h36M10 40V10h28v30M10 20h28M10 30h28M19 10v10M29 20v10M19 30v10"/></svg>',
+    "building": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 41h38M11 41V13h26v28M11 20h26M11 27h26M11 34h26M20 13v21M28 13v21M21 41v-5h6v5"/></svg>',
     "updown": '<svg viewBox="0 0 64 48" aria-hidden="true"><path class="w" d="M4 4h10v40H4z"/><path class="s" d="M41 4h10v19H41zM41 25h10v19H41z"/><path class="g" d="M14 12v12h32M46 18v12M8 17h11"/></svg>',
     "rail": '<svg viewBox="0 0 64 48" aria-hidden="true"><path class="w" d="M4 4h10v40H4z"/><path class="s" d="M41 4h10v19H41zM41 25h10v19H41z"/><path class="g" d="M14 13h10M14 35h10M24 6h6v36h-6zM30 24h16M46 19v10"/></svg>',
     "kerf": '<svg viewBox="0 0 64 48" aria-hidden="true"><path class="s" d="M9 5h46v17H9zM9 26h46v17H9z"/><path class="g" d="M3 24h58M3 21v6M61 21v6"/></svg>',
@@ -28,7 +28,8 @@ T = {
     hints=["", "Price per m² installed, for your choices", "Larger panels cost more per m²", "", "", "Only if your project needs them"],
     frame=("Steel frame behind the stone", [("none", "No frame", "Most villas"), ("supply", "We supply and install", "+250 SAR per m²"), ("install", "Installation only", "+125 SAR per m²")],
            "Needed only where the stone stands far off the wall or the wall cannot carry the fixings. We confirm it on the site visit."),
-    types=[("villa", "Villa facade", "Normal scaffolding"), ("tower", "Commercial tower", "Safety scaffolding"), ("interior", "Interior wall", "Feature walls inside")],
+    types=[("villa", "Villa facade", "Normal scaffolding"), ("building", "Building", "Residential or commercial"), ("tower", "Commercial tower", "Safety scaffolding")],
+    nav=("Back", "Next", "Step", "Change my choices", "Share this estimate"),
     stones=[("white", "Riyadh White Stone"), ("limestone", "Riyadh Limestone", ), ("granite", "Granite"), ("travertine", "Travertine Marble"), ("porcelain", "Large-Format Porcelain")],
     stone_sub={"limestone": "Beige / yellow"},
     sizes=[("3060", "30 × 60 cm", "Standard"), ("4080", "40 × 80 cm", "Medium"), ("60120", "60 × 120 cm", "Large")],
@@ -45,9 +46,10 @@ T = {
  "ar": dict(
     steps=["المشروع", "الحجر", "مقاس اللوح", "نظام التثبيت", "مساحة الواجهة", "إضافات"],
     hints=["", "السعر للمتر المربع مركّباً حسب اختياراتك", "الألواح الأكبر أغلى للمتر المربع", "", "", "فقط إذا احتاجها مشروعك"],
-    frame=("هيكل حديد خلف الحجر", [("none", "بدون هيكل", "أغلب الفلل"), ("supply", "توريد وتركيب", "+250 ريال للمتر المربع"), ("install", "تركيب فقط", "+125 ريال للمتر المربع")],
+    frame=("هيكل حديد خلف الحجر", [("none", "بدون هيكل", "أغلب الفلل"), ("supply", "توريد وتركيب", "⁦+250⁩ ريال للمتر المربع"), ("install", "تركيب فقط", "⁦+125⁩ ريال للمتر المربع")],
            "يلزم فقط إذا كان الحجر بارزاً كثيراً عن الجدار أو كان الجدار لا يتحمل التثبيت. ونؤكد ذلك عند زيارة الموقع."),
-    types=[("villa", "واجهة فيلا", "سقالات عادية"), ("tower", "برج تجاري", "سقالات سلامة"), ("interior", "جدار داخلي", "جدران مميزة داخل المبنى")],
+    types=[("villa", "واجهة فيلا", "سقالات عادية"), ("building", "عمارة", "سكنية أو تجارية"), ("tower", "برج تجاري", "سقالات سلامة")],
+    nav=("السابق", "التالي", "الخطوة", "تعديل اختياراتي", "شارك هذا التقدير"),
     stones=[("white", "حجر رياض أبيض"), ("limestone", "حجر رياض بيج"), ("granite", "الجرانيت"), ("travertine", "رخام ترافرتين"), ("porcelain", "بورسلان بمقاسات كبيرة")],
     stone_sub={"limestone": "بيج / أصفر"},
     sizes=[("3060", "30 × 60 سم", "قياسي"), ("4080", "40 × 80 سم", "متوسط"), ("60120", "60 × 120 سم", "كبير")],
@@ -67,7 +69,10 @@ def legend(n, title, hint):
     return f'<legend><span class="est-n">{n}</span><span class="ec-t">{title}</span>' + (f'<small class="ec-hint">{hint}</small>' if hint else "") + "</legend>"
 
 def form(lang):
-    t = T[lang]; o = ['<form class="est est2" id="estimate-form" novalidate>', '<div class="est-in">']
+    t = T[lang]; nv = t["nav"]
+    o = [f'<form class="est est2" id="estimate-form" novalidate data-next="{nv[1]}" data-see="{t["dock"]}">',
+         f'<div class="ec-nav" hidden><button type="button" class="ec-back">{nv[0]}</button><span class="ec-prog">{nv[2]} <b dir="ltr"><span data-o="sn">1</span> / <span data-o="st">6</span></b></span><button type="button" class="ec-edit">{nv[3]}</button><i class="ec-bar" aria-hidden="true"><i></i></i></div>',
+         '<div class="est-in">']
     # 1 project
     o.append('<fieldset class="est-step">' + legend(1, t["steps"][0], t["hints"][0]) + '<div class="ec-cards ec-3">' + "".join(
         f'<label class="ec-card"><input type="radio" name="type" value="{v}"{" checked" if i == 0 else ""}><span class="ec-c">{ICON[v]}<b>{b}</b><small>{s}</small></span></label>'
@@ -120,6 +125,7 @@ def form(lang):
              f'<div class="est-ask"><h3>{t["ask"]}</h3>'
              f'<div class="est-fields"><label>{t["name"]}<input name="name" autocomplete="name" required maxlength="80"></label><label>{t["phone"]}<input name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="22" placeholder="05x xxx xxxx" dir="ltr"></label></div>'
              f'<button type="submit" class="btn btn-gold est-send">{WA_ICON}<span>{t["send"]}</span></button>'
+             f'<button type="button" class="ec-share">{nv[4]}</button>'
              '<p class="est-note" role="status"></p>'
              f'<p class="est-fine">{t["fine"]}</p>'
              "</div></div></div>")
@@ -135,7 +141,7 @@ for lang, pages in PAGES.items():
         m = re.search(r'<form class="est[^"]*" id="estimate-form"[\s\S]*?</form>', s)
         assert m, page
         s = s[:m.start()] + html + s[m.end():]
-        s = re.sub(r'/assets/estimator\.js(\?v=[\w.]+)?', "/assets/estimator.js?v=4", s)
-        s = re.sub(r'/assets/style\.css(\?v=[\w.]+)?', "/assets/style.css?v=c4", s)
+        s = re.sub(r'/assets/estimator\.js(\?v=[\w.]+)?', "/assets/estimator.js?v=5", s)
+        s = re.sub(r'/assets/style\.css(\?v=[\w.]+)?', "/assets/style.css?v=c5", s)
         open(f, "w", encoding="utf8").write(s); n += 1
 print("calculator form written into", n, "pages")

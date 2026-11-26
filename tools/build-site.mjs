@@ -599,7 +599,17 @@ const CALC = [
   ['<div class="menu"><a href="/ar/contact/#contact-form">', '<a href="/ar/stone-cladding-cost-calculator/"><b>حاسبة تكلفة الحجر</b><small>تقدير فوري للسعر والمدة بالريال</small></a>',
     '<li><a href="/ar/contact/">', '<li><a href="/ar/stone-cladding-cost-calculator/">حاسبة التكلفة</a></li>'],
 ];
+// a slim band above the footer of every page that has no calculator on it: one line and one button to the calculator
+const BAND = {
+  en: '<aside class="calc-band"><div class="wrap"><div><b>What will your stone facade cost?</b><span>Pick the stone, the fixing system and the area. A price range in SAR in one minute.</span></div><a class="btn btn-gold" href="/stone-cladding-cost-calculator/"><span>Open the cost calculator</span></a></div></aside>\n',
+  ar: '<aside class="calc-band"><div class="wrap"><div><b>كم تكلفة واجهتك الحجرية؟</b><span>اختر الحجر ونظام التثبيت والمساحة، واحصل على نطاق السعر بالريال في دقيقة.</span></div><a class="btn btn-gold" href="/ar/stone-cladding-cost-calculator/"><span>افتح حاسبة التكلفة</span></a></div></aside>\n',
+};
+function withBand(h) {
+  if (h.includes('class="calc-band"') || h.includes('id="estimate-form"') || !h.includes('<footer class="ftr">')) return h;
+  return h.replace('<footer class="ftr">', (/<html[^>]*lang="ar/.test(h) ? BAND.ar : BAND.en) + '<footer class="ftr">');
+}
 function withCalc(h) {
+  h = withBand(h);
   for (const [menu, link, foot, li] of CALC) {
     if (h.includes(menu) && !h.includes(link)) h = h.replace(menu, '<div class="menu">' + link + menu.slice('<div class="menu">'.length));
     if (h.includes(foot) && !h.includes(li)) h = h.replace(foot, li + foot);

@@ -5,14 +5,14 @@
   var PRICE = {
     stone: { white: [70, 100, 2], limestone: [120, 180, 2], granite: [100, 150, 4], travertine: [300, 450, 4], porcelain: [100, 150, 4] }, // stone only: low, high, weeks of delivery
     fixing: { updown: [100, 10, 20], rail: [150, 60, 80], kerf: [200, 120, 140], undercut: [200, 160, 180] }, // installation, accessories low, high
-    type: { villa: [10, 10, 0], tower: [25, 30, 1], interior: [10, 10, 0] },  // scaffolding low, high (normal 10, safety 25–30), weeks to put it up
+    type: { villa: [10, 10, 0], building: [10, 10, 0], tower: [25, 30, 1] },  // scaffolding low, high (normal 10, safety 25–30), weeks to put it up
     supervision: 0.05, overhead: 0.15,                                         // engineer and supervisor; overhead and profit
     teamM2: [6, 8], maxTeams: 4, m2PerTeam: 100, daysPerWeek: 6               // a mason and a helper install 6–8 m² a day; one more team per 100 m², up to 4
   };
   PRICE.stone.riyadh = PRICE.stone.white; PRICE.stone.marble = PRICE.stone.travertine; // option names on pages saved before 24 Nov 2026
   var MIN = 50, MAX = 5000, WA = '966511826313';
   // the ERP gets the choices in English, whichever language the visitor used
-  var EN = { villa: 'Luxury Villa Facade', tower: 'Commercial Tower', interior: 'Interior Feature Wall', white: 'Riyadh White Stone', limestone: 'Riyadh Limestone (Beige/Yellow)',
+  var EN = { villa: 'Luxury Villa Facade', tower: 'Commercial Tower', building: 'Building', white: 'Riyadh White Stone', limestone: 'Riyadh Limestone (Beige/Yellow)',
     granite: 'Granite', travertine: 'Travertine Marble', riyadh: 'Riyadh White Stone', marble: 'Travertine Marble', porcelain: 'Large-Format Porcelain', updown: 'Up-Down brackets', rail: 'Vertical C-Channel Rail', kerf: 'Kerf Rail System', undercut: 'Undercut System' };
   // the same public address and key as assets/main.js: estimates go into the ERP (Queries) like the quote form
   var ERP = 'https://keweaoogdnxietvyerhj.supabase.co/functions/v1/seo',
@@ -91,6 +91,7 @@
       weeks: function (a, b) { return a + '–' + b + ' weeks'; },
       wk: function (n) { return n + (n === 1 ? ' week' : ' weeks'); },
       days: function (a, b, c) { return 'about ' + (a === b ? a : a + '–' + b) + ' working days, ' + c + (c === 1 ? ' team' : ' teams'); },
+      share: 'Stone facade cost estimate, from the AL-Swati Contracting calculator:',
       msg: { hi: 'Hello AL-Swati, I used the cost calculator on your website:', type: 'Project', material: 'Material', size: 'Panel size', fixing: 'Fixing system', frame: 'Steel frame', area: 'Area', est: 'Estimate (excl. VAT)',
         eng: 'Shop drawings and engineer visits: included', time: 'Timeline', name: 'Name', phone: 'Mobile', bye: 'Please send me an exact quote.' },
       sent: function (ref) { return '✓ Sent to our quotes team' + (ref ? ' (ref. ' + ref + ')' : '') + '. WhatsApp is open with your estimate. We will reply as soon as possible.'; },
@@ -102,6 +103,7 @@
       weeks: function (a, b) { return '⁦' + a + '–' + b + '⁩' + (b <= 10 ? ' أسابيع' : ' أسبوعًا'); },
       wk: function (n) { return n === 1 ? 'أسبوع واحد' : n === 2 ? 'أسبوعان' : n + (n <= 10 ? ' أسابيع' : ' أسبوعًا'); },
       days: function (a, b, c) { return 'حوالي ' + (a === b ? a : '⁦' + a + '–' + b + '⁩') + ' يوم عمل، ' + (c === 1 ? 'فريق واحد' : c === 2 ? 'فريقان' : c + ' فرق'); },
+      share: 'تقدير تكلفة واجهة الحجر من حاسبة السواتي للمقاولات:',
       msg: { hi: 'السلام عليكم، استخدمت حاسبة التكلفة في موقعكم:', type: 'المشروع', material: 'المادة', size: 'مقاس اللوح', fixing: 'نظام التثبيت', frame: 'هيكل الحديد', area: 'المساحة', est: 'التقدير (بدون الضريبة)',
         eng: 'المخططات التنفيذية وزيارات المهندس: مشمولة', time: 'المدة', name: 'الاسم', phone: 'الجوال', bye: 'أرجو إرسال عرض سعر دقيق.' },
       sent: function (ref) { return '✓ وصل تقديرك إلى فريق التسعير' + (ref ? ' (رقم ' + ref + ')' : '') + '. فتحنا لك واتساب برسالة التقدير، وسنرد عليكم في أقرب وقت.'; },
@@ -195,14 +197,49 @@
     f.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function (x) { x.addEventListener('change', function () { show(); used(); }); });
     f.querySelectorAll('.ec-quick button').forEach(function (b) { b.addEventListener('click', function () { num.value = +b.getAttribute('data-a'); range.value = toSlider(area()); show(); used(); }); });
 
-    // phones: a slim bar with the total stays in reach while the choices are on screen
-    var dock = f.querySelector('.ec-dock'), panel = f.querySelector('.est-out');
-    if (dock && panel && 'IntersectionObserver' in window) {
-      var seenForm = false, seenPanel = false, upd = function () { dock.hidden = !(seenForm && !seenPanel && window.innerWidth <= 1000); };
-      new IntersectionObserver(function (en) { seenForm = en[0].isIntersecting; upd(); }).observe(f);
-      new IntersectionObserver(function (en) { seenPanel = en[0].isIntersecting; upd(); }, { threshold: 0.12 }).observe(panel);
-      dock.querySelector('button').addEventListener('click', function () { panel.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' }); });
+    // phones: one question on screen at a time, and a slim bar with the total and the next step always in reach
+    var dock = f.querySelector('.ec-dock'), panel = f.querySelector('.est-out'), nav = f.querySelector('.ec-nav'), dbtn = dock && dock.querySelector('button');
+    var wiz = false, cur = 0, seenForm = false, seenPanel = false;
+    function steps() { return [].slice.call(f.querySelectorAll('.est-step:not(.ec-off)')); }
+    function dockUpd() { if (!dock) return; dock.hidden = wiz ? !(seenForm && !f.classList.contains('ec-end')) : !(seenForm && !seenPanel && window.innerWidth <= 1000); document.body.classList.toggle('ec-docked', !dock.hidden); }
+    function go(n, move) {
+      var st = steps(), end = n >= st.length; cur = Math.max(0, Math.min(n, st.length));
+      f.querySelectorAll('.est-step').forEach(function (x) { x.classList.remove('ec-cur'); });
+      if (!end) st[cur].classList.add('ec-cur');
+      f.classList.toggle('ec-end', end);
+      set('sn', Math.min(cur + 1, st.length)); set('st', st.length);
+      var bar = nav.querySelector('.ec-bar i'); if (bar) bar.style.width = (100 * (end ? 1 : (cur + 1) / (st.length + 1))) + '%';
+      nav.querySelector('.ec-back').hidden = end || cur === 0; nav.querySelector('.ec-prog').hidden = end; nav.querySelector('.ec-edit').hidden = !end;
+      if (dbtn) dbtn.textContent = cur >= st.length - 1 ? f.getAttribute('data-see') : f.getAttribute('data-next');
+      dockUpd();
+      if (move) { var y = f.getBoundingClientRect().top + window.pageYOffset - 74; window.scrollTo({ top: y, behavior: calm ? 'auto' : 'smooth' }); }
     }
+    function mode() {
+      var on = !!nav && window.innerWidth <= 640; if (on === wiz) return; wiz = on;
+      f.classList.toggle('ec-wiz', on); if (nav) nav.hidden = !on;
+      if (on) go(0, false); else { f.classList.remove('ec-end'); if (dbtn) dbtn.textContent = f.getAttribute('data-see'); dockUpd(); }
+    }
+    if (dock && panel && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) { seenForm = en[0].isIntersecting; dockUpd(); }).observe(f);
+      new IntersectionObserver(function (en) { seenPanel = en[0].isIntersecting; dockUpd(); }, { threshold: 0.12 }).observe(panel);
+      dbtn.addEventListener('click', function () { if (wiz) go(cur + 1, true); else panel.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' }); });
+      if (nav) {
+        nav.querySelector('.ec-back').addEventListener('click', function () { go(cur - 1, true); });
+        nav.querySelector('.ec-edit').addEventListener('click', function () { go(0, true); });
+        // a tap on a choice in the first four steps moves on by itself
+        f.querySelectorAll('input[name=type],input[name=material],input[name=size],input[name=fixing]').forEach(function (x) {
+          x.addEventListener('change', function () { if (!wiz) return; var st = steps(), at = st.indexOf(x.closest('.est-step')); if (at === cur) setTimeout(function () { if (cur === at) go(at + 1, true); }, 320); });
+        });
+        mode(); window.addEventListener('resize', mode);
+      }
+    }
+    var share = f.querySelector('.ec-share');
+    if (share) share.addEventListener('click', function () {
+      var r = last.r, url = location.origin + location.pathname, t = L.share + '\n' + (out('summary') ? out('summary').textContent : '') + '\n' +
+        (ar ? '⁦' + n0(r.lo) + ' – ' + n0(r.hi) + '⁩ ' + L.sar : L.sar + ' ' + n0(r.lo) + ' – ' + n0(r.hi)) + '\n' + url;
+      if (navigator.share) navigator.share({ text: t }).catch(function () {}); else window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank', 'noopener');
+      try { erp({ action: 'event', kind: 'estimate_share', page: location.pathname, lang: ar ? 'ar' : 'en' }).catch(function () {}); } catch (e) {}
+    });
 
     f.addEventListener('submit', function (e) {
       e.preventDefault();
