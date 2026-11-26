@@ -33,7 +33,7 @@ def pages(h):
             ("The section", "What You Will Find Here",
              h.cards([
                  ("Process", "How we deliver", "Routes A and B for engineering, submittals, mock-up, installation, site visits, tests, handover and warranty, including the steel substructure.", u("how-we-deliver"), "Open"),
-                 ("Drawings", "Typical details", "Seven reference drawings: the load path, five fixing systems in section, and the steel substructure in elevation.", u("typical-details"), "Open"),
+                 ("Drawings", "Typical details", "Eight reference drawings: the load path, five fixing systems in section, the steel substructure and four corner types.", u("typical-details"), "Open"),
                  ("Makers' data", "Hilti, fischer and Rockany", "What each maker publishes for stone and porcelain: the system, its assessment, panel thickness and services.", u("brand-systems"), "Open"),
                  ("Materials", "Stone and panels", "Riyadh limestone, travertine, marble, granite and porcelain: typical thickness, the material standard and what to check.", u("stone-materials"), "Open"),
                  ("Comparison", "Fixing systems", "Up-Down, pin, C-Channel, kerf rail, undercut and porcelain clips in one table: mechanism, use, thickness, limits.", u("fixing-systems"), "Open"),
@@ -148,7 +148,7 @@ def pages(h):
     O = "Open the drawing"
     P["typical-details"] = dict(
         title="Stone Cladding Fixing Details: Typical Sections | AL-Swati",
-        desc="Typical details of mechanically fixed stone cladding: Up-Down, PEN, C-Channel, kerf rail and undercut sections, the load path and the steel substructure.",
+        desc="Typical details of mechanically fixed stone cladding: Up-Down, PEN, C-Channel, kerf rail and undercut sections, corners, load path and steel substructure.",
         crumb="Typical details", eyebrow="Reference drawings", h1="Typical Fixing Details",
         lead="Reference drawings of the fixing systems we install: where the anchor sits in the structure, how the bracket carries the panel, and how the load reaches the slabs, beams and columns. They are typical details for discussion at design stage, not for construction.",
         sections=[
@@ -192,6 +192,16 @@ def pages(h):
                  ("What it is", "Vertical steel members fixed to the columns, beams or slab edges. Where the fixing system needs them, horizontal rails are added. We install it; the engineer designs it."),
                  ("Why it is used", "It takes the cladding load past infill walls, spans tall storeys and gives a true plane to set the stone from."),
                  ("Check before approval", "Design basis and wind loads per the current SBC 301; deflection limit of the members; corrosion protection; fixed and sliding points; the adjustment range between structure and stone."),
+             ], O)),
+            ("Corners", "External Corners and Clean Cuts",
+             h.det("corners", "Detail 08 · Plan", "Four ways to turn a corner", [
+                 ("A · Butt joint", "One panel runs past the corner and the other stops against it. The edge of the first panel shows on the return face, so that edge is finished like the face. Simple and robust."),
+                 ("B · Mitre", "Both panels are cut at 45° and meet on the corner line. The cleanest look, with the sharpest and most fragile edge: better above street level than beside a pavement."),
+                 ("C · Quirk mitre", "A mitre with a small flat nose left on each panel. The edge is no longer a knife edge, so it takes knocks better. The usual choice for a crisp corner."),
+                 ("D · Solid corner piece", "An L-shaped piece cut from a thicker block turns the corner in one stone, with no joint on the corner line. It costs more stone and more cutting."),
+                 ("How a clean corner is made", "The corner pieces are cut in the workshop on a bridge saw or CNC machine, as a pair from the shop drawings, not by hand grinder on site. The sharp edges are eased slightly, and the pair is dry-fitted before fixing."),
+                 ("Fixing and joint", "Each leg of the corner is carried by its own fixings; adhesive in a mitre is not the fixing. A joint is kept at the corner so the two faces can move with temperature."),
+                 ("Decide early", "The corner type is shown on the shop drawings and built into the mock-up, together with window reveals, sills and copings."),
              ], O)),
             ("Use of these drawings", "Reference, Not Construction",
              h.prose(h.p("These are typical details, not to scale. On a project, the approved shop drawings by the project engineer or consultant govern. Anchor and bolt sizes are " + SIZES + "; we do not publish sizes. Bracket material is stainless steel or hot-dip galvanised steel, according to the project specification.",
@@ -251,9 +261,33 @@ def pages(h):
                  ["Travertine", "A banded stone with natural voids, filled or unfilled. Sold as travertine marble.", "Typically 30 mm.", "ASTM C1527 covers travertine {{astm_list}}.", "Direction of the bedding in the panel; filled or unfilled finish; tests at the project thickness."],
                  ["Marble", "Crystalline stone that takes a polish. Mostly imported.", "Often 20 mm. Exterior 20 mm panels on edge fixings need the engineer's check and stone tests, or an undercut system.", "ASTM C503: absorption 0.20% at most, flexural strength 6.9 MPa at least, soundness Group A for exterior use {{c503}}.", "The soundness group; behaviour in heat (see below); test reports for the named marble."],
                  ["Granite", "Hard, dense igneous stone.", "Often 20 mm, with the same condition as marble.", "ASTM C615 covers granite {{astm_list}}.", "Test reports for the named granite; the fixing type for 20 mm panels."],
+                 ["Sandstone and other natural stone", "Quartz-based stone and other stones a project may call for. We install them on the same basis: the fixing follows the tested strength.", "Typically 30 mm.", "ASTM C616 covers quartz-based stone {{astm_list}}.", "Tests on the actual source; bedding direction in the panel."],
                  ["Large-format porcelain", "Manufactured slabs, uniform in colour.", "By the slab maker's system.", "ISO/TS 17870-3 covers its mechanical fixing {{iso17870}}.", "The slab maker's facade guide and the anchor's assessment for that slab."],
              ], wide=True) +
              h.prose(h.p("Why thickness follows the fixing, and what 20 mm panels need, is explained on the <a href=\"" + u("thickness-and-fixing") + "\">thickness and fixing</a> page."))),
+            ("Pictures", "How They Look on a Facade",
+             h.gallery([
+                 ("/images/stones/riyadh-limestone.jpg", "Beige Riyadh limestone panels on a tower in Al Aqiq, Riyadh, during installation", "Riyadh limestone", "Our project, Al Aqiq (in progress)", "/projects/tower-limestone-al-aqiq-2026/"),
+                 ("/images/stones/riyadh-stone.jpg", "Light Riyadh stone fins on a commercial building in Irqa, Riyadh", "Light Riyadh stone", "Our project, Irqa", "/projects/commercial-riyadh-stone-irqa-2025/"),
+                 ("/images/stones/travertine.jpg", "Travertine panels on a commercial building in Irqa, Riyadh", "Travertine", "Our project, Irqa", "/projects/commercial-travertine-irqa-2025/"),
+                 ("/images/stones/porcelain.jpg", "Large-format porcelain panels on a villa in Al Nakheel, Riyadh", "Large-format porcelain", "Our project, Al Nakheel", "/projects/villas-porcelain-al-nakheel-2026/"),
+                 ("/images/stones/marble-illustration.jpg", "Illustration of honed white marble facade panels with grey veins", "Marble", "Illustration, not a project photo", ""),
+                 ("/images/stones/granite-illustration.jpg", "Illustration of flamed dark grey granite facade panels", "Granite", "Illustration, not a project photo", ""),
+                 ("/images/stones/sandstone-illustration.jpg", "Illustration of honed buff sandstone facade panels", "Sandstone", "Illustration, not a project photo", ""),
+             ]) +
+             h.prose(h.p("Project photos have been tidied (site clutter removed); the building and the stone are as built. Colour and veining vary from block to block, so approval is by range samples, not by a picture."))),
+            ("Published minimums", "What the Material Standards Require",
+             h.table(["Stone", "Standard", "Water absorption, maximum", "Compressive strength, minimum", "Bending strength, minimum"], [
+                 ["Limestone, low density", "ASTM C568, class I", "12%", "see the standard", "see the standard"],
+                 ["Limestone, medium density", "ASTM C568, class II", "7.5%", "see the standard", "see the standard"],
+                 ["Limestone, high density", "ASTM C568, class III", "3%", "55 MPa", "6.9 MPa (modulus of rupture)"],
+                 ["Marble (exterior)", "ASTM C503", "0.20%", "see the standard", "6.9 MPa (flexural strength)"],
+                 ["Granite", "ASTM C615; values as listed in the industry manual", "0.40%", "131 MPa", "10.3 MPa (modulus of rupture); 8.3 MPa (flexural strength)"],
+                 ["Travertine", "ASTM C1527", "see the standard", "see the standard", "see the standard"],
+                 ["Sandstone and other quartz-based stone", "ASTM C616", "see the standard", "see the standard", "see the standard"],
+             ]) +
+             h.prose(h.p("Sources: limestone {{c568}}, marble {{c503}}, granite {{nsi_granite}}. These are the least a stone must reach to be sold under that name. They are not design values: the engineer designs from tests on the project stone, with the safety factors of the project code.",
+                         "Where the table says \"see the standard\" we have not read that figure in a source we can cite, so we do not print it."))),
             ("Local stone", "Riyadh Limestone Is a Trade Name",
              h.prose(h.p("There is no single data sheet for Riyadh limestone. Published figures for Riyadh carbonate rock differ widely: one academic study of hard limestone in Riyadh reports water absorption around 9% {{riyadh_rock}}, while trade sources quote much lower values. That range runs across the classes of ASTM C568, which allow at most 12%, 7.5% and 3% absorption for low, medium and high density limestone {{c568}}.",
                          "So the class and the design strength of a facade's limestone come from current tests on the quarry source that will supply the project. This is why we publish no strength value, and why range samples and test reports are part of the material submittal."))),

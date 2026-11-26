@@ -193,8 +193,8 @@ def extra(kind, lang):
             c = f'<rect x="-2" y="30" width="47" height="52" fill="url(#h-conc)"/><path d="M-2 30 H45 V82" fill="none" stroke="{INK}" stroke-width=".8"/>'
             c += "".join(P(pts, "url(#h-stone)") for pts in shapes[i])
             c += R(28, 22, 2.2, 8, STEEL, .2) + R(45, 48, 8, 2.2, STEEL, .2) + (R(45, 26, 8, 2.2, STEEL, .2) if i == 3 else "")
-            c += f'<text x="30" y="8" font-size="5.2" font-weight="700" text-anchor="middle" class="{"ar" if d.ar else "en"}">{caps[i]}</text>'
-            g.append(f'<g transform="translate({ox} {oy})"><clipPath id="cc{i}"><rect x="-2" y="0" width="74" height="78"/></clipPath><g clip-path="url(#cc{i})">{c}</g></g>')
+            cap = f'<text x="30" y="8" font-size="5.2" font-weight="700" text-anchor="middle" class="{"ar" if d.ar else "en"}">{caps[i]}</text>'
+            g.append(f'<g transform="translate({ox} {oy})"><clipPath id="cc{i}"><rect x="-2" y="10" width="74" height="68"/></clipPath><g clip-path="url(#cc{i})">{c}</g>{cap}</g>')
         d.g = g; d.clipped, d.g = d.g, []
         d.item(14 + 20, 4 + 55, 14 + 20, 4 + 70, it[0]); d.item(14 + 49, 4 + 60, 14 + 76, 4 + 66, it[1]); d.item(14 + 12, 4 + 18.5, 14 + 76, 4 + 30, it[2]); d.item(14 + 49, 4 + 49, 14 + 76, 4 + 48, it[3])
     elif kind == "ucback":

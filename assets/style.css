@@ -802,3 +802,14 @@ html[dir=rtl] .fc-det-t h3{font-family:"Tajawal",sans-serif;font-weight:700;font
 .fc-det-t dt{font-weight:600;color:var(--gold);font-size:14px;margin-top:16px}
 .fc-det-t dd{margin:4px 0 0;line-height:1.7}
 @media(max-width:900px){.fc-det{grid-template-columns:1fr;gap:22px;padding:32px 0}.fc-det-t{position:static}}
+
+/* For consultants: pictures of the stones (stone and panels page) */
+.fc-gal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:36px}
+.fc-gal figure{margin:0;border:1px solid var(--line);background:var(--bg2)}
+.fc-gal img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
+.fc-gal figcaption{padding:12px 14px}
+.fc-gal figcaption a{display:block;color:inherit;text-decoration:none}
+.fc-gal figcaption b{display:block;font-size:15px;color:var(--gold)}
+.fc-gal figcaption span{display:block;font-size:13px;opacity:.75;margin-top:2px}
+@media(max-width:1000px){.fc-gal{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.fc-gal{grid-template-columns:1fr}}

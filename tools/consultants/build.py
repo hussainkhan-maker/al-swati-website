@@ -38,6 +38,7 @@ SOURCES = {
  "rockany_y": ("Rockany, Y-Profile System", "https://rockany.com/rockany-y-profile-system/"),
  "rockany_tl": ("Rockany, T and L Profiles System", "https://rockany.com/rockanyt-and-l-profiles-system/"),
  "rockany_srv": ("Rockany, services", "https://rockany.com/services/"),
+ "nsi_granite": ("Natural Stone Institute, Dimension Stone Design Manual: Granite chapter (2022)", "https://transparencycatalog.com/assets/uploads/greener-images/05-GRANITE-2022.pdf"),
  "c568": ("ASTM C568/C568M-22, Standard Specification for Limestone Dimension Stone (free preview)", "https://cdn.standards.iteh.ai/samples/113164/2fc452d051704fc5a8e654c540741900/ASTM-C568-C568M-22.pdf"),
  "c503": ("ASTM C503/C503M-22, Standard Specification for Marble Dimension Stone (free preview)", "https://cdn.standards.iteh.ai/samples/113163/f55e640d65104631bd4873e5ca8a8999/ASTM-C503-C503M-22.pdf"),
  "riyadh_rock": ("Abd El-Aal and Masoud (2017), engineering properties of limestone foundation bed, Ar Riyadh, Arabian Journal of Geosciences 10:347", "https://link.springer.com/article/10.1007/s12517-017-3089-7"),
@@ -120,6 +121,12 @@ class H:
     def det(self, code, tag, title, rows, open_label):  # a reference drawing (details.py) beside its notes; rows: (label, text)
         fig = "".join(f'<figure class="fc-sheet">%%SVG:{c}%%<figcaption><a href="/images/details/{c}-{self.lang}.svg" target="_blank" rel="noopener">{open_label}</a></figcaption></figure>' for c in code.split("+"))
         return f'<article class="fc-det" id="{code.split("+")[0]}"><div class="fc-figs">{fig}</div><div class="fc-det-t"><small>{tag}</small><h3>{title}</h3><dl>' + "".join(f"<dt>{a}</dt><dd>{b}</dd>" for a, b in rows) + "</dl></div></article>"
+    def gallery(self, items):  # (picture path, alt, name, note, link or "")
+        o = ['<div class="fc-gal">']
+        for src, alt, name, note, href in items:
+            cap = f"<b>{name}</b><span>{note}</span>"
+            o.append(f'<figure><img src="{src}" alt="{esc(alt)}" width="1000" height="750" loading="lazy" decoding="async"><figcaption>' + (f'<a href="{href}">{cap}</a>' if href else cap) + "</figcaption></figure>")
+        return "".join(o) + "</div>"
     def math(self, s): return f'<div class="fc-math">{s}</div>'
 
 def shell(lang):
