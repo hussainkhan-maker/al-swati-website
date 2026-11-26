@@ -1,4 +1,16 @@
 # <path in the site> <link>   (see tools/fetch-images.py)
-images/stones/marble-illustration.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_150631_5e1d97ce-0880-464f-b70c-c6130a013f61.png
-images/stones/granite-illustration.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_150633_91e299f2-4030-47cb-b342-e73933946ad1.png
-images/stones/sandstone-illustration.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_150629_5c718183-0c6a-4785-a740-7e0f048790f5.png
+images/stones/stone-limestone-beige.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151833_99bca525-91dd-40dc-95b4-83e2ebc725ba.png
+images/stones/stone-limestone-white.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151832_326e30ff-d4b2-4760-ba2a-203eb2207dde.png
+images/stones/stone-limestone-yellow.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151834_02f9ee30-42fa-4693-b08f-d7d5c062e9ef.png
+images/stones/stone-travertine.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151830_f3de7a19-55fe-42fa-9f51-2a4c903413d4.png
+images/stones/stone-marble.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151830_cb22756e-aef1-4364-879c-ee6157d71741.png
+images/stones/stone-granite.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151948_badbd9ed-3740-4b4b-abc8-772d73954919.png
+images/stones/stone-sandstone.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151949_2077a9e3-3f1c-426c-8c24-80ac16c529b7.png
+images/stones/stone-basalt.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151832_3f7bd3cb-5c30-4368-a49c-74c7d8639860.png
+images/stones/stone-porcelain.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151947_a9e14fcd-e2a0-44a2-b900-3b3fc013ec54.png
+images/stones/finish-bush-hammered.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151832_e66326c6-8bb6-4065-98ab-da673ce61a47.png
+images/stones/finish-sandblasted.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151940_f538eccb-bd6d-4b4e-8b33-dd84680da4ae.png
+images/stones/finish-split-face.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151831_b8bb739f-6e5c-476c-8234-355a8ff56bc2.png
+images/stones/finish-flamed.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151948_b7568d03-5d89-41f5-abd1-bd461572de41.png
+images/stones/finish-sawn.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151940_9771adea-db07-4074-a223-b134eb6a93a0.png
+images/stones/finish-brushed.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151939_6da206a5-4b6c-44a0-88c8-d5415107eea6.png

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Pictures made outside the repository (for example with Higgsfield) and listed in tools/fetch-images.txt are downloaded once
-# and saved as JPEG at their path, at most 1400 px wide. One line per picture:  <path in the site> <link>
+# and saved as JPEG at their path, 1000 px wide. One line per picture:  <path in the site> <link>
 # The build workflow runs this; a picture that already exists is left alone. Links expire, the saved file stays.
 import io, os, sys, urllib.request
 from PIL import Image
@@ -13,7 +13,7 @@ for line in open(os.path.join(root, "tools", "fetch-images.txt"), encoding="utf8
     try:
         req = urllib.request.Request(url, headers={"user-agent": "Mozilla/5.0 al-swati-site"})
         im = Image.open(io.BytesIO(urllib.request.urlopen(req, timeout=120).read())).convert("RGB")
-        if im.width > 1400: im = im.resize((1400, round(im.height * 1400 / im.width)), Image.LANCZOS)
+        if im.width > 1000: im = im.resize((1000, round(im.height * 1000 / im.width)), Image.LANCZOS)
         os.makedirs(os.path.dirname(out), exist_ok=True); im.save(out, "JPEG", quality=84, optimize=True, progressive=True)
         print("saved", path, im.size)
     except Exception as e:
