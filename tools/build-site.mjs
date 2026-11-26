@@ -598,23 +598,17 @@ function withCalc(h) {
   }
   return h;
 }
-// the Technical Hub for architects and consultants (/technical-specs/): last in every page's Services menu and the footer's Services list
+// The spec sheet page (/technical-specs/) is part of the "For Architects & Consultants" section since 26 Nov 2026 (one menu
+// entry for both): its old links are taken out of every page's Services menu and footer.
 const TECH = [
-  ['<div class="dd"><a href="/services/"', '<a href="/technical-specs/"><b>Technical Specs</b><small>For architects &amp; consultants</small></a>',
-    '<h4>Services</h4><ul>', '<li><a href="/technical-specs/">Technical Specs</a></li>'],
-  ['<div class="dd"><a href="/ar/services/"', '<a href="/ar/technical-specs/"><b>المواصفات الفنية</b><small>للمهندسين والاستشاريين</small></a>',
-    '<h4>خدماتنا</h4><ul>', '<li><a href="/ar/technical-specs/">المواصفات الفنية</a></li>'],
+  '<a href="/technical-specs/"><b>Technical Specs</b><small>For architects &amp; consultants</small></a>', '<li><a href="/technical-specs/">Technical Specs</a></li>',
+  '<a href="/ar/technical-specs/"><b>المواصفات الفنية</b><small>للمهندسين والاستشاريين</small></a>', '<li><a href="/ar/technical-specs/">المواصفات الفنية</a></li>',
 ];
 function withTech(h) {
-  for (const [menu, link, foot, li] of TECH) {
-    let i = h.indexOf(menu), j;
-    if (i >= 0 && !h.includes(link) && (j = h.indexOf('</div></div>', i)) > 0) h = h.slice(0, j) + link + h.slice(j);
-    i = h.indexOf(foot);
-    if (i >= 0 && !h.includes(li) && (j = h.indexOf('</ul>', i)) > 0) h = h.slice(0, j) + li + h.slice(j);
-  }
+  for (const link of TECH) h = h.split(link).join("");
   return h;
 }
-// the "For Architects & Consultants" section (/for-consultants/): after Technical Specs in every page's Services menu and the footer's Services list
+// the "For Architects & Consultants" section (/for-consultants/): last in every page's Services menu and the footer's Services list
 const CONSULT = [
   ['<div class="dd"><a href="/services/"', '<a href="/for-consultants/"><b>For Architects &amp; Consultants</b><small>Process, fixing systems &amp; guide specification</small></a>',
     '<h4>Services</h4><ul>', '<li><a href="/for-consultants/">For Consultants</a></li>'],

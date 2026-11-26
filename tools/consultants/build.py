@@ -71,11 +71,11 @@ SOURCES = {
 L = {
  "en": dict(home="Home", homeurl="/", pre="", crumb="For Architects & Consultants", note="General guidance. Each project is designed by its engineer or consultant.", date="November 2026",
    updated="Updated", src_h="Sources", src_p="Public sources used for the technical statements on this page. Standards are summarised in our own words; where a standard was read through a secondary report, the entry says so. The project engineer should check the current edition before using any value.",
-   nav_e="In this section", nav_h="For Architects & Consultants", reach_e="Technical contact", reach_h="Reach the Technical Contact",
+   spec="Spec sheet and CAD request", nav_e="In this section", nav_h="For Architects & Consultants", reach_e="Technical contact", reach_h="Reach the Technical Contact",
    reach_p="Call, send a WhatsApp message or email, and ask for the technical contact. Or send your drawings through the form.", wa="WhatsApp", form="Send your drawings", aria="Breadcrumb", name="AL-Swati Contracting"),
  "ar": dict(home="الرئيسية", homeurl="/ar/", pre="/ar", crumb="للمعماريين والاستشاريين", note="إرشادات عامة. يُصمَّم كل مشروع من قِبل مهندسه أو استشاريه.", date="نوفمبر 2026",
    updated="تحديث", src_h="المصادر", src_p="مصادر منشورة استندنا إليها في المعلومات الفنية في هذه الصفحة. لخّصنا المواصفات القياسية بعباراتنا، وحيث قُرئت المواصفة من مصدر ثانوي ذُكر ذلك في المصدر. على مهندس المشروع الرجوع إلى الإصدار الساري قبل استخدام أي قيمة.",
-   nav_e="في هذا القسم", nav_h="للمعماريين والاستشاريين", reach_e="جهة الاتصال الفنية", reach_h="تواصل مع جهة الاتصال الفنية",
+   spec="جدول المواصفات وطلب مخططات CAD", nav_e="في هذا القسم", nav_h="للمعماريين والاستشاريين", reach_e="جهة الاتصال الفنية", reach_h="تواصل مع جهة الاتصال الفنية",
    reach_p="اتصل أو أرسل رسالة واتساب أو بريداً إلكترونياً واطلب جهة الاتصال الفنية، أو أرسل مخططاتك عبر النموذج.", wa="واتساب", form="أرسلوا مخططاتكم", aria="مسار التنقل", name="شركة السواتي للمقاولات"),
 }
 esc = lambda s: html.escape(str(s), quote=True)
@@ -158,6 +158,7 @@ def page(lang, slug, pg, titles):
         src = f'<section class="fc-src bt{" alt" if n % 2 == 0 else ""}" id="sources"><div class="wrap"><h2>{t["src_h"]}</h2><p>{t["src_p"]}</p><ol dir="ltr" lang="en">{items}</ol></div></section>'
         n += 1
     navitems = "".join(f'<li><a href="{t["pre"]}/{BASE}/{(s + "/") if s else ""}"{" aria-current=" + chr(34) + "page" + chr(34) if s == slug else ""}>{esc(titles[s])}</a></li>' for s in ORDER)
+    navitems += f'<li><a href="{t["pre"]}/technical-specs/">{t["spec"]}</a></li>'  # the spec sheet page keeps its old address
     nav = f'<section class="fc-sec bt{" alt" if n % 2 == 0 else ""}"><div class="wrap"><div class="eyebrow">{t["nav_e"]}</div><h2>{esc(t["nav_h"])}</h2><ul class="fc-nav">{navitems}</ul>'
     nav += f'<div class="fc-prose"><h3>{t["reach_h"]}</h3><p>{t["reach_p"]}</p></div><div class="fc-reach"><a class="btn btn-gold" href="tel:+966511826313"><span>✆ <bdi dir="ltr">+966 51 182 6313</bdi></span></a><a class="btn btn-line" href="https://wa.me/966511826313" target="_blank" rel="noopener"><span>{t["wa"]}</span></a><a class="btn btn-line" href="mailto:info@al-swaticontracting.com"><span>info@al-swaticontracting.com</span></a>'
     if slug != "send-drawings": nav += f'<a class="btn btn-line" href="{t["pre"]}/{BASE}/send-drawings/"><span>{t["form"]}</span><span class="arrow"></span></a>'
