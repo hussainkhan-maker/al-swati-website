@@ -21,9 +21,6 @@ images/pages/services/hero-stone-cladding.jpg https://d8j0ntlcm91z4.cloudfront.n
 images/pages/services/stone-cladding-intro.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_202523_379106aa-266d-48cd-b405-e67b8da2617a.png 1200
 images/pages/services/hero-fixing-systems.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_202800_8cf54821-9c20-412b-b836-731521edf95c.png 1920
 images/pages/contact/hero-entrance.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_204106_d472b2fa-d477-43db-ad1c-4588c51c2d05.png 1920
-images/pages/services/hero-travertine-villa.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_204636_f52f86dd-7d87-42dd-8c40-a72753cb513d.png 1920
-images/pages/services/travertine-villa-intro.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_204636_07030943-e173-4b0f-9c63-29978e51c139.png 1200
-images/pages/home/box-travertine-villa.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_204636_19c0a449-991c-4f9c-a067-99d1d43b210a.png 1200
 images/pages/services/hero-travertine-courses.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_205110_2fa02566-b533-4395-918d-871495efd422.png 1920
 images/pages/services/travertine-courses-intro.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_205111_0c3581d6-726f-4a4c-ad12-1fa34885a0e8.png 1200
 images/pages/home/box-travertine-courses.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_205113_c4037434-9290-4c0c-9baf-e9f8dc274209.png 1200
