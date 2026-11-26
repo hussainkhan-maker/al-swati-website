@@ -902,6 +902,12 @@ html[dir=rtl] .ec-toggle input:checked~.ec-track:after{transform:translateX(-20p
 .ec-split .b,.ec-parts i.b{background:#8c7639}
 .ec-split .c,.ec-parts i.c{background:#6f6f6f}
 .ec-split .e,.ec-parts i.e{background:#ece2c4}
+.ec-split .f,.ec-parts i.f{background:#9fb0b8}
+.ec-lab{font-size:14px;font-weight:600;margin-bottom:12px}
+.ec-plain .ec-chip span{display:block}
+.ec-plain .ec-chip b{display:block;white-space:normal;line-height:1.3}
+.ec-plain .ec-chip small{display:block;margin-top:4px}
+.ec-sub{color:var(--muted);font-size:12px;line-height:1.55;margin-top:12px}
 .ec-parts{margin-bottom:28px}
 .ec-parts dd{direction:ltr;unicode-bidi:plaintext}
 .ec-parts .ec-vat{border-bottom:0;padding-top:12px}

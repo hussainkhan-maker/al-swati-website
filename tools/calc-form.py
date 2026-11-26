@@ -24,8 +24,10 @@ STONE_IMG = {"white": "stone-limestone-white", "limestone": "stone-limestone-bei
 
 T = {
  "en": dict(
-    steps=["Project", "Stone", "Panel size", "Fixing system", "Facade area"],
-    hints=["", "Price per m² installed, for your choices", "Larger panels cost more per m²", "", ""],
+    steps=["Project", "Stone", "Panel size", "Fixing system", "Facade area", "Extras"],
+    hints=["", "Price per m² installed, for your choices", "Larger panels cost more per m²", "", "", "Only if your project needs them"],
+    frame=("Steel frame behind the stone", [("none", "No frame", "Most villas"), ("supply", "We supply and install", "+250 SAR per m²"), ("install", "Installation only", "+125 SAR per m²")],
+           "Needed only where the stone stands far off the wall or the wall cannot carry the fixings. We confirm it on the site visit."),
     types=[("villa", "Villa facade", "Normal scaffolding"), ("tower", "Commercial tower", "Safety scaffolding"), ("interior", "Interior wall", "Feature walls inside")],
     stones=[("white", "Riyadh White Stone"), ("limestone", "Riyadh Limestone", ), ("granite", "Granite"), ("travertine", "Travertine Marble"), ("porcelain", "Large-Format Porcelain")],
     stone_sub={"limestone": "Beige / yellow"},
@@ -35,14 +37,16 @@ T = {
     eng=("Add shop drawings and engineer's site visits", "For projects with a consultant: drawings, calculation and approval, and a weekly visit."),
     wall_cap="Your wall, seen from the front. Fixings shown in gold.",
     budget="Estimated budget", cur="SAR", per="SAR per m², supply and installation, excl. VAT",
-    split="Where the money goes", parts=["Stone", "Fixing and installation", "Scaffolding", "Drawings and engineer"],
+    split="Where the money goes", parts=["Stone", "Fixing and installation", "Scaffolding", "Drawings and engineer", "Steel frame"],
     vat="With 15% VAT", timeline="Estimated timeline", plan=["Material delivery", "Safety scaffolding", "Installation"], one_week="1 week",
     ask="Request your exact quote", name="Your name", phone="Mobile", send="Send This Estimate to WhatsApp",
     fine='An estimate for Riyadh, not a quote. Prices exclude 15% VAT. Your name and number go only to our quotes team. <a class="est-chat" href="https://wa.me/966511826313" target="_blank" rel="noopener">Chat on WhatsApp without the form</a>',
     dock="See estimate"),
  "ar": dict(
-    steps=["المشروع", "الحجر", "مقاس اللوح", "نظام التثبيت", "مساحة الواجهة"],
-    hints=["", "السعر للمتر المربع مركّباً حسب اختياراتك", "الألواح الأكبر أغلى للمتر المربع", "", ""],
+    steps=["المشروع", "الحجر", "مقاس اللوح", "نظام التثبيت", "مساحة الواجهة", "إضافات"],
+    hints=["", "السعر للمتر المربع مركّباً حسب اختياراتك", "الألواح الأكبر أغلى للمتر المربع", "", "", "فقط إذا احتاجها مشروعك"],
+    frame=("هيكل حديد خلف الحجر", [("none", "بدون هيكل", "أغلب الفلل"), ("supply", "توريد وتركيب", "+250 ريال للمتر المربع"), ("install", "تركيب فقط", "+125 ريال للمتر المربع")],
+           "يلزم فقط إذا كان الحجر بارزاً كثيراً عن الجدار أو كان الجدار لا يتحمل التثبيت. ونؤكد ذلك عند زيارة الموقع."),
     types=[("villa", "واجهة فيلا", "سقالات عادية"), ("tower", "برج تجاري", "سقالات سلامة"), ("interior", "جدار داخلي", "جدران مميزة داخل المبنى")],
     stones=[("white", "حجر رياض أبيض"), ("limestone", "حجر رياض بيج"), ("granite", "الجرانيت"), ("travertine", "رخام ترافرتين"), ("porcelain", "بورسلان بمقاسات كبيرة")],
     stone_sub={"limestone": "بيج / أصفر"},
@@ -52,7 +56,7 @@ T = {
     eng=("أضف المخططات التنفيذية وزيارات المهندس", "للمشاريع التي لها استشاري: المخططات والحسابات والاعتماد، وزيارة أسبوعية."),
     wall_cap="جدارك كما يُرى من الأمام، والتثبيت ظاهر بالذهبي.",
     budget="الميزانية التقديرية", cur="ريال", per="ريال للمتر المربع، توريد وتركيب، بدون ضريبة القيمة المضافة",
-    split="أين تذهب التكلفة", parts=["الحجر", "التثبيت والتركيب", "السقالات", "المخططات والمهندس"],
+    split="أين تذهب التكلفة", parts=["الحجر", "التثبيت والتركيب", "السقالات", "المخططات والمهندس", "هيكل الحديد"],
     vat="مع ضريبة القيمة المضافة 15%", timeline="المدة التقديرية", plan=["توريد المواد", "تركيب سقالات السلامة", "التركيب"], one_week="أسبوع واحد",
     ask="اطلب عرض سعر دقيق", name="الاسم", phone="رقم الجوال", send="أرسل هذا التقدير على واتساب",
     fine='هذا تقدير لمشاريع الرياض وليس عرض سعر. الأسعار بدون ضريبة القيمة المضافة 15%. يصل اسمك ورقمك إلى فريق التسعير لدينا فقط. <a class="est-chat" href="https://wa.me/966511826313" target="_blank" rel="noopener">تواصل على واتساب بدون تعبئة النموذج</a>',
@@ -91,6 +95,12 @@ def form(lang):
              f'<div class="est-area"><div class="est-slide"><input type="range" min="0" max="1000" step="1" value="500" aria-label="{t["area_aria"]}"><div class="est-ticks" aria-hidden="true"><span>50 {t["m2"]}</span><span>500</span><span>5,000</span></div></div>'
              f'<label class="est-num"><input name="area" type="number" inputmode="numeric" min="50" max="5000" step="1" value="500" aria-label="{t["area_num"]}"><span>{t["m2"]}</span></label></div>'
              f'<div class="ec-quick" role="group" aria-label="{t["quick"]}" dir="ltr">{quick}</div>'
+             "</fieldset>")
+    fr = t["frame"]
+    o.append('<fieldset class="est-step">' + legend(6, t["steps"][5], t["hints"][5]) +
+             f'<div class="ec-lab">{fr[0]}</div><div class="ec-chips ec-plain">' + "".join(
+                 f'<label class="ec-chip"><input type="radio" name="frame" value="{v}"{" checked" if i == 0 else ""}><span><b>{b}</b><small>{sm}</small></span></label>' for i, (v, b, sm) in enumerate(fr[1])) +
+             f'</div><p class="ec-sub">{fr[2]}</p>'
              f'<label class="ec-toggle"><input type="checkbox" name="eng"><span class="ec-track" aria-hidden="true"></span><span class="ec-tx"><b>{t["eng"][0]}</b><small>{t["eng"][1]}</small></span></label>'
              "</fieldset>")
     o.append("</div>")
@@ -102,8 +112,8 @@ def form(lang):
              f'<div class="est-total"><span class="cur">{t["cur"]}</span><span class="num"><span data-o="lo">115,000</span><span class="dash">–</span><span data-o="hi">140,000</span></span></div>'
              f'<div class="est-per"><span data-o="per">230–280</span> {t["per"]}</div>'
              f'<div class="est-k">{t["split"]}</div>'
-             '<div class="ec-split" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i><i class="e"></i></div>'
-             f'<dl class="est-plan ec-parts"><div><dt><i class="a"></i>{p[0]}</dt><dd data-o="pa"></dd></div><div><dt><i class="b"></i>{p[1]}</dt><dd data-o="pb"></dd></div><div><dt><i class="c"></i>{p[2]}</dt><dd data-o="pc"></dd></div><div class="ec-eng" hidden><dt><i class="e"></i>{p[3]}</dt><dd data-o="pe"></dd></div><div class="ec-vat"><dt>{t["vat"]}</dt><dd data-o="vat"></dd></div></dl>'
+             '<div class="ec-split" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i><i class="f"></i><i class="e"></i></div>'
+             f'<dl class="est-plan ec-parts"><div><dt><i class="a"></i>{p[0]}</dt><dd data-o="pa"></dd></div><div><dt><i class="b"></i>{p[1]}</dt><dd data-o="pb"></dd></div><div><dt><i class="c"></i>{p[2]}</dt><dd data-o="pc"></dd></div><div class="ec-frm" hidden><dt><i class="f"></i>{p[4]}</dt><dd data-o="pf"></dd></div><div class="ec-eng" hidden><dt><i class="e"></i>{p[3]}</dt><dd data-o="pe"></dd></div><div class="ec-vat"><dt>{t["vat"]}</dt><dd data-o="vat"></dd></div></dl>'
              f'<div class="est-k">{t["timeline"]}</div><div class="est-weeks" data-o="weeks"></div>'
              '<div class="est-bar" aria-hidden="true"><i class="d"></i><i class="s"></i><i class="i"></i></div>'
              f'<dl class="est-plan"><div><dt><i class="d"></i>{t["plan"][0]}</dt><dd data-o="lead"></dd></div><div class="est-setup" hidden><dt><i class="s"></i>{t["plan"][1]}</dt><dd>{t["one_week"]}</dd></div><div><dt><i class="i"></i>{t["plan"][2]}</dt><dd data-o="install"></dd></div></dl>'
@@ -125,7 +135,7 @@ for lang, pages in PAGES.items():
         m = re.search(r'<form class="est[^"]*" id="estimate-form"[\s\S]*?</form>', s)
         assert m, page
         s = s[:m.start()] + html + s[m.end():]
-        s = re.sub(r'/assets/estimator\.js(\?v=[\w.]+)?', "/assets/estimator.js?v=3", s)
-        s = re.sub(r'/assets/style\.css(\?v=[\w.]+)?', "/assets/style.css?v=c3", s)
+        s = re.sub(r'/assets/estimator\.js(\?v=[\w.]+)?', "/assets/estimator.js?v=4", s)
+        s = re.sub(r'/assets/style\.css(\?v=[\w.]+)?', "/assets/style.css?v=c4", s)
         open(f, "w", encoding="utf8").write(s); n += 1
 print("calculator form written into", n, "pages")

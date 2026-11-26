@@ -33,14 +33,19 @@
   // shop drawings with calculation and approval: 3,000 SAR a set; the engineer's site visit: 500 SAR a week of installation
   // (owner, 27 Nov 2026); sold at cost + 15%, then the sponsor's 5% of the bill.
   var ENG = { set: 3000, visit: 500, k: 1.15 / 0.95 };
+  // steel frame behind the stone, the owner's own selling rates per m² (27 Nov 2026): supply and installation in 2 mm sections, or
+  // installation only when the client supplies the steel. Branded anchors (Hilti, Fischer) are quoted with the project.
+  var FRAME = { none: 0, supply: 250, install: 125 };
+  EN.none = 'None'; EN.supply = 'Steel frame: supply and installation'; EN.install = 'Steel frame: installation only';
   var IMG = { white: 'stone-limestone-white', limestone: 'stone-limestone-beige', granite: 'stone-granite', travertine: 'stone-travertine', porcelain: 'stone-porcelain', riyadh: 'stone-limestone-white', marble: 'stone-travertine' };
   EN['3060'] = '30 x 60 cm'; EN['4080'] = '40 x 80 cm'; EN['60120'] = '60 x 120 cm';
 
-  function calc(type, material, fixing, size, area, eng) {
+  function calc(type, material, fixing, size, area, eng, frame) {
     var s = PRICE.stone[material], f = PRICE.fixing[fixing], t = PRICE.type[type], k = (1 + PRICE.supervision) * (1 + PRICE.overhead);
     var up = material === 'porcelain' ? SIZE['3060'] : (SIZE[size] || SIZE['3060']);
     var sLo = s[0] + up[0], sHi = s[1] + up[1], fLo = f[0] + f[1], fHi = f[0] + f[2];
-    var perLo = Math.round((sLo + fLo + t[0]) * k / 5) * 5, perHi = Math.round((sHi + fHi + t[1]) * k / 5) * 5;
+    var fr = FRAME[frame] || 0;
+    var perLo = Math.round((sLo + fLo + t[0]) * k / 5) * 5 + fr, perHi = Math.round((sHi + fHi + t[1]) * k / 5) * 5 + fr;
     var teams = Math.min(PRICE.maxTeams, Math.max(1, Math.ceil(area / PRICE.m2PerTeam)));
     var dLo = Math.max(1, Math.ceil(area / (PRICE.teamM2[1] * teams))), dHi = Math.max(dLo, Math.ceil(area / (PRICE.teamM2[0] * teams)));
     var before = s[2] + t[2], wLo = Math.max(1, Math.round(before + dLo / PRICE.daysPerWeek)), wHi = Math.max(wLo + 1, Math.ceil(before + dHi / PRICE.daysPerWeek));
@@ -49,9 +54,9 @@
       eLo = Math.round((ENG.set + ENG.visit * Math.max(1, Math.ceil(dLo / PRICE.daysPerWeek))) * ENG.k / 100) * 100;
       eHi = Math.round((ENG.set + ENG.visit * Math.max(1, Math.ceil(dHi / PRICE.daysPerWeek))) * ENG.k / 100) * 100;
     }
-    var lo = round(area * perLo), hi = round(area * perHi), all = sLo + sHi + fLo + fHi + t[0] + t[1], mid = (lo + hi) / 2;
+    var lo = round(area * perLo), hi = round(area * perHi), all = sLo + sHi + fLo + fHi + t[0] + t[1], mid = (lo + hi) / 2 - area * fr;
     return { perLo: perLo, perHi: perHi, lo: round(lo + eLo), hi: round(hi + eHi), teams: teams, dLo: dLo, dHi: dHi, lead: s[2], setup: t[2], wLo: wLo, wHi: wHi,
-      a: mid * (sLo + sHi) / all, b: mid * (fLo + fHi) / all, c: mid * (t[0] + t[1]) / all, e: (eLo + eHi) / 2, eLo: eLo, eHi: eHi };
+      a: mid * (sLo + sHi) / all, b: mid * (fLo + fHi) / all, c: mid * (t[0] + t[1]) / all, f: area * fr, e: (eLo + eHi) / 2, eLo: eLo, eHi: eHi };
   }
 
   // the wall as it will look from the front, 3.6 m wide: the stone, the joints of the chosen panel size, and the fixings in gold
@@ -86,7 +91,7 @@
       weeks: function (a, b) { return a + '–' + b + ' weeks'; },
       wk: function (n) { return n + (n === 1 ? ' week' : ' weeks'); },
       days: function (a, b, c) { return 'about ' + (a === b ? a : a + '–' + b) + ' working days, ' + c + (c === 1 ? ' team' : ' teams'); },
-      msg: { hi: 'Hello AL-Swati, I used the cost calculator on your website:', type: 'Project', material: 'Material', size: 'Panel size', fixing: 'Fixing system', area: 'Area', est: 'Estimate (excl. VAT)',
+      msg: { hi: 'Hello AL-Swati, I used the cost calculator on your website:', type: 'Project', material: 'Material', size: 'Panel size', fixing: 'Fixing system', frame: 'Steel frame', area: 'Area', est: 'Estimate (excl. VAT)',
         eng: 'Shop drawings and engineer visits: included', time: 'Timeline', name: 'Name', phone: 'Mobile', bye: 'Please send me an exact quote.' },
       sent: function (ref) { return '✓ Sent to our quotes team' + (ref ? ' (ref. ' + ref + ')' : '') + '. WhatsApp is open with your estimate. We will reply as soon as possible.'; },
       failed: 'WhatsApp is open with your estimate. Press send there so it reaches us.',
@@ -97,7 +102,7 @@
       weeks: function (a, b) { return '⁦' + a + '–' + b + '⁩' + (b <= 10 ? ' أسابيع' : ' أسبوعًا'); },
       wk: function (n) { return n === 1 ? 'أسبوع واحد' : n === 2 ? 'أسبوعان' : n + (n <= 10 ? ' أسابيع' : ' أسبوعًا'); },
       days: function (a, b, c) { return 'حوالي ' + (a === b ? a : '⁦' + a + '–' + b + '⁩') + ' يوم عمل، ' + (c === 1 ? 'فريق واحد' : c === 2 ? 'فريقان' : c + ' فرق'); },
-      msg: { hi: 'السلام عليكم، استخدمت حاسبة التكلفة في موقعكم:', type: 'المشروع', material: 'المادة', size: 'مقاس اللوح', fixing: 'نظام التثبيت', area: 'المساحة', est: 'التقدير (بدون الضريبة)',
+      msg: { hi: 'السلام عليكم، استخدمت حاسبة التكلفة في موقعكم:', type: 'المشروع', material: 'المادة', size: 'مقاس اللوح', fixing: 'نظام التثبيت', frame: 'هيكل الحديد', area: 'المساحة', est: 'التقدير (بدون الضريبة)',
         eng: 'المخططات التنفيذية وزيارات المهندس: مشمولة', time: 'المدة', name: 'الاسم', phone: 'الجوال', bye: 'أرجو إرسال عرض سعر دقيق.' },
       sent: function (ref) { return '✓ وصل تقديرك إلى فريق التسعير' + (ref ? ' (رقم ' + ref + ')' : '') + '. فتحنا لك واتساب برسالة التقدير، وسنرد عليكم في أقرب وقت.'; },
       failed: 'فتحنا لك واتساب برسالة التقدير، اضغط إرسال هناك ليصلنا.',
@@ -120,6 +125,7 @@
     function area() { var a = parseInt(String(num.value).replace(/[^\d]/g, ''), 10); return isNaN(a) ? 500 : Math.min(MAX, Math.max(MIN, a)); }
     function size() { return pick('size') || '3060'; }
     function eng() { return !!(engBox && engBox.checked); }
+    function frame() { return pick('frame') || 'none'; }
     function ltr(s) { return ar ? '⁦' + s + '⁩' : s; }
     function set(k, v) { var x = out(k); if (x) x.textContent = v; }
 
@@ -139,7 +145,7 @@
     }
 
     function show() {
-      var a = area(), ty = pick('type'), ma = pick('material'), fx = pick('fixing'), sz = size(), r = calc(ty, ma, fx, sz, a, eng());
+      var a = area(), ty = pick('type'), ma = pick('material'), fx = pick('fixing'), sz = size(), r = calc(ty, ma, fx, sz, a, eng(), frame());
       count('lo', r.lo); count('hi', r.hi);
       set('per', n0(r.perLo) + '–' + n0(r.perHi));
       set('weeks', L.weeks(r.wLo, r.wHi)); set('lead', L.wk(r.lead)); set('install', L.days(r.dLo, r.dHi, r.teams));
@@ -149,16 +155,17 @@
       // where the money goes
       var sp = f.querySelector('.ec-split');
       if (sp) {
-        var sum = r.a + r.b + r.c + r.e;
-        [['a', r.a], ['b', r.b], ['c', r.c], ['e', r.e]].forEach(function (p) { sp.querySelector('.' + p[0]).style.flexGrow = p[1] / sum; });
+        var sum = r.a + r.b + r.c + r.f + r.e;
+        [['a', r.a], ['b', r.b], ['c', r.c], ['f', r.f], ['e', r.e]].forEach(function (p) { sp.querySelector('.' + p[0]).style.flexGrow = p[1] / sum; });
         var near = function (x) { return ltr(L.about + n0(Math.round(x / 500) * 500)) + ' ' + L.sar; };
         set('pa', near(r.a)); set('pb', near(r.b)); set('pc', near(r.c));
+        var fr = f.querySelector('.ec-frm'); if (fr) { fr.hidden = !r.f; set('pf', ltr(n0(r.f)) + ' ' + L.sar); }
         var er = f.querySelector('.ec-eng'); if (er) { er.hidden = !r.e; set('pe', ltr(n0(r.eLo) + (r.eHi !== r.eLo ? '–' + n0(r.eHi) : '')) + ' ' + L.sar); }
         set('vat', ltr(n0(round(r.lo * 1.15)) + '–' + n0(round(r.hi * 1.15))) + ' ' + L.sar);
       }
       // the price on every stone, for the project, size and fixing chosen
       f.querySelectorAll('[data-p]').forEach(function (x) {
-        var q = calc(ty, x.getAttribute('data-p'), fx, sz, a, false); x.textContent = ltr(n0(q.perLo) + '–' + n0(q.perHi));
+        var q = calc(ty, x.getAttribute('data-p'), fx, sz, a, false, frame()); x.textContent = ltr(n0(q.perLo) + '–' + n0(q.perHi));
       });
       var st = f.querySelector('[data-step=size]'); if (st) st.classList.toggle('ec-off', ma === 'porcelain');
       var wv = out('wall'), key = ma + sz + fx;
@@ -172,7 +179,7 @@
     }
     function text(name, phone) {
       var r = last.r, M = L.msg, por = pick('material') === 'porcelain';
-      return M.hi + '\n' + M.type + ': ' + label('type') + '\n' + M.material + ': ' + label('material') + (por ? '' : '\n' + M.size + ': ' + ltr(label('size'))) + '\n' + M.fixing + ': ' + label('fixing') + '\n' +
+      return M.hi + '\n' + M.type + ': ' + label('type') + '\n' + M.material + ': ' + label('material') + (por ? '' : '\n' + M.size + ': ' + ltr(label('size'))) + '\n' + M.fixing + ': ' + label('fixing') + (frame() !== 'none' ? '\n' + M.frame + ': ' + label('frame') : '') + '\n' +
         M.area + ': ' + n0(last.a) + ' ' + L.m2 + '\n' + M.est + ': ' + (ar ? '⁦' + n0(r.lo) + ' – ' + n0(r.hi) + '⁩ ' + L.sar + ' (⁦' + n0(r.perLo) + '–' + n0(r.perHi) + '⁩ ' + L.sar + '/' + L.m2 + ')'
           : L.sar + ' ' + n0(r.lo) + ' – ' + n0(r.hi) + ' (' + n0(r.perLo) + '–' + n0(r.perHi) + ' ' + L.sar + '/' + L.m2 + ')') + (eng() ? '\n' + M.eng : '') + '\n' +
         M.time + ': ' + L.weeks(r.wLo, r.wHi) + (name ? '\n' + M.name + ': ' + name : '') + (phone ? '\n' + M.phone + ': ' + phone : '') + '\n' + M.bye;
@@ -204,7 +211,7 @@
       if (!/^[+\d\s()\-]{7,22}$/.test(phone) || phone.replace(/\D/g, '').length < 9) { note.textContent = L.bad[1]; f.querySelector('[name=phone]').focus(); return; }
       var r = last.r, msg = text(name, phone), wa = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), btn = f.querySelector('.est-send');
       var est = { type: EN[pick('type')], material: EN[pick('material')], fixing: EN[pick('fixing')], area: last.a, lo: r.lo, hi: r.hi, weeks: r.wLo + '-' + r.wHi,
-        size: pick('material') === 'porcelain' ? '' : EN[size()], engineering: eng() };
+        size: pick('material') === 'porcelain' ? '' : EN[size()], engineering: eng(), frame: frame() === 'none' ? '' : EN[frame()] };
       btn.disabled = true; note.textContent = L.sending;
       var req = erp({ action: 'lead', name: name, phone: phone, projectType: 'Cost calculator: ' + est.type, message: msg, estimate: est, hp: hp.value,
         page: location.pathname, lang: ar ? 'ar' : 'en', ref: document.referrer, utm: utm });
