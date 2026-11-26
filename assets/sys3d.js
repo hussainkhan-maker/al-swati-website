@@ -8,6 +8,9 @@
   var RTL = document.documentElement.dir === 'rtl';
   var reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
   var DEG = Math.PI / 180;
+  // one clock for every card on the page, so they all play together and finish together; it starts when the first card comes on screen
+  var SYNC = { t0: null, n: 0 };
+  function syncNow() { return SYNC.t0 === null ? 0 : (performance.now() - SYNC.t0) / 1000; }
   var IMG = {};
   function getImg(name) {
     return IMG[name] || (IMG[name] = new Promise(function (res) {
@@ -466,15 +469,14 @@
       if (txt !== capTxt && capEl) { capEl.innerHTML = txt; capTxt = txt; }
     }
     function step(dt) {
-      modeT += dt; spin += dt * .55;
-      if (mode === 'product') { if (hover || modeT > 2.8) { mode = 'build'; modeT = 0; } }
-      else if (mode === 'build') { tb = Math.min(BUILD, tb + dt); if (tb >= BUILD) { mode = 'hold'; modeT = 0; } }
-      else if (mode === 'hold') { if (modeT > .5) hb = Math.min(1, hb + dt / 1.9); if (!hover && modeT > 5.6 && !reduce) { mode = 'back'; modeT = 0; } }
-      else if (mode === 'back') {
-        if (hover) { mode = 'hold'; modeT = 1; }
-        else if (hb > 0) hb = Math.max(0, hb - dt / 1.1);
-        else { tb = Math.max(0, tb - dt * 3.2); if (tb <= 0) { mode = 'product'; modeT = 0; spin = 0; } }
-      }
+      // part alone (2.8 s) -> built in the same 6.5 s on every card -> held -> taken apart again; all from the shared clock
+      var P = 2.8, B = 6.5, Hd = 5.6, D = 1.1, U = 2.05, x = syncNow() % (P + B + Hd + D + U);
+      modeT += dt; spin = x * .55; hb = 0;
+      if (x < P) { mode = 'product'; tb = 0; }
+      else if (x < P + B) { mode = 'build'; tb = BUILD * (x - P) / B; }
+      else if (x < P + B + Hd) { mode = 'hold'; tb = BUILD; hb = clamp((x - P - B - .5) / 1.9, 0, 1); }
+      else if (x < P + B + Hd + D) { mode = 'back'; tb = BUILD; hb = 1 - (x - P - B - Hd) / D; }
+      else { mode = 'back'; tb = BUILD * (1 - (x - P - B - Hd - D) / U); }
       parY += (parYT - parY) * (1 - Math.exp(-dt * 6));
     }
     function frame(ts) {
@@ -494,10 +496,13 @@
     host.addEventListener('pointerenter', function (e) { if (e.pointerType !== 'touch') { hover = true; kick(); } });
     host.addEventListener('pointerleave', function () { hover = false; parYT = 0; kick(); });
     host.addEventListener('pointermove', function (e) { if (e.pointerType === 'touch') return; var r = host.getBoundingClientRect(); parYT = ((e.clientX - r.left) / r.width - .5) * 16; kick(); });
-    host.addEventListener('click', function () { if (mode === 'product' || mode === 'back') { mode = 'build'; modeT = 0; kick(); } });
     if ('ResizeObserver' in window) new ResizeObserver(resize).observe(canvas); else window.addEventListener('resize', resize);
-    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; kick(); }, { threshold: .35 }).observe(host);
-    else visible = true;
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) {
+      var now = es[0].isIntersecting;
+      if (now && !visible) { if (SYNC.n === 0) SYNC.t0 = performance.now(); SYNC.n++; } else if (!now && visible) SYNC.n = Math.max(0, SYNC.n - 1);
+      visible = now; kick();
+    }, { threshold: .35 }).observe(host);
+    else { visible = true; if (SYNC.t0 === null) SYNC.t0 = performance.now(); }
     canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); host.classList.remove('live'); host.classList.add('nogl'); });
     Promise.all([texFrom(STONE, true), texFrom('stone_n', false), texFrom('wall', true), texFrom('wall_n', false)]).then(function () {
       ready = true; resize(); render(); host.classList.add('live'); kick();
