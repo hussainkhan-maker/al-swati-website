@@ -12,6 +12,7 @@
 //    Projects page
 // It needs no secret: it reads only published posts, with the app's public key (the same one the public ERP blog uses).
 import { readFile, writeFile, mkdir, rm, readdir, access } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
 import { createHash } from "node:crypto";
@@ -306,6 +307,9 @@ function shrink(buf) {
     return Buffer.from(execFileSync("python3", ["-c", py], { input: buf, maxBuffer: 64 << 20 }));
   } catch (e) { console.log("photo kept at full size:", e.message); return buf; }
 }
+// A photo keeps its file name when it is improved (straightened, retouched), and browsers keep a file by name. The short mark
+// after the name changes with the picture itself, so every visitor gets the new one at once.
+const photoVer = (buf) => "?v=" + createHash("sha1").update(buf).digest("hex").slice(0, 6);
 async function areaPhotos(post) { // the owner's photos, copied once onto the site (both languages share them)
   const out = [];
   for (const [i, ph] of (post.area?.photos || []).entries()) {
@@ -317,7 +321,7 @@ async function areaPhotos(post) { // the owner's photos, copied once onto the si
       buf = Buffer.from(withGps(new Uint8Array(shrink(Buffer.from(await r.arrayBuffer()))), Number(post.area.lat), Number(post.area.lng), { description: photoDesc(post.area) }));
       await mkdir(dirname(p(f)), { recursive: true }); await writeFile(p(f), buf);
     }
-    out.push({ src: "/" + f, alt: ph.alt || "", size: jpegSize(buf) });
+    out.push({ src: "/" + f + photoVer(buf), alt: ph.alt || "", size: jpegSize(buf) });
   }
   return out;
 }
@@ -445,7 +449,11 @@ const CASE_IMG = "images/cases";
 const isCase = (x) => x?.area?.type === "case";
 const BUILD_NAME = { villa: ["Villa", "فيلا"], compound: ["Residential compound", "مجمع سكني"], commercial: ["Commercial building", "مبنى تجاري"], tower: ["Tower", "برج"], villas: ["Villas", "فلل"], government: ["Government building", "مبنى حكومي"] };
 const n0 = (v) => Number(v || 0).toLocaleString("en-US");
-const casePhoto = (x) => (x.area?.photos?.[0] ? "/" + photoFile(x, x.area.photos[0], 0) : "/images/pages/projects/hero.webp");
+const casePhoto = (x) => {
+  if (!x.area?.photos?.[0]) return "/images/pages/projects/hero.webp";
+  const f = photoFile(x, x.area.photos[0], 0);
+  try { return "/" + f + photoVer(readFileSync(p(f))); } catch { return "/" + f; }
+};
 
 function caseCards(cases, lang) { // cards in the Projects page grid (the page's own filters work on them)
   const ar = lang === "ar";
