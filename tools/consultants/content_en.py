@@ -182,10 +182,10 @@ def pages(h):
                  ("Check before approval", "Kerfs cut in the workshop, not by hand grinder; no rigid epoxy fill in the kerf; rail fixing spacing per the engineer; rail joints and movement."),
              ], O) +
              h.det("undercut+ucback", "Detail 06 · Section and elevation", "Undercut anchors on rails", [
-                 ("How it carries", "An anchor locks by shape into an undercut hole in the back of the panel. A hanger on the anchor hooks over a horizontal rail, so each panel hangs on its own and the face stays whole."),
+                 ("How it carries", "An anchor locks by shape into an undercut hole in the back of the panel. A hanger on the anchor hooks over a horizontal aluminium rail, and the rails are screwed to vertical profiles fixed to the structure. Each panel hangs on its own and the face stays whole."),
                  ("Typical use", "Thin hard stone, porcelain, large panels, and facades where single panels must be replaceable."),
                  ("Check before approval", "The anchor's assessment covers the stone, or tests are done; holes drilled with the maker's machine and checked with its gauge; number and position of anchors per the assessment and the engineer."),
-                 ("Our experience", "Hilti undercut anchors on 30 mm natural stone and on 20 mm porcelain."),
+                 ("Our experience", "Hilti undercut anchors on 30 mm natural stone and on 20 mm porcelain. The drawings show the arrangement as we build it: wall brackets, vertical profiles, horizontal rails, then the panels."),
              ], O)),
             ("Behind the stone", "The Steel Substructure in Elevation",
              h.det("frame", "Detail 07 · Elevation", "Steel substructure", [
