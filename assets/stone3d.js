@@ -245,14 +245,15 @@
     if (c === (RTL ? 3 : 0) && k === 3) LBL.bracket = { p: br, pt: [-6.4, 5, .6] };
     i++;
   }
-  // 2) vertical C-channels (aluminium): web + flanges + lips, open side facing the stone
+  // 2) vertical C-channels (galvanised steel, slotted back): web + flanges + lips, open side facing the stone
   for (c = 0; c < 4; c++) {
     var ch = part(2, CHX[c], 0, 0, 'slide', 1.95 + c * .17, .85, function (G) {
-      cbox(G('alu'), 0, 0, 6.15, 4, 186, .3, .06, UV.m);
-      cbox(G('alu'), -1.85, 0, 8.1, .3, 186, 4.2, .06, UV.m);
-      cbox(G('alu'), 1.85, 0, 8.1, .3, 186, 4.2, .06, UV.m);
-      cbox(G('alu'), -1.35, 0, 10.05, .75, 186, .3, .05, UV.m);
-      cbox(G('alu'), 1.35, 0, 10.05, .75, 186, .3, .05, UV.m);
+      cbox(G('galv'), 0, 0, 6.15, 4, 186, .3, .06, UV.m);
+      cbox(G('galv'), -1.85, 0, 8.1, .3, 186, 4.2, .06, UV.m);
+      cbox(G('galv'), 1.85, 0, 8.1, .3, 186, 4.2, .06, UV.m);
+      cbox(G('galv'), -1.35, 0, 10.05, .75, 186, .3, .05, UV.m);
+      cbox(G('galv'), 1.35, 0, 10.05, .75, 186, .3, .05, UV.m);
+      for (var sy = -87; sy <= 87; sy += 6) cbox(G('kerf'), 0, sy, 6.32, 1.1, 2.8, .04, 0, UV.m);   // slotted holes along the back of the channel
     });
     if (c === (RTL ? 3 : 0)) LBL.channel = { p: ch, pt: [0, 93, 10] };
   }

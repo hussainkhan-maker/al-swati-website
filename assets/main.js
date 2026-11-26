@@ -30,6 +30,22 @@
       document.body.appendChild(script);
     }
     stage.addEventListener('click', load3d);
+    // The model starts by itself once the page has loaded and the opening logo has gone, when it is on screen.
+    // Not for visitors who asked their device for less motion or less data: they keep the picture and the button.
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches, saver = navigator.connection && navigator.connection.saveData;
+    if (!calm && !saver) {
+      var auto3d = function () {
+        var tries = 0, wait = setInterval(function () {
+          if (document.querySelector('.intro:not(.out)') && ++tries < 25) return;
+          clearInterval(wait);
+          if (!('IntersectionObserver' in window)) return load3d();
+          var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); load3d(); } }, { rootMargin: '150px' });
+          io.observe(stage);
+        }, 200);
+      };
+      var idle = function () { (window.requestIdleCallback || function (f) { setTimeout(f, 500); })(auto3d, { timeout: 2000 }); };
+      if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle);
+    }
     stage.addEventListener('keydown', function (e) {
       if (e.target === stage && (e.key === 'Enter' || e.key === ' ')) {
         e.preventDefault(); load3d();

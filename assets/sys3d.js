@@ -357,9 +357,10 @@
         });
       });
       function channel(G) {
-        cbox(G('alu'), 0, 0, 6.15, 4, 96, .3, .06, UV.m);
-        cbox(G('alu'), -1.85, 0, 8.1, .3, 96, 4.2, .06, UV.m); cbox(G('alu'), 1.85, 0, 8.1, .3, 96, 4.2, .06, UV.m);
-        cbox(G('alu'), -1.35, 0, 10.05, .75, 96, .3, .05, UV.m); cbox(G('alu'), 1.35, 0, 10.05, .75, 96, .3, .05, UV.m);
+        cbox(G('galv'), 0, 0, 6.15, 4, 96, .3, .06, UV.m);
+        cbox(G('galv'), -1.85, 0, 8.1, .3, 96, 4.2, .06, UV.m); cbox(G('galv'), 1.85, 0, 8.1, .3, 96, 4.2, .06, UV.m);
+        cbox(G('galv'), -1.35, 0, 10.05, .75, 96, .3, .05, UV.m); cbox(G('galv'), 1.35, 0, 10.05, .75, 96, .3, .05, UV.m);
+        for (var sy = -42; sy <= 42; sy += 6) cbox(G('kerf'), 0, sy, 6.32, 1.1, 2.8, .04, 0, UV.m);     // slotted holes along the back of the channel
       }
       part({ hero: true, x: CXs[0] }, channel);
       part({ kind: 'slide', t0: 1.45, dur: .8, x: CXs[1] }, channel);
