@@ -15,13 +15,10 @@ images/stones/finish-flamed.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcm
 images/stones/finish-sawn.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151940_9771adea-db07-4074-a223-b134eb6a93a0.png
 images/stones/finish-brushed.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_151939_6da206a5-4b6c-44a0-88c8-d5415107eea6.png
 images/pages/home/box-stone-cladding.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164817_b75c1c90-1ee1-4162-950d-413d3dac7db9.png
-images/pages/home/box-marble-cladding.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164819_a568548b-a15d-427b-9122-5a1319d2e312.png
 images/pages/home/box-porcelain-facades.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164823_81fdf1b5-81bb-41f7-bf83-3915fe40d6a8.png
 images/pages/home/box-villa-facades.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_164822_e397213d-a9a3-4b6d-9364-6846a041bce2.png
 images/pages/services/hero-stone-cladding.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_202102_1d350c44-5dda-4ec6-bd43-823b9f441200.png 1920
 images/pages/services/stone-cladding-intro.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_202523_379106aa-266d-48cd-b405-e67b8da2617a.png 1200
-images/pages/services/hero-marble.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_202759_73aada6f-ce70-4dc4-a947-c423e471a107.png 1920
-images/pages/services/marble-intro.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_202800_0529aafd-4cb2-4976-8022-f79bbad84efe.png 1200
 images/pages/services/hero-fixing-systems.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_202800_8cf54821-9c20-412b-b836-731521edf95c.png 1920
 images/pages/contact/hero-entrance.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_204106_d472b2fa-d477-43db-ad1c-4588c51c2d05.png 1920
 images/pages/services/hero-travertine-villa.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_204636_f52f86dd-7d87-42dd-8c40-a72753cb513d.png 1920
