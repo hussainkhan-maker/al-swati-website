@@ -35,7 +35,7 @@ def pages(h):
                  ("Process", "How we deliver", "Routes A and B for engineering, submittals, mock-up, installation, site visits, tests, handover and warranty, including the steel substructure.", u("how-we-deliver"), "Open"),
                  ("Drawings", "Typical details", "Eight reference drawings: the load path, five fixing systems in section, the steel substructure and four corner types.", u("typical-details"), "Open"),
                  ("Makers' data", "Hilti, fischer and Rockany", "What each maker publishes for stone and porcelain: the system, its assessment, panel thickness and services.", u("brand-systems"), "Open"),
-                 ("Materials", "Stone and panels", "Riyadh limestone, travertine, marble, granite and porcelain: typical thickness, the material standard and what to check.", u("stone-materials"), "Open"),
+                 ("Materials", "Stone and finishes", "Riyadh limestone, travertine, marble, granite and more: pictures, surface finishes, typical thickness and the material standard.", u("stone-materials"), "Open"),
                  ("Comparison", "Fixing systems", "Up-Down, pin, C-Channel, kerf rail, undercut and porcelain clips in one table: mechanism, use, thickness, limits.", u("fixing-systems"), "Open"),
                  ("Explainer", "Thickness and fixing", "Why 30 mm for edge fixings, what 20 mm marble or granite needs, the square law and published safety factors.", u("thickness-and-fixing"), "Open"),
                  ("QA/QC", "Quality", "Inspection and test stages, hold points, records, non-conformance and no substitution without approval.", u("quality"), "Open"),
@@ -250,7 +250,7 @@ def pages(h):
     # ------------------------------------------------------------------ 3d. stone and panel materials
     P["stone-materials"] = dict(
         title="Facade Stone: Riyadh Limestone, Marble, Granite | AL-Swati",
-        desc="The stones and panels we install on Riyadh facades: Riyadh limestone, travertine, marble, granite and porcelain. Typical thickness, standards and checks.",
+        desc="Facade stones and their finishes: Riyadh limestone, travertine, marble, granite, sandstone. Honed, bush-hammered, sandblasted, flamed, split-face.",
         crumb="Stone and panels", eyebrow="Materials", h1="Stone and Panel Materials",
         lead="The stones and panels we install on facades, with what a specifier usually needs first: what the material is, the thickness we typically install, the standard that classifies it and what to check before it is approved. Strength values come from tests on the actual source, so none are published here.",
         sections=[
@@ -261,21 +261,45 @@ def pages(h):
                  ["Travertine", "A banded stone with natural voids, filled or unfilled. Sold as travertine marble.", "Typically 30 mm.", "ASTM C1527 covers travertine {{astm_list}}.", "Direction of the bedding in the panel; filled or unfilled finish; tests at the project thickness."],
                  ["Marble", "Crystalline stone that takes a polish. Mostly imported.", "Often 20 mm. Exterior 20 mm panels on edge fixings need the engineer's check and stone tests, or an undercut system.", "ASTM C503: absorption 0.20% at most, flexural strength 6.9 MPa at least, soundness Group A for exterior use {{c503}}.", "The soundness group; behaviour in heat (see below); test reports for the named marble."],
                  ["Granite", "Hard, dense igneous stone.", "Often 20 mm, with the same condition as marble.", "ASTM C615 covers granite {{astm_list}}.", "Test reports for the named granite; the fixing type for 20 mm panels."],
-                 ["Sandstone and other natural stone", "Quartz-based stone and other stones a project may call for. We install them on the same basis: the fixing follows the tested strength.", "Typically 30 mm.", "ASTM C616 covers quartz-based stone {{astm_list}}.", "Tests on the actual source; bedding direction in the panel."],
+                 ["Sandstone and other natural stone", "Quartz-based stone, basalt and other stones a project may call for. We install them on the same basis: the fixing follows the tested strength.", "Typically 30 mm.", "ASTM C616 covers quartz-based stone {{astm_list}}.", "Tests on the actual source; bedding direction in the panel."],
                  ["Large-format porcelain", "Manufactured slabs, uniform in colour.", "By the slab maker's system.", "ISO/TS 17870-3 covers its mechanical fixing {{iso17870}}.", "The slab maker's facade guide and the anchor's assessment for that slab."],
              ], wide=True) +
              h.prose(h.p("Why thickness follows the fixing, and what 20 mm panels need, is explained on the <a href=\"" + u("thickness-and-fixing") + "\">thickness and fixing</a> page."))),
-            ("Pictures", "How They Look on a Facade",
+            ("Pictures", "The Stones",
              h.gallery([
-                 ("/images/stones/riyadh-limestone.jpg", "Beige Riyadh limestone panels on a tower in Al Aqiq, Riyadh, during installation", "Riyadh limestone", "Our project, Al Aqiq (in progress)", "/projects/tower-limestone-al-aqiq-2026/"),
-                 ("/images/stones/riyadh-stone.jpg", "Light Riyadh stone fins on a commercial building in Irqa, Riyadh", "Light Riyadh stone", "Our project, Irqa", "/projects/commercial-riyadh-stone-irqa-2025/"),
-                 ("/images/stones/travertine.jpg", "Travertine panels on a commercial building in Irqa, Riyadh", "Travertine", "Our project, Irqa", "/projects/commercial-travertine-irqa-2025/"),
-                 ("/images/stones/porcelain.jpg", "Large-format porcelain panels on a villa in Al Nakheel, Riyadh", "Large-format porcelain", "Our project, Al Nakheel", "/projects/villas-porcelain-al-nakheel-2026/"),
-                 ("/images/stones/marble-illustration.jpg", "Illustration of honed white marble facade panels with grey veins", "Marble", "Illustration, not a project photo", ""),
-                 ("/images/stones/granite-illustration.jpg", "Illustration of flamed dark grey granite facade panels", "Granite", "Illustration, not a project photo", ""),
-                 ("/images/stones/sandstone-illustration.jpg", "Illustration of honed buff sandstone facade panels", "Sandstone", "Illustration, not a project photo", ""),
+                 ("/images/stones/stone-limestone-beige.jpg", "Close-up of beige limestone with a honed surface", "Riyadh limestone, beige", "Illustrative picture", ""),
+                 ("/images/stones/stone-limestone-white.jpg", "Close-up of near-white limestone with a honed surface", "White Riyadh stone", "Illustrative picture", ""),
+                 ("/images/stones/stone-limestone-yellow.jpg", "Close-up of yellow limestone with a honed surface", "Riyadh limestone, yellow", "Illustrative picture", ""),
+                 ("/images/stones/stone-travertine.jpg", "Close-up of vein-cut beige travertine with natural voids", "Travertine", "Illustrative picture", ""),
+                 ("/images/stones/stone-marble.jpg", "Close-up of polished white marble with grey veins", "Marble", "Illustrative picture", ""),
+                 ("/images/stones/stone-granite.jpg", "Close-up of polished grey granite crystals", "Granite", "Illustrative picture", ""),
+                 ("/images/stones/stone-sandstone.jpg", "Close-up of buff sandstone with bedding lines", "Sandstone", "Illustrative picture", ""),
+                 ("/images/stones/stone-basalt.jpg", "Close-up of dark grey honed basalt", "Basalt", "Illustrative picture", ""),
+                 ("/images/stones/stone-porcelain.jpg", "Close-up of a light grey large-format porcelain slab", "Large-format porcelain", "Illustrative picture", ""),
              ]) +
-             h.prose(h.p("Project photos have been tidied (site clutter removed); the building and the stone are as built. Colour and veining vary from block to block, so approval is by range samples, not by a picture."))),
+             h.prose(h.p("The pictures illustrate each kind of stone; they are not photographs of one quarry's stone. Colour and veining vary from block to block, so approval is by range samples, not by a picture."))),
+            ("Finishes", "Surface Finishes",
+             h.gallery([
+                 ("/images/stones/stone-marble.jpg", "Polished marble surface with reflections", "Polished", "Illustrative picture", ""),
+                 ("/images/stones/stone-limestone-beige.jpg", "Honed limestone surface, smooth and matte", "Honed", "Illustrative picture", ""),
+                 ("/images/stones/finish-sawn.jpg", "Sawn limestone surface with faint saw lines", "Sawn", "Illustrative picture", ""),
+                 ("/images/stones/finish-brushed.jpg", "Brushed limestone surface, soft and satin", "Brushed (leathered)", "Illustrative picture", ""),
+                 ("/images/stones/finish-sandblasted.jpg", "Sandblasted limestone surface, fine and rough", "Sandblasted", "Illustrative picture", ""),
+                 ("/images/stones/finish-bush-hammered.jpg", "Bush-hammered limestone surface covered with small pits", "Bush-hammered", "Illustrative picture", ""),
+                 ("/images/stones/finish-flamed.jpg", "Flamed granite surface, rough and crystalline", "Flamed", "Illustrative picture", ""),
+                 ("/images/stones/finish-split-face.jpg", "Split-face limestone with a rough natural break", "Split-face", "Illustrative picture", ""),
+             ]) +
+             h.table(["Finish", "How it is made", "Look", "Usual stones", "On a facade"], [
+                 ["Polished", "Ground with finer and finer abrasives, then buffed to a gloss.", "Glossy and reflective; the deepest colour.", "Marble, granite, dense limestone.", "Outdoors, polished marble loses gloss with weather. Shows scratches most."],
+                 ["Honed", "Ground smooth and stopped before the gloss.", "Flat and matte.", "All stones.", "The usual finish for limestone facades."],
+                 ["Sawn", "Left as the saw cut it.", "Matte, with faint saw lines.", "Limestone, sandstone, travertine.", "The most economical finish."],
+                 ["Brushed (leathered)", "Worked with abrasive brushes that follow the grain.", "Soft satin, slightly uneven.", "Limestone, marble, granite.", "Hides small marks better than honed."],
+                 ["Sandblasted", "Blasted with a fine abrasive.", "Even, fine roughness.", "Limestone, sandstone, granite.", "Rough finishes hold more dust than smooth ones."],
+                 ["Bush-hammered", "Struck with a hammer that has many points.", "Evenly pitted.", "Limestone, granite, sandstone.", "A percussion finish needs a slab of at least 30 mm to be applied {{nsi_granite}}."],
+                 ["Flamed", "The surface is burst with a flame.", "Rough and crystalline.", "Granite.", "It removes material from the face: agree the thickness with the fabricator."],
+                 ["Split-face", "Split, not sawn.", "A rough natural break.", "Limestone, sandstone.", "Thicker and heavier pieces; the engineer sizes the fixing for them."],
+             ], wide=True) +
+             h.prose(h.p("Textured finishes take material off the face, so bending tests are done at the project thickness and finish {{yates}}{{nsi_lime}}. The finish is part of the approved sample: the control sample and the mock-up fix it for the whole facade."))),
             ("Published minimums", "What the Material Standards Require",
              h.table(["Stone", "Standard", "Water absorption, maximum", "Compressive strength, minimum", "Bending strength, minimum"], [
                  ["Limestone, low density", "ASTM C568, class I", "12%", "see the standard", "see the standard"],
