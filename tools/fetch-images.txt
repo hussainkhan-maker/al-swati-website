@@ -23,3 +23,4 @@ images/pages/services/stone-cladding-intro.jpg https://d8j0ntlcm91z4.cloudfront.
 images/pages/services/hero-marble.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_202759_73aada6f-ce70-4dc4-a947-c423e471a107.png 1920
 images/pages/services/marble-intro.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_202800_0529aafd-4cb2-4976-8022-f79bbad84efe.png 1200
 images/pages/services/hero-fixing-systems.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_202800_8cf54821-9c20-412b-b836-731521edf95c.png 1920
+images/pages/contact/hero-entrance.jpg https://d8j0ntlcm91z4.cloudfront.net/user_3MZWcmh3GysHImEYU4vbCVzxZof/hf_20261126_204106_d472b2fa-d477-43db-ad1c-4588c51c2d05.png 1920
