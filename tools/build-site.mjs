@@ -614,6 +614,22 @@ function withTech(h) {
   }
   return h;
 }
+// the "For Architects & Consultants" section (/for-consultants/): after Technical Specs in every page's Services menu and the footer's Services list
+const CONSULT = [
+  ['<div class="dd"><a href="/services/"', '<a href="/for-consultants/"><b>For Architects &amp; Consultants</b><small>Process, fixing systems &amp; guide specification</small></a>',
+    '<h4>Services</h4><ul>', '<li><a href="/for-consultants/">For Consultants</a></li>'],
+  ['<div class="dd"><a href="/ar/services/"', '<a href="/ar/for-consultants/"><b>للمعماريين والاستشاريين</b><small>طريقة العمل وأنظمة التثبيت والمواصفة الإرشادية</small></a>',
+    '<h4>خدماتنا</h4><ul>', '<li><a href="/ar/for-consultants/">للاستشاريين</a></li>'],
+];
+function withConsult(h) {
+  for (const [menu, link, foot, li] of CONSULT) {
+    let i = h.indexOf(menu), j;
+    if (i >= 0 && !h.includes(link) && (j = h.indexOf('</div></div>', i)) > 0) h = h.slice(0, j) + link + h.slice(j);
+    i = h.indexOf(foot);
+    if (i >= 0 && !h.includes(li) && (j = h.indexOf('</ul>', i)) > 0) h = h.slice(0, j) + li + h.slice(j);
+  }
+  return h;
+}
 // The website's own visit counter (no cookies; see the Privacy page): every page sends one small note to the ERP's "visit"
 // function when it opens, and one when the visitor presses WhatsApp, call, email or the quote form. Notes say the page,
 // where the visit started (kept by the browser for this tab only), our link tag (?src=tt-…), and phone or computer -
@@ -632,9 +648,9 @@ function withVisits(h) {
   const i = h.lastIndexOf("</body>");
   return i < 0 ? h : h.slice(0, i) + VISITS + h.slice(i);
 }
-/** Square icon for Google, JPG share picture for WhatsApp, the cost calculator and Technical Hub links, the visit counter: the same fix for every page, made or hand-written. */
+/** Square icon for Google, JPG share picture for WhatsApp, the cost calculator, Technical Hub and consultants-section links, the visit counter: the same fix for every page, made or hand-written. */
 function fixHtml(h) {
-  h = withVisits(withTech(withCalc(h)));
+  h = withVisits(withConsult(withTech(withCalc(h))));
   if (ICONS) h = h.replace(/<link rel="icon" href="\/images\/logo\/horizontal\/dark\.png">/g,
     '<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="icon" type="image/png" sizes="192x192" href="/images/icons/icon-192.png">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<meta name="theme-color" content="#1a1a1a">');
   if (HAS_SHARE && /<meta property="og:image" content="[^"]+\.webp">/.test(h)) {

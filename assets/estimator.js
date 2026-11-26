@@ -13,7 +13,7 @@
   var MIN = 50, MAX = 5000, WA = '966511826313';
   // the ERP gets the choices in English, whichever language the visitor used
   var EN = { villa: 'Luxury Villa Facade', tower: 'Commercial Tower', interior: 'Interior Feature Wall', white: 'Riyadh White Stone', limestone: 'Riyadh Limestone (Beige/Yellow)',
-    granite: 'Granite', travertine: 'Travertine Marble', riyadh: 'Riyadh White Stone', marble: 'Travertine Marble', porcelain: 'Large-Format Porcelain', updown: 'Hilti/Fischer Up-Down', rail: 'Vertical C-Channel Rail', kerf: 'Kerf Rail System', undercut: 'Undercut System' };
+    granite: 'Granite', travertine: 'Travertine Marble', riyadh: 'Riyadh White Stone', marble: 'Travertine Marble', porcelain: 'Large-Format Porcelain', updown: 'Up-Down brackets', rail: 'Vertical C-Channel Rail', kerf: 'Kerf Rail System', undercut: 'Undercut System' };
   // the same public address and key as assets/main.js: estimates go into the ERP (Queries) like the quote form
   var ERP = 'https://keweaoogdnxietvyerhj.supabase.co/functions/v1/seo',
     KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtld2Vhb29nZG54aWV0dnllcmhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwNTM5MjIsImV4cCI6MjEwOTYyOTkyMn0.KXMRTzdJVvtWSwaiRou6OQbU1AjJUtir_643diGPSBM';
@@ -42,7 +42,7 @@
       wk: function (n) { return n + (n === 1 ? ' week' : ' weeks'); },
       days: function (a, b, c) { return 'about ' + (a === b ? a : a + '–' + b) + ' working days, ' + c + (c === 1 ? ' team' : ' teams'); },
       msg: ['Hello AL-Swati, I used the cost calculator on your website:', 'Project', 'Material', 'Fixing system', 'Area', 'Estimate (excl. VAT)', 'Timeline', 'Name', 'Mobile', 'Please send me an exact quote.'],
-      sent: function (ref) { return '✓ Sent to our quotes team' + (ref ? ' (ref. ' + ref + ')' : '') + '. WhatsApp is open with your estimate; we reply within one business day.'; },
+      sent: function (ref) { return '✓ Sent to our quotes team' + (ref ? ' (ref. ' + ref + ')' : '') + '. WhatsApp is open with your estimate. We will reply as soon as possible.'; },
       failed: 'WhatsApp is open with your estimate. Press send there so it reaches us.',
       bad: ['Please write your name.', 'Please check your mobile number.'],
       sar: 'SAR', m2: 'm²'
@@ -52,7 +52,7 @@
       wk: function (n) { return n === 1 ? 'أسبوع واحد' : n === 2 ? 'أسبوعان' : n + (n <= 10 ? ' أسابيع' : ' أسبوعًا'); },
       days: function (a, b, c) { return 'حوالي ' + (a === b ? a : '\u2066' + a + '–' + b + '\u2069') + ' يوم عمل، ' + (c === 1 ? 'فريق واحد' : c === 2 ? 'فريقان' : c + ' فرق'); },
       msg: ['السلام عليكم، استخدمت حاسبة التكلفة في موقعكم:', 'المشروع', 'المادة', 'نظام التثبيت', 'المساحة', 'التقدير (بدون الضريبة)', 'المدة', 'الاسم', 'الجوال', 'أرجو إرسال عرض سعر دقيق.'],
-      sent: function (ref) { return '✓ وصل تقديرك إلى فريق التسعير' + (ref ? ' (رقم ' + ref + ')' : '') + '. فتحنا لك واتساب برسالة التقدير، وسنرد خلال يوم عمل.'; },
+      sent: function (ref) { return '✓ وصل تقديرك إلى فريق التسعير' + (ref ? ' (رقم ' + ref + ')' : '') + '. فتحنا لك واتساب برسالة التقدير، وسنرد عليكم في أقرب وقت.'; },
       failed: 'فتحنا لك واتساب برسالة التقدير، اضغط إرسال هناك ليصلنا.',
       bad: ['اكتب اسمك من فضلك.', 'تحقق من رقم الجوال من فضلك.'],
       sar: 'ريال', m2: 'م²'

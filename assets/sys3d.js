@@ -18,16 +18,16 @@
   }
   var LABELS = {
     en: {
-      updown: { part: 'Up-Down angle · stainless steel', steps: ['Wall & anchor bolt', 'Up-Down angles fixed', 'Lower stone onto the tongue', 'Upper stone onto the tongue'], done: 'Installed · Up-Down system' },
-      pen: { part: 'PEN pin bracket · stainless steel', steps: ['Wall & anchor bolt', 'PEN brackets fixed', 'Lower stone onto the pin', 'Upper stone onto the pin'], done: 'Installed · PEN system' },
-      cchannel: { part: 'C-Channel rail · aluminium', steps: ['Wall brackets & anchor bolts', 'C-Channels on the brackets', 'Up-Down clips in the channel', 'Stone panels on the clips'], done: 'Installed · C-Channel system' },
+      updown: { part: 'Up-Down angle · stainless or hot-dip galvanised steel', steps: ['Wall & anchor bolt', 'Up-Down angles fixed', 'Lower stone onto the tongue', 'Upper stone onto the tongue'], done: 'Installed · Up-Down system' },
+      pen: { part: 'PEN pin bracket · stainless or hot-dip galvanised steel', steps: ['Wall & anchor bolt', 'PEN brackets fixed', 'Lower stone onto the pin', 'Upper stone onto the pin'], done: 'Installed · PEN system' },
+      cchannel: { part: 'C-Channel · vertical channel', steps: ['Wall brackets & anchor bolts', 'C-Channels on the brackets', 'Up-Down clips in the channel', 'Stone panels on the clips'], done: 'Installed · C-Channel system' },
       undercut: { part: 'Undercut bracket + anchor · stainless steel', steps: ['Wall & anchor bolts', 'Wall brackets fixed', 'Vertical aluminium supports', 'Horizontal aluminium rails', 'Stone hung on its undercut brackets'], done: 'Installed · Undercut system' },
       kerf: { part: 'Horizontal kerf rail · aluminium & stainless', steps: ['Wall & anchor bolts', 'Wall brackets fixed', 'Vertical aluminium supports', 'Horizontal kerf rails', 'Stone panels onto the rail blades'], done: 'Installed · Rail system' }
     },
     ar: {
-      updown: { part: 'زاوية Up-Down · ستانلس ستيل', steps: ['الجدار ومسمار الانكر', 'تثبيت زوايا Up-Down', 'اللوح السفلي على اللسان', 'اللوح العلوي على اللسان'], done: 'تم التركيب · نظام Up-Down' },
-      pen: { part: 'زاوية PEN بالدبوس · ستانلس ستيل', steps: ['الجدار ومسمار الانكر', 'تثبيت زوايا PEN', 'اللوح السفلي على الدبوس', 'اللوح العلوي على الدبوس'], done: 'تم التركيب · نظام PEN' },
-      cchannel: { part: 'مجرى C-Channel · ألومنيوم', steps: ['زوايا الجدار ومسامير الانكر', 'تثبيت المجاري على الزوايا', 'زوايا Up-Down داخل المجرى', 'تعليق ألواح الحجر'], done: 'تم التركيب · نظام C-Channel' },
+      updown: { part: 'زاوية Up-Down · ستانلس أو مجلفن على الساخن', steps: ['الجدار ومسمار الانكر', 'تثبيت زوايا Up-Down', 'اللوح السفلي على اللسان', 'اللوح العلوي على اللسان'], done: 'تم التركيب · نظام Up-Down' },
+      pen: { part: 'زاوية PEN بالدبوس · ستانلس أو مجلفن على الساخن', steps: ['الجدار ومسمار الانكر', 'تثبيت زوايا PEN', 'اللوح السفلي على الدبوس', 'اللوح العلوي على الدبوس'], done: 'تم التركيب · نظام PEN' },
+      cchannel: { part: 'مجرى C-Channel رأسي', steps: ['زوايا الجدار ومسامير الانكر', 'تثبيت المجاري على الزوايا', 'زوايا Up-Down داخل المجرى', 'تعليق ألواح الحجر'], done: 'تم التركيب · نظام C-Channel' },
       undercut: { part: 'زاوية Undercut مع الانكر · ستانلس ستيل', steps: ['الجدار ومسامير الانكر', 'تثبيت زوايا الجدار', 'القوائم الألومنيوم العمودية', 'المجاري الألومنيوم الأفقية', 'تعليق الحجر بزوايا Undercut'], done: 'تم التركيب · نظام Undercut' },
       kerf: { part: 'مجرى أفقي بشفرة Kerf · ألومنيوم وستانلس', steps: ['الجدار ومسامير الانكر', 'تثبيت زوايا الجدار', 'القوائم الألومنيوم العمودية', 'المجاري الأفقية بالشفرة', 'تركيب الحجر على الشفرات'], done: 'تم التركيب · نظام المجاري' }
     }

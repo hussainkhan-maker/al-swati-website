@@ -61,11 +61,53 @@
       if(btn)btn.disabled=true;if(note)note.textContent=ar?'جارٍ الإرسال…':'Sending…';
       erp({action:'lead',name:d.get('name'),phone:d.get('phone'),email:d.get('email'),projectType:d.get('projectType'),message:d.get('message'),hp:d.get('hp'),page:location.pathname,lang:ar?'ar':'en',ref:document.referrer,utm:utm})
         .then(function(r){return r.json().then(function(j){if(!r.ok||j.error)throw new Error(j.error||r.status);return j})})
-        .then(function(){f.reset();if(note)note.innerHTML=(ar?'✓ وصلنا طلبك، وسنتواصل معك خلال يوم عمل. للتواصل الفوري: ':'✓ We have your request and will reply within one business day. For a faster reply: ')+'<a href="'+wa+'" target="_blank" rel="noopener">'+(ar?'أرسله على واتساب':'send it on WhatsApp')+'</a>'})
+        .then(function(){f.reset();if(note)note.innerHTML=(ar?'✓ وصلنا طلبك، وسنرد عليكم في أقرب وقت. وللتواصل عبر واتساب: ':'✓ We have your request and will reply as soon as possible. You can also ')+'<a href="'+wa+'" target="_blank" rel="noopener">'+(ar?'أرسله على واتساب':'send it on WhatsApp')+'</a>'})
         .catch(function(){if(note)note.textContent=ar?'لم يصل الطلب، سيُفتح واتساب الآن.':'Could not send the form, opening WhatsApp instead.';window.open(wa,'_blank')})
         .then(function(){if(btn)btn.disabled=false});
     });
   });
+  // "Send us your drawings" (/for-consultants/send-drawings/): the same road into the ERP (Queries) as the quote form.
+  // The site has no file upload, so the form carries a link to the drawings; nothing here promises a reply time.
+  (function(){
+    var f=document.getElementById('drawings-form');if(!f)return;
+    var M={};try{M=JSON.parse(f.getAttribute('data-msgs'))}catch(x){}
+    var hp=document.createElement('input');hp.name='hp';hp.tabIndex=-1;hp.autocomplete='off';hp.setAttribute('aria-hidden','true');
+    hp.style.cssText='position:absolute;top:0;left:0;width:1px;height:1px;opacity:0;overflow:hidden;clip-path:inset(50%);pointer-events:none';f.style.position='relative';f.appendChild(hp);
+    var note=f.querySelector('.est-note'),btn=f.querySelector('button[type=submit]');
+    function val(n){var x=f.querySelector('[name='+n+']');return x?x.value.trim():''}
+    function bad(msg,name){note.textContent=msg;note.className='est-note tc-bad';var x=name&&f.querySelector('[name='+name+']');if(x){x.setAttribute('aria-invalid','true');x.focus()}}
+    f.addEventListener('input',function(e){if(e.target.removeAttribute)e.target.removeAttribute('aria-invalid')});
+    f.addEventListener('submit',function(e){
+      e.preventDefault();if(btn.disabled)return;
+      f.querySelectorAll('[aria-invalid]').forEach(function(x){x.removeAttribute('aria-invalid')});
+      var west=function(x){return x.replace(/[\u0660-\u0669]/g,function(d){return d.charCodeAt(0)-0x660}).replace(/[\u06F0-\u06F9]/g,function(d){return d.charCodeAt(0)-0x6F0})};
+      var name=val('name'),company=val('company'),phone=west(val('phone')),email=val('email'),link=val('link');
+      if(name.length<2)return bad(M.name,'name');
+      if(company.length<2)return bad(M.company,'company');
+      if(!phone&&!email)return bad(M.contact,'email');
+      if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return bad(M.email,'email');
+      if(phone&&(!/^[+\d\s()\-]{7,22}$/.test(phone)||phone.replace(/\D/g,'').length<9))return bad(M.phone,'phone');
+      if(link&&!/^https?:\/\/\S+\.\S+/i.test(link))return bad(M.link,'link');
+      var role=val('role'),loc=val('location'),stage=val('stage'),mat=val('material'),area=west(val('area')).replace(/[^\d.,]/g,''),text=val('message');
+      var msg='Drawings review request from the website (For Architects & Consultants, '+(ar?'Arabic':'English')+' page).\n'
+        +'Company: '+company+(role?' ('+role+')':'')+'\n'
+        +'Project location: '+(loc||'-')+'\n'
+        +'Stage: '+(stage||'-')+'\n'
+        +'Stone / material: '+(mat||'-')+'\n'
+        +'Approximate area: '+(area?area+' m2':'-')+'\n'
+        +'Link to drawings: '+(link||'none given (will email or WhatsApp)')+'\n'
+        +'Message: '+(text||'-');
+      btn.disabled=true;note.className='est-note';note.textContent=M.sending;
+      erp({action:'lead',name:name,phone:phone,email:email,company:company,role:role,docs:['Drawings review'],system:mat,project:loc,
+        projectType:('Drawings review: '+(stage||'stage not given')).slice(0,60),message:msg,hp:hp.value,page:location.pathname,lang:ar?'ar':'en',ref:document.referrer,utm:utm})
+        .then(function(r){return r.json().then(function(j){if(!r.ok||j.error)throw new Error(j.error||r.status);return j})})
+        .then(function(j){if(!j.ref){note.className='est-note tc-bad';note.textContent=M.dup;return} // the ERP keeps one website request per phone or email per day: say so instead of a false "received"
+          note.className='est-note tc-ok';note.textContent=M.sent.replace('{ref}',M.ref.replace('{r}',j.ref));
+          f.querySelectorAll('input:not([name=hp]),textarea').forEach(function(x){x.value=''})})
+        .catch(function(){note.className='est-note tc-bad';note.textContent=M.failed})
+        .then(function(){btn.disabled=false});
+    });
+  })();
   // calls, WhatsApp and email taps are counted (no personal data) so the ERP knows which pages bring work
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href');

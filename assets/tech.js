@@ -63,7 +63,8 @@
     e.preventDefault();
     if (btn.disabled) return;
     f.querySelectorAll('[aria-invalid]').forEach(function (x) { x.removeAttribute('aria-invalid'); });
-    var name = val('name'), company = val('company'), phone = val('phone'), email = val('email');
+    var name = val('name'), company = val('company'), email = val('email');
+    var phone = val('phone').replace(/[\u0660-\u0669]/g, function (d) { return d.charCodeAt(0) - 0x660; }).replace(/[\u06F0-\u06F9]/g, function (d) { return d.charCodeAt(0) - 0x6F0; });
     var docs = [].map.call(f.querySelectorAll('input[name=docs]:checked'), function (x) { return x.value; });
     if (name.length < 2) return bad(M.name, 'name');
     if (company.length < 2) return bad(M.company, 'company');
