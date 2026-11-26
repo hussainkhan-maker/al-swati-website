@@ -202,6 +202,36 @@ def pages(h):
                  ["Undercut and kerf rail systems", "Rails on vertical profiles or on the frame.", "The profiles or the frame are set out to line; the hanger or the rail does not change size. The hanger's screw sets the last few millimetres of level.", "As built on our undercut work."],
              ], wide=True) +
              h.prose(h.p("The engineer chooses the vertical members from the panel weight (dead load), the wind load on their span and the deflection the stone can accept. Sizes named here are the common ones on site, for orientation only; the project sizes are on the approved shop drawings."))),
+            ("Choosing", "Channel or Frame, and the System on It",
+             h.prose(h.p("Many specifications require the cladding load to go to the reinforced concrete and not to the block wall. Two substructures do that, and the choice between them is mostly a question of span:")) +
+             h.table(["Where the concrete is", "Substructure", "Why"], [
+                 ["Close together: beams, columns, lintels and slab edges within short distances", "Vertical C-Channel on wall brackets anchored in the concrete.", "The channel only has to span from bracket to bracket across the block."],
+                 ["Only at each floor: a full storey of block between slab edges", "A heavier section or a steel frame designed for the project.", "Over a storey-high span a light channel can deflect too much under wind. The engineer sizes the member for that span."],
+                 ["Stone set far out from the wall", "A steel frame.", "See the stand-off table above."],
+             ], wide=True) +
+             h.prose(h.p("The fixing system is then chosen for the stone and the look. Each has its strengths and its limits:")) +
+             h.table(["System", "Strengths", "Limits"], [
+                 ["Up-Down and PEN", "Economical and quick; known to every stone fixer; easy to adjust panel by panel.", "A kerf or a hole is cut in the panel edge, so the stone needs thickness there: typically 30 mm."],
+                 ["Kerf rail", "The continuous rail brings the row to line by itself; fast on large regular surfaces.", "The kerf runs along the whole edge, so the stone must be sound and the kerf cut in the workshop."],
+                 ["Undercut anchors", "Nothing shows; no load on the panel edges; large panels; a single panel can be taken off and replaced.", "The highest cost; the holes need the maker's drilling machine and trained fixers."],
+             ], wide=True)),
+            ("On site", "How We Set the Stone",
+             h.prose(h.p("Our usual practice on Riyadh sites. The approved shop drawings and method statement govern on each project.")) +
+             h.table(["Item", "Our practice"], [
+                 ["Up-Down and PEN: fixings per panel", "Each panel is held at four points: two fixings at its top edge, one towards each end, and the two fixings of the course below at its bottom edge. Every angle or pin therefore serves two courses. Larger panels get more, per the shop drawings."],
+                 ["C-Channel: channel positions", "Channels are set out from the panel size, so that two brackets fall behind every panel."],
+                 ["Steel frame", "Verticals first, then horizontals at the levels the panel size requires."],
+                 ["Kerf rail", "Rails at the top and bottom edges of the panels; at the sides as well where the design calls for it."],
+                 ["Undercut anchors", "Four hangers on the back of a panel on our current work (panels of 410 × 700 mm). The number per panel comes from the anchor's assessment and the engineer."],
+                 ["Joints", "Open joints of 3 mm or 5 mm, kept uniform with cross-shaped spacers at the panel corners."],
+                 ["Pin holes and kerfs", "Filled at the fixing with a two-part stone adhesive (resin and hardener). The product is submitted for approval with the materials."],
+                 ["Anchors", "Into concrete or solid masonry. In hollow block only as the engineer and the anchor maker's instructions allow. Anchors are Hilti, Fischer or an approved equal that meets the project's requirements; holes are cleaned as the maker instructs."],
+                 ["First course", "Set on a starter angle at the base, levelled before any stone goes up."],
+                 ["Reveals, sills and copings", "Held by the same mechanical means: brackets from the channel, or a kerf in the piece."],
+                 ["Movement joints", "Where the engineer shows them on the drawings."],
+                 ["Pull-out tests on anchors", "Carried out by the consultant or the main contractor. If they are required from us, they are priced as a separate item."],
+                 ["Waterproofing and insulation behind the stone", "Installed by us when they are in our scope: bituminous waterproofing on the wall, and insulation where specified."],
+             ], wide=True)),
             ("Corners", "External Corners and Clean Cuts",
              h.det("corners", "Detail 08 · Plan", "Four ways to turn a corner", [
                  ("A · Butt joint", "One panel runs past the corner and the other stops against it. The edge of the first panel shows on the return face, so that edge is finished like the face. Simple and robust."),
