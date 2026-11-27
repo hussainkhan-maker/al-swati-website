@@ -135,5 +135,48 @@
   document.querySelectorAll('[data-copy]').forEach(function(x){x.addEventListener('click',function(){
     try{navigator.clipboard.writeText(location.origin);x.textContent='✓ Copied'}catch(e){}
   })});
+  // the bar under the header marks the part of the page on screen
+  var jump=[].slice.call(document.querySelectorAll('.tc-jump a'));
+  if(jump.length&&'IntersectionObserver' in window){
+    var jio=new IntersectionObserver(function(en){en.forEach(function(e){if(!e.isIntersecting)return;jump.forEach(function(a){var on=a.getAttribute('href')==='#'+e.target.id;a.classList.toggle('on',on);
+      if(on){var w=a.parentNode,r=a.getBoundingClientRect(),wr=w.parentNode.getBoundingClientRect();if(r.left<wr.left+10||r.right>wr.right-10)w.parentNode.scrollLeft+=r.left-wr.left-16}})})},{rootMargin:'-35% 0px -60% 0px'});
+    jump.forEach(function(a){var t=document.getElementById(a.getAttribute('href').slice(1));if(t)jio.observe(t)});
+  }
+  // consultants pages on phones: every part after the first is closed until its heading is tapped
+  if(document.body.classList.contains('fc-page')&&window.matchMedia&&matchMedia('(max-width:760px)').matches){
+    var parts=[].slice.call(document.querySelectorAll('main>.fc-sec[id]')).filter(function(s){return /^part-|^map$/.test(s.id)||s.querySelector(':scope>.wrap>.eyebrow')});
+    var openPart=function(s){s.classList.remove('fc-closed');var h=s.querySelector('h2');if(h)h.setAttribute('aria-expanded','true')};
+    parts.forEach(function(s,i){var h=s.querySelector(':scope>.wrap>h2');if(!h)return;s.classList.add('fc-fold');h.setAttribute('role','button');h.setAttribute('tabindex','0');
+      if(i>0&&'#'+s.id!==location.hash){s.classList.add('fc-closed');h.setAttribute('aria-expanded','false')}else h.setAttribute('aria-expanded','true');
+      var flip=function(){var c=s.classList.toggle('fc-closed');h.setAttribute('aria-expanded',c?'false':'true')};
+      h.addEventListener('click',flip);h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}})});
+    var toHash=function(){var id=location.hash.slice(1),el=id&&document.getElementById(id);if(!el)return;var s=el.closest('.fc-fold');if(s&&s.classList.contains('fc-closed')){openPart(s);el.scrollIntoView()}};
+    window.addEventListener('hashchange',toHash);
+    document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var el=document.getElementById(a.getAttribute('href').slice(1)),s=el&&el.closest('.fc-fold');if(s)openPart(s)},true);
+  }
+  // phones: card rows swipe sideways with dots under them, long text opens on demand, one bar for call, WhatsApp and the calculator
+  if(window.matchMedia&&matchMedia('(max-width:640px)').matches){
+    var isAr=document.documentElement.lang==='ar';
+    document.querySelectorAll('.sgrid,.grid3,.grid4,.steps4,.sys,.area-gallery,.gal,.fc-cards,.tc-links,body:not(.pf-page) .pgrid').forEach(function(g){
+      if(g.closest('#portfolio')||g.children.length<3)return;
+      g.classList.add('sw-row');var n=g.children.length,d=document.createElement('div');d.className='sw-dots';d.setAttribute('aria-hidden','true');
+      for(var i=0;i<n;i++)d.appendChild(document.createElement('i'));d.firstChild.className='on';g.parentNode.insertBefore(d,g.nextSibling);
+      var tick=0;g.addEventListener('scroll',function(){if(tick)return;tick=requestAnimationFrame(function(){tick=0;var w=g.children[0].getBoundingClientRect().width+12,k=Math.min(n-1,Math.round(Math.abs(g.scrollLeft)/w));
+        [].forEach.call(d.children,function(x,i){x.className=i===k?'on':''})})},{passive:true});
+    });
+    document.querySelectorAll('main .body,.prose,.fc-fold .fc-prose').forEach(function(b){
+      if(b.closest('.rm')||b.offsetHeight<760)return;
+      b.classList.add('rm');var bg=b.closest('section');if(bg)b.style.setProperty('--rm-bg',getComputedStyle(bg).backgroundColor==='rgba(0, 0, 0, 0)'?'#1a1a1a':getComputedStyle(bg).backgroundColor);
+      var btn=document.createElement('button');btn.type='button';btn.className='rm-btn';btn.textContent=isAr?'اقرأ المزيد':'Read more';
+      btn.addEventListener('click',function(){b.classList.add('rm-open');btn.remove()});b.parentNode.insertBefore(btn,b.nextSibling);
+    });
+    if(!document.querySelector('.mbar')){
+      var here=document.getElementById('estimate-form'),calc=here?'#estimate-form':(isAr?'/ar':'')+'/stone-cladding-cost-calculator/',bar=document.createElement('nav');bar.className='mbar';bar.setAttribute('aria-label',isAr?'تواصل سريع':'Quick contact');
+      bar.innerHTML='<a href="tel:+966511826313"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span>'+(isAr?'اتصال':'Call')+'</span></a>'+
+        '<a class="w" href="https://wa.me/966511826313"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 20.5l1.3-4.6A8.5 8.5 0 1 1 8 19.200z"/><path d="M9 8.500c0 3 2.500 6 6 6.500l1.200-1.500-2-1-1 .800c-1-.500-1.800-1.300-2.300-2.300l.800-1-1-2z"/></svg><span>'+(isAr?'واتساب':'WhatsApp')+'</span></a>'+
+        '<a href="'+calc+'"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.500"/><path d="M8 7h8M8 12h2M12 12h0M16 12h0M8 16h2M12 16h0M16 16h0"/></svg><span>'+(isAr?'احسب التكلفة':'Cost calculator')+'</span></a>';
+      document.body.appendChild(bar);document.body.classList.add('has-mbar');
+    }
+  }
   var y=document.getElementById('yr');if(y)y.textContent=new Date().getFullYear();
 })();

@@ -165,13 +165,26 @@ def page(lang, slug, pg, titles):
     header = header.replace(f'href="{L[other]["pre"]}/technical-specs/"', f'href="{twin}"')
     used = []
     secs = []
-    for i, s in enumerate(pg["sections"]):
-        eyebrow, h2, body = s[:3]; sid = s[3] if len(s) > 3 else ""
+    import quick
+    q = quick.T[lang]; uq = lambda x: x if x.startswith("/") and lang == "en" else (f"/ar{x}" if x.startswith("/") else f"{t['pre']}/{BASE}/{x}/")
+    sections = list(pg["sections"])
+    if not slug:  # the hub: a map in three stages replaces the two long card lists (when to call us, what you will find here)
+        stages = "".join(
+            f'<div class="fc-stage"><small>{st}</small><b>{title}</b><p>{line}</p><ul>' + "".join(f'<li><a href="{uq(sl)}"><b>{nm}</b><span>{few}</span></a></li>' for sl, nm, few in items) + "</ul></div>"
+            for st, title, line, items in quick.MAP[lang])
+        sections = [(q["map_e"], q["map_h"], f'<div class="fc-map">{stages}</div>', "map"), sections[0], sections[3]]
+    jump = []
+    for i, s in enumerate(sections):
+        eyebrow, h2, body = s[:3]; sid = s[3] if len(s) > 3 and s[3] else f"part-{i + 1}"
         cls = "fc-sec bt" + (" alt" if i % 2 == 0 else "")
-        secs.append(f'<section class="{cls}"{f" id={chr(34)}{sid}{chr(34)}" if sid else ""}><div class="wrap">' + (f'<div class="eyebrow">{eyebrow}</div>' if eyebrow else "") + f"<h2>{h2}</h2>{cite(body, used)}</div></section>")
+        if eyebrow: jump.append((sid, eyebrow))
+        secs.append(f'<section class="{cls}" id="{sid}"><div class="wrap">' + (f'<div class="eyebrow">{eyebrow}</div>' if eyebrow else "") + f"<h2>{h2}</h2>{cite(body, used)}</div></section>")
+    jumpbar = f'<nav class="subnav tc-jump" aria-label="{q["jump"]}"><div class="wrap">' + "".join(f'<a href="#{i}">{e}</a>' for i, e in jump) + "</div></nav>" if len(jump) >= 3 else ""
+    quickbox = f'<aside class="fc-quick"><b>{q["quick"]}</b><ul>' + "".join(f"<li>{x}</li>" for x in quick.QUICK[lang][slug]) + "</ul></aside>"
+    pick = "" if slug else f'<div class="fc-pick"><b>{q["need"]}</b>' + "".join(f'<a href="{uq(sl)}">{w}</a>' for w, sl in quick.PICK[lang]) + "</div>"
     secs = [nb(x) for x in secs]
     lead = cite(pg["lead"], used)
-    n = len(pg["sections"])
+    n = len(sections)
     src = ""
     if used:
         items = "".join(f'<li id="src-{i + 1}">{esc(SOURCES[k][0])}. <a href="{esc(SOURCES[k][1])}" rel="noopener nofollow" target="_blank">{esc(re.sub(r"^https?://(www\.)?", "", SOURCES[k][1]).split("/")[0])}</a></li>' for i, k in enumerate(used))
@@ -225,7 +238,7 @@ def page(lang, slug, pg, titles):
 <meta name="theme-color" content="#1a1a1a">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css?v=f2">
 <script type="application/ld+json">{biz}</script>
 <script type="application/ld+json">{js(art)}</script>
 <script type="application/ld+json">{js({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": bl})}</script>
@@ -241,8 +254,11 @@ def page(lang, slug, pg, titles):
 {crumbs}
 <div class="eyebrow">{pg["eyebrow"]}</div><h1>{pg["h1"]}</h1><div class="rule"></div><p class="lead">{lead}</p>
 {pg.get("btns", "")}
+{pick}
 <p class="fc-note"><b>{t["note"]}</b> <span>{t["updated"]}: {t["date"]}</span></p>
+{quickbox}
 </div></section>
+{jumpbar}
 {"".join(secs)}
 {src}
 {nav}
@@ -250,7 +266,7 @@ def page(lang, slug, pg, titles):
 {footer}
 {wa}
 
-<script src="/assets/main.js"></script>
+<script src="/assets/main.js?v=f2"></script>
 </body>
 </html>
 '''

@@ -50,15 +50,6 @@
       th.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
     });
   }
-  // the bar under the header marks the part of the page on screen
-  var jump = [].slice.call(document.querySelectorAll('.tc-jump a'));
-  if (jump.length && 'IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (en) {
-      en.forEach(function (e) { if (e.isIntersecting) jump.forEach(function (a) { var on = a.getAttribute('href') === '#' + e.target.id; a.classList.toggle('on', on); if (on && a.scrollIntoView && window.innerWidth <= 760) a.parentNode.scrollLeft = a.offsetLeft - 16; }); });
-    }, { rootMargin: '-35% 0px -60% 0px' });
-    jump.forEach(function (a) { var t = document.getElementById(a.getAttribute('href').slice(1)); if (t) io.observe(t); });
-  }
-
   // comparison chart: each row opens to say why
   document.querySelectorAll('.tc-row').forEach(function (b) {
     b.addEventListener('click', function () {
