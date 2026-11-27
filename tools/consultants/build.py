@@ -172,7 +172,9 @@ def page(lang, slug, pg, titles):
         stages = "".join(
             f'<div class="fc-stage"><small>{st}</small><b>{title}</b><p>{line}</p><ul>' + "".join(f'<li><a href="{uq(sl)}"><b>{nm}</b><span>{few}</span></a></li>' for sl, nm, few in items) + "</ul></div>"
             for st, title, line, items in quick.MAP[lang])
-        sections = [(q["map_e"], q["map_h"], f'<div class="fc-map">{stages}</div>', "map"), sections[0], sections[3]]
+        import fxmap
+        ft = fxmap.T[lang]
+        sections = [(ft["e"], ft["h"], fxmap.html(lang, uq, heading=False), "parts"), (q["map_e"], q["map_h"], f'<div class="fc-map">{stages}</div>', "map"), sections[0], sections[3]]
     jump = []
     for i, s in enumerate(sections):
         eyebrow, h2, body = s[:3]; sid = s[3] if len(s) > 3 and s[3] else f"part-{i + 1}"
@@ -238,7 +240,7 @@ def page(lang, slug, pg, titles):
 <meta name="theme-color" content="#1a1a1a">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/assets/style.css?v=f2">
+<link rel="stylesheet" href="/assets/style.css?v=f3">
 <script type="application/ld+json">{biz}</script>
 <script type="application/ld+json">{js(art)}</script>
 <script type="application/ld+json">{js({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": bl})}</script>
@@ -266,7 +268,7 @@ def page(lang, slug, pg, titles):
 {footer}
 {wa}
 
-<script src="/assets/main.js?v=f2"></script>
+<script src="/assets/main.js?v=f3"></script>
 </body>
 </html>
 '''

@@ -135,6 +135,16 @@
   document.querySelectorAll('[data-copy]').forEach(function(x){x.addEventListener('click',function(){
     try{navigator.clipboard.writeText(location.origin);x.textContent='✓ Copied'}catch(e){}
   })});
+  // the picture map: a tap on a number, a chip or a part of the drawing shows that part
+  document.querySelectorAll('.fx').forEach(function(fx){
+    var pick=function(k){fx.querySelectorAll('[data-k]').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-k')===k)});
+      var c=fx.querySelector('.fx-chip.on'),w=c&&c.parentNode;if(w&&w.scrollWidth>w.clientWidth){var r=c.getBoundingClientRect(),wr=w.getBoundingClientRect();if(r.left<wr.left||r.right>wr.right)w.scrollLeft+=r.left-wr.left-16}};
+    fx.classList.add('fx-js');
+    fx.addEventListener('click',function(e){if(e.target.closest('a'))return;var t=e.target.closest('.fx-hot,.fx-chip');if(t)pick(t.getAttribute('data-k'))});
+    fx.addEventListener('keydown',function(e){var t=e.target.closest&&e.target.closest('.fx-hot');if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pick(t.getAttribute('data-k'))}});
+    if(window.matchMedia&&matchMedia('(hover:hover)').matches)fx.querySelectorAll('.fx-hot').forEach(function(g){g.addEventListener('mouseenter',function(){pick(g.getAttribute('data-k'))})});
+    pick('stone');
+  });
   // the bar under the header marks the part of the page on screen
   var jump=[].slice.call(document.querySelectorAll('.tc-jump a'));
   if(jump.length&&'IntersectionObserver' in window){
