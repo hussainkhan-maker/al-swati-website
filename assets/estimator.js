@@ -200,6 +200,12 @@
       f.querySelectorAll('.ec-quick button').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-a') === a); });
       last = { r: r, a: a };
       var chat = f.querySelector('.est-chat'); if (chat) chat.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text('', ''));
+      barWa();
+    }
+    // phones: at the result, the WhatsApp button of the bottom bar carries the estimate, so it is one tap away without scrolling
+    function barWa() {
+      var b = document.querySelector('.mbar a.w'); if (!b || !last) return;
+      b.href = 'https://wa.me/' + WA + (f.classList.contains('ec-end') ? '?text=' + encodeURIComponent(text('', '')) : '');
     }
     function text(name, phone) {
       var r = last.r, M = L.msg, por = pick('material') === 'porcelain';
@@ -233,7 +239,7 @@
       var bar = nav.querySelector('.ec-bar i'); if (bar) bar.style.width = (100 * (end ? 1 : (cur + 1) / (st.length + 1))) + '%';
       nav.querySelector('.ec-back').hidden = end || cur === 0; nav.querySelector('.ec-prog').hidden = end; nav.querySelector('.ec-edit').hidden = !end;
       if (dbtn) dbtn.textContent = cur >= st.length - 1 ? f.getAttribute('data-see') : f.getAttribute('data-next');
-      dockUpd();
+      dockUpd(); barWa();
       if (move) { var y = f.getBoundingClientRect().top + window.pageYOffset - 74; window.scrollTo({ top: y, behavior: calm ? 'auto' : 'smooth' }); }
     }
     function mode() {
