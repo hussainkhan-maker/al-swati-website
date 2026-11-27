@@ -9,11 +9,11 @@
    3.3 m per m2. A larger stone (e.g. 40x90) needs more channel and angle per stone, as he says; the exact step up is not given.
    Anchors: 4 per stone when the angles sit on channels (confirmed as "4 anchors"). When the angles are fixed straight to the wall there is
    one bolt per angle, so 6 bolts per stone.
-   Glue ("joli", brands Abu Jamal / Om Jamal): 1 carton = 10 boxes and covers 30 m2 (his correction; he first said 40).
+   Glue ("joli", brands Abu Jamal / Om Jamal): 1 carton = 8 boxes and covers 40 to 50 m2 (owner, latest word, 27 Nov 2026 evening).
    Accessories: most are bought from Ahmed Salem Al-Enezi Trading. His bills of Aug-Oct 2026 (SAR each, before VAT), saved in the app's price list:
    Up-Down angle SO 3 mm: 4x4x2.5 0.340, 4x4x3 0.340, 4x4x4 0.350, 4x4x5 0.460, 4x4x6 0.490, 4x4x7 0.535, 4x4x8 0.576, 4x4x10 0.680.
    Channel 41x41, 3 m length: 2 mm 29.00, 2.5 mm 31.50. Spring nut 8 mm 0.300. Shim 4x4 3 mm 0.240. Bolt 3 cm 0.090.
-   Anchors: khabour 4 cm 0.140, 5 cm 0.180, wedge anchor 10x80 0.268. Glue Abu Jamal 11.957 a box (carton of 10 = 119.57, covers 30 m2).
+   Anchors: khabour 4 cm 0.140, 5 cm 0.180, wedge anchor 10x80 0.268. Glue Abu Jamal 11.957 a box (carton of 8 = 95.66; at 40 m2 that is 2.39 per m2).
    A handwritten note on one offer shows the next prices about 8% higher (channel 2.5 mm 34.00, angle 4x4x5 0.50).
    Which accessory belongs to which system, as the owner tells it: the spring nut (نابض) goes with the channel. More to be added from his bills.
    Confirmed by the owner (27 Nov 2026): on channels only the 4 angles at the top and bottom are used (no side angles: they would need
