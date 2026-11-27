@@ -11,7 +11,7 @@ QUICK = {
     "en": {
         "": ["We supply and install stone, marble, granite and porcelain facades held by mechanical fixings (metal brackets and anchors, no mortar behind the stone).",
              "Design is by the project engineer or consultant. We install to approved shop drawings.",
-             "Use the map below: choose, then specify, then build and approve."],
+             "Three ways in: search a word, pick what you need, or tap a part of the wall."],
         "how-we-deliver": ["Two engineering routes: the shop drawings are issued to us, or the project's facade engineer prepares them within our scope.",
                            "The order of work: submittals and samples, mock-up on request, steel substructure, stone, inspection, handover.",
                            "At handover you receive the records and the 5-year written workmanship warranty attested by the Chamber of Commerce, issued by the contracting company."],
@@ -49,7 +49,7 @@ QUICK = {
     "ar": {
         "": ["نورّد ونركّب واجهات الحجر والرخام والجرانيت والبورسلان بالتثبيت الميكانيكي (زوايا وانكرات معدنية، بدون مونة خلف الحجر).",
              "التصميم من مهندس المشروع أو الاستشاري، ونحن نركّب حسب المخططات التنفيذية المعتمدة.",
-             "استخدموا الخريطة أدناه: اختيار، ثم مواصفة، ثم تنفيذ واعتماد."],
+             "ثلاث طرق للوصول: ابحث بكلمة، أو اختر ما تحتاجه، أو اضغط على جزء من الجدار."],
         "how-we-deliver": ["مساران للأعمال الهندسية: تُسلَّم لنا المخططات التنفيذية، أو يعدّها مهندس واجهات المشروع ضمن نطاقنا.",
                            "ترتيب العمل: طلبات الاعتماد والعينات، ثم النموذج التجريبي عند الطلب، ثم الهيكل المعدني، ثم الحجر، ثم الفحص والتسليم.",
                            "عند التسليم تستلمون السجلات والضمان المكتوب على التنفيذ لمدة 5 سنوات، المصدّق من الغرفة التجارية، الذي تصدره شركة المقاولات."],
@@ -88,9 +88,9 @@ QUICK = {
 
 # the hub's picker: (words, slug); "/technical-specs/" is the spec sheet page outside the section folder
 PICK = {
-    "en": [("A drawing of a fixing", "typical-details"), ("Specification text", "specification"), ("The thickness rule", "thickness-and-fixing"),
+    "en": [("A drawing of a fixing", "typical-details"), ("Specification as a Word file", "specification"), ("The thickness rule", "thickness-and-fixing"),
            ("To compare systems", "fixing-systems"), ("A one-page spec sheet", "/technical-specs/"), ("To send my drawings", "send-drawings")],
-    "ar": [("رسمة لتفصيلة تثبيت", "typical-details"), ("نص مواصفة", "specification"), ("قاعدة السماكة", "thickness-and-fixing"),
+    "ar": [("رسمة لتفصيلة تثبيت", "typical-details"), ("المواصفة في ملف Word", "specification"), ("قاعدة السماكة", "thickness-and-fixing"),
            ("مقارنة الأنظمة", "fixing-systems"), ("جدول مواصفات من صفحة", "/technical-specs/"), ("إرسال مخططاتي", "send-drawings")],
 }
 

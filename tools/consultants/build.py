@@ -169,12 +169,9 @@ def page(lang, slug, pg, titles):
     q = quick.T[lang]; uq = lambda x: x if x.startswith("/") and lang == "en" else (f"/ar{x}" if x.startswith("/") else f"{t['pre']}/{BASE}/{x}/")
     sections = list(pg["sections"])
     if not slug:  # the hub: a map in three stages replaces the two long card lists (when to call us, what you will find here)
-        stages = "".join(
-            f'<div class="fc-stage"><small>{st}</small><b>{title}</b><p>{line}</p><ul>' + "".join(f'<li><a href="{uq(sl)}"><b>{nm}</b><span>{few}</span></a></li>' for sl, nm, few in items) + "</ul></div>"
-            for st, title, line, items in quick.MAP[lang])
         import fxmap
         ft = fxmap.T[lang]
-        sections = [(ft["e"], ft["h"], fxmap.html(lang, uq, heading=False), "parts"), (q["map_e"], q["map_h"], f'<div class="fc-map">{stages}</div>', "map"), sections[0], sections[3]]
+        sections = [(ft["e"], ft["h"], fxmap.html(lang, uq, heading=False), "parts"), sections[0], sections[3]]
     jump = []
     for i, s in enumerate(sections):
         eyebrow, h2, body = s[:3]
@@ -186,7 +183,8 @@ def page(lang, slug, pg, titles):
         secs.append(f'<section class="{cls}" id="{sid}"><div class="wrap">' + (f'<div class="eyebrow">{eyebrow}</div>' if eyebrow else "") + f"<h2>{h2}</h2>{cite(body, used)}</div></section>")
     jumpbar = f'<nav class="subnav tc-jump" aria-label="{q["jump"]}"><div class="wrap">' + "".join(f'<a href="#{i}">{e}</a>' for i, e in jump) + "</div></nav>" if len(jump) >= 3 else ""
     quickbox = f'<aside class="fc-quick"><b>{q["quick"]}</b><ul>' + "".join(f"<li>{x}</li>" for x in quick.QUICK[lang][slug]) + "</ul></aside>"
-    pick = "" if slug else f'<div class="fc-pick"><b>{q["need"]}</b>' + "".join(f'<a href="{uq(sl)}">{w}</a>' for w, sl in quick.PICK[lang]) + "</div>"
+    import fxmap as _fx
+    ways = f'<div class="fc-ways">{_fx.search(lang)}{"" if slug else _fx.need(lang, uq)}</div>'
     secs = [nb(x) for x in secs]
     lead = cite(pg["lead"], used)
     n = len(sections)
@@ -243,7 +241,7 @@ def page(lang, slug, pg, titles):
 <meta name="theme-color" content="#1a1a1a">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/assets/style.css?v=f6">
+<link rel="stylesheet" href="/assets/style.css?v=f7">
 <script type="application/ld+json">{biz}</script>
 <script type="application/ld+json">{js(art)}</script>
 <script type="application/ld+json">{js({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": bl})}</script>
@@ -258,9 +256,8 @@ def page(lang, slug, pg, titles):
 <section class="est-top tc-top fc-top"><div class="wrap">
 {crumbs}
 <div class="eyebrow">{pg["eyebrow"]}</div><h1>{pg["h1"]}</h1><div class="rule"></div><p class="lead">{lead}</p>
-{__import__("fxmap").search(lang)}
-{pg.get("btns", "")}
-{pick}
+{ways}
+{pg.get("btns", "") if slug else ""}
 <p class="fc-note"><b>{t["note"]}</b> <span>{t["updated"]}: {t["date"]}</span></p>
 {quickbox}
 </div></section>

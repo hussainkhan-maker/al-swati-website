@@ -1283,3 +1283,13 @@ html[dir=rtl] .tipbox{font-family:"Tajawal",sans-serif;font-size:15px;direction:
 .fc-leg2 .k3{width:12px;height:12px;border-radius:50%;background:#1a1a1a;border:1.5px solid #fff}
 @media (max-width:1000px){.fc-stages{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (max-width:640px){.fc-stages{grid-template-columns:repeat(2,minmax(0,1fr))}.fc-two-fig{grid-template-columns:1fr}.fc-bar{grid-template-columns:58px minmax(0,1fr) 78px!important;gap:10px}.fc-bar span{font-size:21px}}
+
+/* the ways in: each one opens with the question it answers */
+.fc-ways{margin-top:30px}
+.fx-sec .fc-ways{margin:0 0 54px}
+.fc-ask{margin:0 0 10px;font-size:15px;color:var(--muted)}
+.fc-ask b{color:var(--gold);font-weight:600;margin-inline-end:4px}
+.fc-ways .fc-search{margin:0 0 26px}
+.fc-ways .fc-pick{margin-top:0}
+.fc-ways .fc-pick a{background:var(--bg2)}
+.fx-q{color:var(--gold);font-weight:600}
