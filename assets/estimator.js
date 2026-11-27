@@ -32,7 +32,8 @@
   var SIZE = { '3060': [0, 0, 30, 60], '4080': [10, 15, 40, 80], '60120': [20, 25, 60, 120] };
   // shop drawings with calculation and approval: 3,000 SAR a set; the engineer's site visit: 500 SAR a week of installation
   // (owner, 27 Nov 2026); sold at cost + 15%, then the sponsor's 5% of the bill.
-  var ENG = { set: 3000, visit: 500, k: 1.15 / 0.95 };
+  // shop drawings, calculation, approval and one site visit a week: 5% of the estimate, never under 6,000 SAR (owner's decision, 27 Nov 2026)
+  var ENG = { share: 0.05, min: 6000 };
   // steel frame behind the stone, the owner's own selling rates per m² (27 Nov 2026): supply and installation in 2 mm sections, or
   // installation only when the client supplies the steel. Branded anchors (Hilti, Fischer) are quoted with the project.
   var FRAME = { none: 0, supply: 250, install: 125 };
@@ -49,12 +50,12 @@
     var teams = Math.min(PRICE.maxTeams, Math.max(1, Math.ceil(area / PRICE.m2PerTeam)));
     var dLo = Math.max(1, Math.ceil(area / (PRICE.teamM2[1] * teams))), dHi = Math.max(dLo, Math.ceil(area / (PRICE.teamM2[0] * teams)));
     var before = s[2] + t[2], wLo = Math.max(1, Math.round(before + dLo / PRICE.daysPerWeek)), wHi = Math.max(wLo + 1, Math.ceil(before + dHi / PRICE.daysPerWeek));
+    var lo = round(area * perLo), hi = round(area * perHi), all = sLo + sHi + fLo + fHi + t[0] + t[1], mid = (lo + hi) / 2 - area * fr;
     var eLo = 0, eHi = 0;
     if (eng) {
-      eLo = Math.round((ENG.set + ENG.visit * Math.max(1, Math.ceil(dLo / PRICE.daysPerWeek))) * ENG.k / 100) * 100;
-      eHi = Math.round((ENG.set + ENG.visit * Math.max(1, Math.ceil(dHi / PRICE.daysPerWeek))) * ENG.k / 100) * 100;
+      eLo = Math.max(ENG.min, Math.round(lo * ENG.share / 100) * 100);
+      eHi = Math.max(ENG.min, Math.round(hi * ENG.share / 100) * 100);
     }
-    var lo = round(area * perLo), hi = round(area * perHi), all = sLo + sHi + fLo + fHi + t[0] + t[1], mid = (lo + hi) / 2 - area * fr;
     return { perLo: perLo, perHi: perHi, lo: round(lo + eLo), hi: round(hi + eHi), teams: teams, dLo: dLo, dHi: dHi, lead: s[2], setup: t[2], wLo: wLo, wHi: wHi,
       a: mid * (sLo + sHi) / all, b: mid * (fLo + fHi) / all, c: mid * (t[0] + t[1]) / all, f: area * fr, e: (eLo + eHi) / 2, eLo: eLo, eHi: eHi };
   }

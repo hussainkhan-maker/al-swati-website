@@ -38,7 +38,7 @@ T = {
     sizes=[("3060", "30 × 60 cm", "Standard"), ("4080", "40 × 80 cm", "Medium"), ("60120", "60 × 120 cm", "Large")],
     fix=[("updown", "Up-Down brackets", "The standard system, straight on the wall"), ("rail", "C-Channel", "Vertical channels carry the load to the concrete"), ("kerf", "Kerf rail", "A hidden rail along the panel edge"), ("undercut", "Undercut anchors", "Hidden anchors in the back of the panel")],
     area_aria="Facade area", area_num="Area in square metres", m2="m²", quick="Quick sizes",
-    eng=("Add shop drawings and engineer's site visits", "For projects with a consultant: drawings, calculation and approval, and a weekly visit."),
+    eng=("Add shop drawings and engineer's site visits", "For projects with a consultant: drawings, calculation, approval and one visit a week. 5% of the estimate, minimum 6,000 SAR."),
     wall_cap="Your wall, seen from the front. Fixings shown in gold.",
     budget="Estimated budget", cur="SAR", per="SAR per m², supply and installation, excl. VAT",
     split="Where the money goes", parts=["Stone", "Fixing and installation", "Scaffolding", "Drawings and engineer", "Steel frame"],
@@ -58,7 +58,7 @@ T = {
     sizes=[("3060", "30 × 60 سم", "قياسي"), ("4080", "40 × 80 سم", "متوسط"), ("60120", "60 × 120 سم", "كبير")],
     fix=[("updown", "زوايا Up-Down", "النظام المعتاد، مباشرة على الجدار"), ("rail", "مجاري C-Channel", "مجارٍ رأسية تنقل الحمل إلى الخرسانة"), ("kerf", "مجرى Kerf", "مجرى مخفي على طول حافة اللوح"), ("undercut", "انكرات Undercut", "انكرات مخفية في ظهر اللوح")],
     area_aria="مساحة الواجهة", area_num="المساحة بالمتر المربع", m2="م²", quick="مساحات سريعة",
-    eng=("أضف المخططات التنفيذية وزيارات المهندس", "للمشاريع التي لها استشاري: المخططات والحسابات والاعتماد، وزيارة أسبوعية."),
+    eng=("أضف المخططات التنفيذية وزيارات المهندس", "للمشاريع التي لها استشاري: المخططات والحسابات والاعتماد وزيارة واحدة أسبوعياً. 5% من التقدير، وبحد أدنى 6,000 ريال."),
     wall_cap="جدارك كما يُرى من الأمام، والتثبيت ظاهر بالذهبي.",
     budget="الميزانية التقديرية", cur="ريال", per="ريال للمتر المربع، توريد وتركيب، بدون ضريبة القيمة المضافة",
     split="أين تذهب التكلفة", parts=["الحجر", "التثبيت والتركيب", "السقالات", "المخططات والمهندس", "هيكل الحديد"],
@@ -144,7 +144,7 @@ for lang, pages in PAGES.items():
         m = re.search(r'<form class="est[^"]*" id="estimate-form"[\s\S]*?</form>', s)
         assert m, page
         s = s[:m.start()] + html + s[m.end():]
-        s = re.sub(r'/assets/estimator\.js(\?v=[\w.]+)?', "/assets/estimator.js?v=7", s)
+        s = re.sub(r'/assets/estimator\.js(\?v=[\w.]+)?', "/assets/estimator.js?v=8", s)
         s = re.sub(r'/assets/style\.css(\?v=[\w.]+)?', "/assets/style.css?v=c7", s)
         open(f, "w", encoding="utf8").write(s); n += 1
 print("calculator form written into", n, "pages")
