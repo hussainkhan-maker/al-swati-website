@@ -5,10 +5,11 @@
    each stone takes 6 angles (zawiya): 2 at the top, 2 at the bottom and 1 on each side. Pieces per m2 = 6 / (stone length m x stone width m),
    e.g. 30x60 cm = 33.3 per m2, 40x80 cm = 18.8 per m2, 60x90 cm = 11.1 per m2.
    Channels (owner, 27 Nov 2026): the 2 angles at the top and the 2 at the bottom of a stone sit on 2 channel lines, so each stone column
-   has 2 channels, section 41x41x2 or 41x41x3 mm. Metres of channel per m2 = 2 / (stone width across the wall in m): a 30x60 stone laid 60 cm
-   across = 3.3 m per m2. A larger stone (e.g. 40x90) needs more channel and angle per stone, as he says; the exact step up is not given.
-   Anchors follow the channels: anchors per metre of channel are not given yet, so anchor cost per m2 cannot be worked out from bills.
-   Glue ("joli", brands Abu Jamal / Om Jamal): 1 carton = 10 boxes and lasts 40 metres (taken as 40 m2 of wall until he says otherwise).
+   has 2 channels, section 41x41x2 or 41x41x3 mm. A 30x60 stone is laid 30 cm high and 60 cm across (confirmed), so channel = 2 / 0.60 =
+   3.3 m per m2. A larger stone (e.g. 40x90) needs more channel and angle per stone, as he says; the exact step up is not given.
+   Anchors: 4 per stone when the angles sit on channels (confirmed as "4 anchors"). When the angles are fixed straight to the wall there is
+   one bolt per angle, so 6 bolts per stone.
+   Glue ("joli", brands Abu Jamal / Om Jamal): 1 carton = 10 boxes and covers 30 m2 (his correction; he first said 40).
    His pricing rule: bill price + 10%. Rates below change only with his approval. */
 (function () {
   var PRICE = {
