@@ -629,6 +629,19 @@ html[dir=rtl] .tc-form select,html[dir=rtl] .tc-form input{font-family:"Tajawal"
 .tc-send:disabled{opacity:.65;cursor:wait}
 .est-note.tc-bad{color:#e48f84}
 .est-note.tc-ok{color:var(--gold)}
+@media (min-width:1001px){
+  .tc-top .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);column-gap:80px;align-items:start}
+  .tc-top .wrap>*{grid-column:1}
+  .tc-top .est-crumbs{grid-column:1/-1}
+  .tc-top .tc-badges{grid-column:2;grid-row:2/7;align-self:end;grid-template-columns:1fr;margin-top:0;border-top:0;border-inline-start:2px solid var(--gold);padding-inline-start:30px}
+  .tc-top .tc-badge,.tc-top .tc-badge+.tc-badge{padding:18px 0;border-inline-start:0}
+  .tc-top .tc-badge+.tc-badge{border-top:1px solid var(--line)}
+  .tc-top .tc-badge b{font-size:24px}
+  .tc-top .tc-btns .btn{min-width:250px;justify-content:space-between}
+  body.tc-page #specs .head-row{flex-wrap:nowrap;gap:50px}
+  body.tc-page #specs .head-row>div:first-child{flex:1 1 auto;max-width:760px}
+  body.tc-page #specs .tc-tools{flex:0 0 auto;flex-wrap:nowrap}
+}
 .tc-jump .wrap{gap:34px}
 .tc-jump a{border-bottom:2px solid transparent;padding:17px 0 15px}
 html[dir=rtl] .tc-jump a{letter-spacing:0;font-size:14px}

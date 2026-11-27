@@ -42,8 +42,8 @@ for s in (48, 96, 192, 512):
 icon(180, safe=0.34).convert("RGB").save(P("apple-touch-icon.png"), optimize=True)
 icon(256).save(P("favicon.ico"), sizes=[(16, 16), (32, 32), (48, 48)])
 
-# share picture: the home page hero, darkened at the bottom, with the logo and one line
-hero = Image.open(P("images/pages/home/hero.webp")).convert("RGB")
+# share picture: a real project facade (the stone fins building, Irqa), darkened at the bottom, with the logo and one line
+hero = Image.open(P("images/cases/commercial-riyadh-stone-irqa-2025/mechanical-stone-cladding-irqa-riyadh-01-86bff2.jpg")).convert("RGB")
 W, H = 1200, 630
 k = max(W / hero.width, H / hero.height)
 hero = hero.resize((int(hero.width * k) + 1, int(hero.height * k) + 1), Image.LANCZOS)
@@ -64,7 +64,7 @@ for f in ("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "/usr/share/fonts/t
     if os.path.exists(f):
         font = ImageFont.truetype(f, 28)
         break
-ImageDraw.Draw(card).text((66, H - 80), "Stone cladding, marble & granite  |  Riyadh, Dammam, Al-Hassa", font=font or ImageFont.load_default(), fill=(245, 245, 245))
+ImageDraw.Draw(card).text((66, H - 80), "Stone, marble and porcelain facades  |  Riyadh", font=font or ImageFont.load_default(), fill=(245, 245, 245))
 os.makedirs(P("images/share"), exist_ok=True)
-card.convert("RGB").save(P("images/share/al-swati-contracting.jpg"), quality=84, optimize=True, progressive=True)
+card.convert("RGB").save(P("images/share/al-swati-stone-facades.jpg"), quality=84, optimize=True, progressive=True)
 print("icons and share picture made")

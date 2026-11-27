@@ -13,6 +13,9 @@ WA_ICON = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9 3 3.3 8.
 ICON = {
     "villa": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 40h38M9 40V22h16v18M25 40V14h14v26M13 27h8M13 33h8M29 20h6M29 27h6M29 34h6"/></svg>',
     "tower": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 42h34M14 42V8h14v34M28 42V18h8v24M18 14h6M18 20h6M18 26h6M18 32h6M31 24h2M31 30h2M31 36h2"/></svg>',
+    "none": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 6v36M14 6v36M8 14h6M8 24h6M8 34h6M20 8h20v32H20zM20 24h20M30 8v16M25 24v16M35 24v16"/></svg>',
+    "supply": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 6v36M12 6v36M6 14h6M6 24h6M6 34h6M18 6v36M28 6v36M38 6v36M12 14h30M12 34h30"/></svg>',
+    "install": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 6v36M28 6v36M38 6v36M12 14h30M12 34h30M4 24h8M8 20v8"/><circle cx="18" cy="14" r="2.2"/><circle cx="28" cy="14" r="2.2"/><circle cx="38" cy="14" r="2.2"/><circle cx="18" cy="34" r="2.2"/><circle cx="28" cy="34" r="2.2"/><circle cx="38" cy="34" r="2.2"/></svg>',
     "building": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 41h38M11 41V13h26v28M11 20h26M11 27h26M11 34h26M20 13v21M28 13v21M21 41v-5h6v5"/></svg>',
     "updown": '<svg viewBox="0 0 64 48" aria-hidden="true"><path class="w" d="M4 4h10v40H4z"/><path class="s" d="M41 4h10v19H41zM41 25h10v19H41z"/><path class="g" d="M14 12v12h32M46 18v12M8 17h11"/></svg>',
     "rail": '<svg viewBox="0 0 64 48" aria-hidden="true"><path class="w" d="M4 4h10v40H4z"/><path class="s" d="M41 4h10v19H41zM41 25h10v19H41z"/><path class="g" d="M14 13h10M14 35h10M24 6h6v36h-6zM30 24h16M46 19v10"/></svg>',
@@ -103,8 +106,8 @@ def form(lang):
              "</fieldset>")
     fr = t["frame"]
     o.append('<fieldset class="est-step">' + legend(6, t["steps"][5], t["hints"][5]) +
-             f'<div class="ec-lab">{fr[0]}</div><div class="ec-chips ec-plain">' + "".join(
-                 f'<label class="ec-chip"><input type="radio" name="frame" value="{v}"{" checked" if i == 0 else ""}><span><b>{b}</b><small>{sm}</small></span></label>' for i, (v, b, sm) in enumerate(fr[1])) +
+             f'<div class="ec-lab">{fr[0]}</div><div class="ec-cards ec-3">' + "".join(
+                 f'<label class="ec-card"><input type="radio" name="frame" value="{v}"{" checked" if i == 0 else ""}><span class="ec-c">{ICON[v]}<b>{b}</b><small>{sm}</small></span></label>' for i, (v, b, sm) in enumerate(fr[1])) +
              f'</div><p class="ec-sub">{fr[2]}</p>'
              f'<label class="ec-toggle"><input type="checkbox" name="eng"><span class="ec-track" aria-hidden="true"></span><span class="ec-tx"><b>{t["eng"][0]}</b><small>{t["eng"][1]}</small></span></label>'
              "</fieldset>")
@@ -141,7 +144,7 @@ for lang, pages in PAGES.items():
         m = re.search(r'<form class="est[^"]*" id="estimate-form"[\s\S]*?</form>', s)
         assert m, page
         s = s[:m.start()] + html + s[m.end():]
-        s = re.sub(r'/assets/estimator\.js(\?v=[\w.]+)?', "/assets/estimator.js?v=5", s)
-        s = re.sub(r'/assets/style\.css(\?v=[\w.]+)?', "/assets/style.css?v=c5", s)
+        s = re.sub(r'/assets/estimator\.js(\?v=[\w.]+)?', "/assets/estimator.js?v=6", s)
+        s = re.sub(r'/assets/style\.css(\?v=[\w.]+)?', "/assets/style.css?v=c6", s)
         open(f, "w", encoding="utf8").write(s); n += 1
 print("calculator form written into", n, "pages")

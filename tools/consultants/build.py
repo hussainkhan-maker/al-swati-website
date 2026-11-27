@@ -191,7 +191,7 @@ def page(lang, slug, pg, titles):
     else:
         crumbs += f'<span>{esc(t["crumb"])}</span></nav>'
     art = {"@context": "https://schema.org", "@type": "TechArticle", "@id": url + "#article", "headline": html.unescape(re.sub("<[^>]+>", "", pg["h1"])), "description": pg["desc"], "inLanguage": lang, "url": url,
-           "author": {"@id": SITE + "/#business"}, "publisher": {"@id": SITE + "/#business"}, "mainEntityOfPage": url, "image": SITE + "/images/share/al-swati-contracting.jpg",
+           "author": {"@id": SITE + "/#business"}, "publisher": {"@id": SITE + "/#business"}, "mainEntityOfPage": url, "image": SITE + "/images/share/al-swati-stone-facades.jpg",
            "datePublished": DATE_ISO, "dateModified": DATE_ISO, "audience": {"@type": "Audience", "audienceType": "Architects, consultants and contractors"}}
     js = lambda o: json.dumps(o, ensure_ascii=False)
     T, D = esc(pg["title"]), esc(pg["desc"])
@@ -211,12 +211,12 @@ def page(lang, slug, pg, titles):
 <meta property="og:site_name" content="AL-Swati Contracting">
 <meta property="og:locale" content="{loc[0]}">
 <meta property="og:locale:alternate" content="{loc[1]}">
-<meta property="og:image" content="{SITE}/images/share/al-swati-contracting.jpg">
+<meta property="og:image" content="{SITE}/images/share/al-swati-stone-facades.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpeg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="{SITE}/images/share/al-swati-contracting.jpg">
+<meta name="twitter:image" content="{SITE}/images/share/al-swati-stone-facades.jpg">
 <meta name="twitter:title" content="{T}">
 <meta name="twitter:description" content="{D}">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
