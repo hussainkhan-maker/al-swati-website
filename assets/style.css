@@ -1399,3 +1399,36 @@ html[dir=rtl] :is(body.fc-page,body.tc-page) main .fc-ask{font-family:"Tajawal",
   .fc-reg .f{display:inline-block;margin-top:8px}
   .fc-reg .a{display:inline-block;margin-inline-start:14px;text-align:start}
 }
+
+/* drawings made for one page each: the five systems at one scale, the hole in 30 mm and 20 mm */
+.fc-cmp{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border:1px solid #3d3d3d;background:#191919}
+.fc-cmp.fc-cmp3{grid-template-columns:repeat(3,minmax(0,1fr));max-width:900px}
+.fc-cmp figure{margin:0;border-inline-start:1px solid #3d3d3d;display:flex;flex-direction:column}
+.fc-cmp figure:first-child{border-inline-start:0}
+.fc-cmp svg{display:block;width:100%;height:auto;direction:ltr;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:20px 20px}
+.fc-cmp figcaption{padding:13px 14px 15px;border-top:1px solid #3d3d3d;color:#b9b9b9;font-size:13px;line-height:1.5;flex:1}
+.fc-cmp figcaption b{display:block;color:var(--text);font-size:14.5px;font-weight:600;margin-bottom:3px}
+.fm-conc{fill:#3a3a3a;stroke:#5c5c5c}
+.fm-dots{stroke:#666;stroke-width:2.4;stroke-linecap:round}
+.fm-stone{fill:#d9d0ba;stroke:#8f866f}
+.fm-face{fill:#cfc6ae}
+.fm-st{fill:#aeb6ba;stroke:#e3e7e9;stroke-width:.6}
+.fm-rail{fill:#5d6468;stroke:#9aa3a8}
+.fm-an{fill:#8a9296}
+.fm-pin{fill:var(--gold);stroke:#7a6427;stroke-width:.6}
+.fm-hole{fill:#191919;stroke:#6b6350;stroke-width:.8}
+.fm-mark{fill:var(--gold);stroke:#5c4b1a;stroke-width:.8}
+.fm-behind{fill:rgba(93,100,104,.55);stroke:#9aa3a8;stroke-dasharray:4 3}
+.fm-behind-l{fill:none;stroke:#7d868b;stroke-width:5;stroke-dasharray:6 4}
+.fm-dim{fill:none;stroke:#bdbdbd;stroke-width:1}
+.fm-dim.bad{stroke:#e08a7f}
+.fm-tx{fill:#e6e6e6;font:500 13px var(--mono,monospace);text-anchor:middle}
+.fm-tx.bad{fill:#e08a7f}
+.fm-tx.in{fill:#2a2418;font-weight:600}
+.fm-dim.in{stroke:#4a4230}
+.fc-cmp-k{margin:-6px 0 16px}
+.fc-cmp-k i{border:0;border-radius:0;width:26px;height:10px}
+.fc-cmp-k .s{background:linear-gradient(90deg,#d9d0ba 30%,#aeb6ba 30% 70%,#3a3a3a 70%)}
+.fc-cmp-k .e{background:#cfc6ae;box-shadow:inset 6px 0 0 var(--gold)}
+@media (max-width:1000px){.fc-cmp{grid-template-columns:repeat(3,minmax(0,1fr))}.fc-cmp figure:nth-child(4){border-inline-start:0}.fc-cmp figure:nth-child(n+4){border-top:1px solid #3d3d3d}}
+@media (max-width:640px){.fc-cmp,.fc-cmp.fc-cmp3{grid-template-columns:repeat(2,minmax(0,1fr))}.fc-cmp figure{border-top:1px solid #3d3d3d}.fc-cmp figure:nth-child(-n+2){border-top:0}.fc-cmp figure:nth-child(odd){border-inline-start:0}.fc-cmp figure:nth-child(even){border-inline-start:1px solid #3d3d3d}}

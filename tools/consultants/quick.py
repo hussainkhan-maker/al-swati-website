@@ -315,3 +315,93 @@ def register(lang, link):
         o.append("</tbody>")
     o.append("</table></div>")
     return "".join(o)
+
+
+# ---- drawings made for one page each (no sheet is repeated across pages) ----
+CMP_T = {
+    "en": dict(h="The five systems at the same scale", sec="Section", ele="Front of one panel: where the fixings sit",
+               note="Schematic, for comparison only. The sheets with notes are on the Typical details page.", more="Typical fixing details",
+               names=[("Up-Down angle", "One angle in the joint, tongue up and down"), ("Pin (PEN)", "A round pin in holes in both edges"), ("C-Channel", "The same brackets on vertical channels"),
+                      ("Kerf rail", "A rail blade in a sawn slot along the edge"), ("Undercut anchor", "Anchors in the back, hung on rails")]),
+    "ar": dict(h="الأنظمة الخمسة بالمقياس نفسه", sec="قطاع", ele="واجهة لوح واحد: مواضع التثبيت",
+               note="رسم تخطيطي للمقارنة فقط. اللوحات مع الملاحظات في صفحة التفاصيل النموذجية.", more="تفاصيل التثبيت النموذجية",
+               names=[("زاوية Up-Down", "زاوية واحدة في الفاصل بلسان للأعلى وللأسفل"), ("الدبوس PEN", "دبوس دائري في ثقبين بالحافتين"), ("C-Channel", "الزوايا نفسها على مجارٍ رأسية"),
+                      ("مجرى Kerf", "نصل المجرى في شق منشور على طول الحافة"), ("مرساة Undercut", "مراسٍ في ظهر اللوح معلّقة على مجارٍ")]),
+}
+
+
+def _mini(kind):
+    o = ['<svg viewBox="0 0 200 300" aria-hidden="true" focusable="false">',
+         '<rect class="fm-conc" x="150" y="0" width="50" height="170"/><path class="fm-dots" d="M158 14h1M176 30h1M166 52h1M186 70h1M160 96h1M180 112h1M168 136h1M188 152h1M172 8h1M190 40h1"/>']
+    tongue = '<path class="fm-st" d="M150 72h-4v11H53v-10h-4v24h4v-10h93v11h4z"/><rect class="fm-an" x="150" y="83" width="26" height="4"/>'
+    if kind == "undercut":
+        o.append('<rect class="fm-stone" x="40" y="6" width="22" height="158"/>')
+        for y in (50, 122):
+            o.append(f'<path class="fm-hole" d="M62 {y - 3}h-9l-3 -3v12l3 -3h9z"/><rect class="fm-st" x="62" y="{y - 2}" width="20" height="4"/><path class="fm-st" d="M82 {y - 9}h4v18h-4z"/>'
+                     f'<path class="fm-rail" d="M88 {y - 11}h14v22h-14v-4h10v-14h-10z"/><rect class="fm-st" x="102" y="{y - 2}" width="48" height="4"/><rect class="fm-an" x="150" y="{y - 2}" width="24" height="4"/>')
+    else:
+        o.append('<rect class="fm-stone" x="40" y="6" width="22" height="76"/><rect class="fm-stone" x="40" y="88" width="22" height="76"/>')
+        if kind == "updown": o.append(tongue)
+        if kind == "pin": o.append('<path class="fm-st" d="M150 72h-4v11H47v4h99v11h4z"/><rect class="fm-an" x="150" y="83" width="26" height="4"/><rect class="fm-pin" x="49.500" y="68" width="3" height="34" rx="1.500"/>')
+        if kind == "cchannel":
+            o.append('<rect class="fm-rail" x="112" y="0" width="14" height="170"/>' + "".join(f'<rect class="fm-st" x="126" y="{y}" width="24" height="4"/><rect class="fm-an" x="150" y="{y}" width="22" height="4"/>' for y in (36, 130)))
+            o.append('<path class="fm-st" d="M112 72h-4v11H53v-10h-4v24h4v-10h55v11h4z"/>')
+        if kind == "kerf":
+            o.append('<path class="fm-rail" d="M96 74h14v22h-14z"/><path class="fm-st" d="M96 83H53v-10h-4v24h4v-10h43z"/><rect class="fm-st" x="110" y="83" width="40" height="4"/><rect class="fm-an" x="150" y="83" width="26" height="4"/>')
+    # front of one panel
+    o.append('<rect class="fm-stone fm-face" x="30" y="200" width="140" height="84"/>')
+    if kind == "cchannel": o.append('<rect class="fm-behind" x="60" y="190" width="10" height="104"/><rect class="fm-behind" x="130" y="190" width="10" height="104"/>')
+    if kind in ("updown", "cchannel"): o.append("".join(f'<rect class="fm-mark" x="{x}" y="{y}" width="12" height="9"/>' for x in (59, 129) for y in (195.5, 279.5)))
+    if kind == "pin": o.append("".join(f'<circle class="fm-mark" cx="{x}" cy="{y}" r="4"/>' for x in (65, 135) for y in (200, 284)))
+    if kind == "kerf": o.append('<rect class="fm-mark" x="30" y="197.500" width="140" height="5"/><rect class="fm-mark" x="30" y="281.500" width="140" height="5"/>')
+    if kind == "undercut": o.append('<path class="fm-behind-l" d="M22 222h156M22 262h156"/>' + "".join(f'<circle class="fm-mark" cx="{x}" cy="{y}" r="5"/>' for x in (62, 138) for y in (222, 262)))
+    o.append("</svg>")
+    return "".join(o).replace(".500", ".5")
+
+
+def fig_compare(lang, body, more_href=""):
+    t = CMP_T[lang]
+    figs = "".join(f'<figure>{_mini(k)}<figcaption><b>{n}</b>{d}</figcaption></figure>' for k, (n, d) in zip(("updown", "pin", "cchannel", "kerf", "undercut"), t["names"]))
+    return (f'<div class="fc-fig"><h3>{t["h"]}</h3><p class="fc-legend fc-cmp-k"><span><i class="s"></i>{t["sec"]}</span><span><i class="e"></i>{t["ele"]}</span></p>'
+            f'<div class="fc-cmp">{figs}</div><p class="fc-drawnote">{t["note"]}' + (f' <a href="{more_href}">{t["more"]}</a>' if more_href else "") + "</p></div>")
+
+
+EDGE_T = {
+    "en": dict(h="The same hole in 30 mm and in 20 mm", mm="mm",
+               caps=[("30 mm, edge fixing", "The hole leaves 10 mm of stone on each side, the minimum in the German rule read here."),
+                     ("20 mm, edge fixing", "The same hole leaves less than 10 mm on each side. It is outside the published geometry rules and needs proof by test."),
+                     ("20 mm, undercut anchor", "The anchor is set in the back of the panel. The edges stay whole.")],
+               note="Section through the panel edge, to scale for thickness only. Hole size and edge distances for a project come from the engineer's design."),
+    "ar": dict(h="الثقب نفسه في 30 مم وفي 20 مم", mm="مم",
+               caps=[("30 مم، تثبيت من الحافة", "يترك الثقب 10 مم من الحجر على كل جانب، وهو الحد الأدنى في القاعدة الألمانية التي اطّلعنا عليها."),
+                     ("20 مم، تثبيت من الحافة", "الثقب نفسه يترك أقل من 10 مم على كل جانب. وهذا خارج القواعد الهندسية المنشورة ويحتاج إلى إثبات بالاختبار."),
+                     ("20 مم، مرساة Undercut", "المرساة تُثبَّت في ظهر اللوح، وتبقى الحواف سليمة.")],
+               note="قطاع في حافة اللوح، بمقياس صحيح للسماكة فقط. مقاس الثقب والمسافات من الحافة في المشروع تؤخذ من تصميم المهندس."),
+}
+
+
+def _edge(kind, mm):
+    w = 120 if kind == "a" else 80; x0 = (200 - w) // 2; o = ['<svg viewBox="0 0 200 250" aria-hidden="true" focusable="false">']
+    o.append(f'<path class="fm-stone" d="M{x0} 40h{w}v190l-{w // 4} -8l-{w // 4} 8l-{w // 4} -8l-{w - 3 * (w // 4)} 8z"/>')
+    o.append(f'<path class="fm-dim" d="M{x0} 26h{w}M{x0} 20v12M{x0 + w} 20v12"/><text class="fm-tx" x="100" y="16">⁦{30 if kind == "a" else 20} {mm}⁩</text>')
+    if kind in ("a", "b"):
+        o.append(f'<rect class="fm-hole" x="82" y="40" width="36" height="96"/><rect class="fm-pin" x="94" y="22" width="12" height="104" rx="6"/>')
+        s = (w - 36) // 2; cls = "fm-tx" if kind == "a" else "fm-tx bad"; lab = "≥ 10" if kind == "a" else "&lt; 10"
+        o.append(f'<path class="fm-dim{" in" if kind == "a" else " bad"}" d="M{x0} 160h{s}M{118} 160h{s}M{x0} 154v12M82 154v12M118 154v12M{x0 + w} 154v12"/>'
+                 + (f'<text class="fm-tx in" x="{x0 + s / 2}" y="184">{lab}</text><text class="fm-tx in" x="{118 + s / 2}" y="184">{lab}</text>' if kind == "a" else
+                    f'<text class="fm-tx bad" x="{x0 - 26}" y="165">{lab}</text><text class="fm-tx bad" x="{x0 + w + 26}" y="165">{lab}</text>'))
+    else:
+        o.append(f'<path class="fm-hole" d="M{x0 + w} 112h-34l-10 -10v48l10 -10h34z"/><path class="fm-st" d="M{x0 + w + 30} 122h-58l-6 -6v20l6 -6h58z"/><rect class="fm-st" x="{x0 + w + 2}" y="110" width="8" height="32"/>')
+    o.append("</svg>")
+    return "".join(o)
+
+
+def fig_edge(lang, body):
+    t = EDGE_T[lang]
+    figs = "".join(f'<figure>{_edge(k, t["mm"])}<figcaption><b>{n}</b>{d}</figcaption></figure>' for k, (n, d) in zip("abc", t["caps"]))
+    return f'<div class="fc-fig"><h3>{t["h"]}</h3><div class="fc-cmp fc-cmp3">{figs}</div><p class="fc-drawnote">{t["note"]}</p></div>'
+
+
+DRAWS = {}
+FIGS["fixing-systems"] = {0: fig_compare}
+FIGS["thickness-and-fixing"][1] = fig_edge
