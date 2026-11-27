@@ -1293,3 +1293,33 @@ html[dir=rtl] .tipbox{font-family:"Tajawal",sans-serif;font-size:15px;direction:
 .fc-ways .fc-pick{margin-top:0}
 .fc-ways .fc-pick a{background:var(--bg2)}
 .fx-q{color:var(--gold);font-weight:600}
+
+/* technical pages in the manner of a drawing sheet: a fine grid behind the heading, a title block, clause numbers, figure labels, file cards */
+.fc-top,body.tc-page .tc-top{background-image:linear-gradient(rgba(201,167,74,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(201,167,74,.055) 1px,transparent 1px);background-size:44px 44px;background-position:center top;position:relative}
+.fc-top:after,body.tc-page .tc-top:after{content:"";position:absolute;inset:0;background:radial-gradient(90% 120% at 22% 30%,rgba(26,26,26,.2),var(--bg) 78%);pointer-events:none}
+.fc-top>.wrap,body.tc-page .tc-top>.wrap{position:relative;z-index:1}
+.fc-tb{display:grid;grid-template-columns:1.1fr 1.7fr 1fr .7fr;margin:34px 0 0;max-width:760px;border:1px solid #5a5a5a;background:rgba(20,20,20,.75)}
+.fc-tb div{padding:10px 14px 11px;border-inline-start:1px solid #5a5a5a}
+.fc-tb div:first-child{border-inline-start:0}
+.fc-tb dt{font-size:10px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold)}
+html[dir=rtl] .fc-tb dt{letter-spacing:0;font-size:12px}
+.fc-tb dd{margin:3px 0 0;font-size:13px;font-weight:600;line-height:1.35}
+.fc-cl{font-style:normal;font-variant-numeric:tabular-nums;border:1px solid var(--gold);padding:2px 7px;letter-spacing:1px;margin-inline-end:-2px}
+.tc-jump a i{font-style:normal;color:var(--gold);margin-inline-end:7px;font-variant-numeric:tabular-nums}
+.fx-fig{background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px),radial-gradient(120% 90% at 30% 40%,#262626,#161616 70%);background-size:29px 29px,29px 29px,auto}
+.fx-fig figcaption b{color:var(--gold);font-weight:600;letter-spacing:1px;text-transform:uppercase;font-size:11px;margin-inline-end:12px}
+html[dir=rtl] .fx-fig figcaption b{letter-spacing:0;font-size:13px}
+.fc-tpls{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:36px}
+.fc-tpl{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);background:var(--bg2);padding:22px 22px 20px;transition:border-color .2s,transform .25s}
+.fc-tpl:hover{border-color:var(--gold);transform:translateY(-3px)}
+.fc-tpl:active{transform:scale(.98)}
+.fc-tpl i{align-self:flex-start;font-style:normal;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:4px 9px;border:1px solid currentColor;margin-bottom:16px;direction:ltr}
+.fc-tpl .t-xlsx{color:#6fbf8b}
+.fc-tpl .t-docx{color:#7fa8e0}
+.fc-tpl .t-pdf{color:#e08a7f}
+.fc-tpl b{font-size:17px;font-weight:600;line-height:1.3;color:var(--text)}
+.fc-tpl span{color:var(--muted);font-size:13px;line-height:1.6;margin-top:8px;flex:1}
+.fc-tpl em{font-style:normal;font-size:13px;font-weight:600;color:var(--gold);margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.fc-tpl em:after{content:"";display:inline-block;width:9px;height:9px;margin-inline-start:9px;border-right:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);transform:rotate(45deg) translate(-2px,-4px);transition:transform .25s}
+.fc-tpl:hover em:after{transform:rotate(45deg) translate(1px,-1px)}
+@media (max-width:760px){.fc-tb{grid-template-columns:1fr 1fr}.fc-tb div:nth-child(3){border-inline-start:0}.fc-tb div:nth-child(n+3){border-top:1px solid #5a5a5a}}

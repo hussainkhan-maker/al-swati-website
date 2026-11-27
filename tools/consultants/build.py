@@ -171,7 +171,7 @@ def page(lang, slug, pg, titles):
     if not slug:  # the hub: a map in three stages replaces the two long card lists (when to call us, what you will find here)
         import fxmap
         ft = fxmap.T[lang]
-        sections = [(ft["e"], ft["h"], fxmap.html(lang, uq, heading=False), "parts"), sections[0], sections[3]]
+        sections = [(ft["e"], ft["h"], fxmap.html(lang, uq, heading=False), "parts"), (quick.TPL_T[lang]["e"], quick.TPL_T[lang]["h"], quick.templates(lang), "templates"), sections[0], sections[3]]
     jump = []
     for i, s in enumerate(sections):
         eyebrow, h2, body = s[:3]
@@ -179,7 +179,7 @@ def page(lang, slug, pg, titles):
         if i in quick.DRAWS.get(slug, {}): body += quick.draws(lang, quick.DRAWS[slug][i], uq("typical-details"))
         sid = s[3] if len(s) > 3 and s[3] else f"part-{i + 1}"
         cls = "fc-sec bt" + (" alt" if i % 2 == 0 else "")
-        if eyebrow: jump.append((sid, eyebrow))
+        if eyebrow: jump.append((sid, f'<i>{i + 1}.0</i>{eyebrow}')); eyebrow = f'<i class="fc-cl">{i + 1}.0</i>{eyebrow}'
         secs.append(f'<section class="{cls}" id="{sid}"><div class="wrap">' + (f'<div class="eyebrow">{eyebrow}</div>' if eyebrow else "") + f"<h2>{h2}</h2>{cite(body, used)}</div></section>")
     jumpbar = f'<nav class="subnav tc-jump" aria-label="{q["jump"]}"><div class="wrap">' + "".join(f'<a href="#{i}">{e}</a>' for i, e in jump) + "</div></nav>" if len(jump) >= 3 else ""
     quickbox = f'<aside class="fc-quick"><b>{q["quick"]}</b><ul>' + "".join(f"<li>{x}</li>" for x in quick.QUICK[lang][slug]) + "</ul></aside>"
@@ -241,7 +241,7 @@ def page(lang, slug, pg, titles):
 <meta name="theme-color" content="#1a1a1a">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/assets/style.css?v=f7">
+<link rel="stylesheet" href="/assets/style.css?v=f8">
 <script type="application/ld+json">{biz}</script>
 <script type="application/ld+json">{js(art)}</script>
 <script type="application/ld+json">{js({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": bl})}</script>
@@ -258,7 +258,7 @@ def page(lang, slug, pg, titles):
 <div class="eyebrow">{pg["eyebrow"]}</div><h1>{pg["h1"]}</h1><div class="rule"></div><p class="lead">{lead}</p>
 {ways}
 {pg.get("btns", "") if slug else ""}
-<p class="fc-note"><b>{t["note"]}</b> <span>{t["updated"]}: {t["date"]}</span></p>
+<dl class="fc-tb"><div><dt>{quick.TB[lang]["status"][0]}</dt><dd>{quick.TB[lang]["status"][1]}</dd></div><div><dt>{quick.TB[lang]["design"][0]}</dt><dd>{quick.TB[lang]["design"][1]}</dd></div><div><dt>{quick.TB[lang]["upd"]}</dt><dd>{t["date"]}</dd></div><div><dt>{quick.TB[lang]["sheet"]}</dt><dd dir="ltr">{ORDER.index(slug) + 1:02d} / {len(ORDER):02d}</dd></div></dl>
 {quickbox}
 </div></section>
 {jumpbar}

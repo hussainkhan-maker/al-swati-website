@@ -229,7 +229,7 @@
   // phones: card rows swipe sideways with dots under them, long text opens on demand, one bar for call, WhatsApp and the calculator
   if(window.matchMedia&&matchMedia('(max-width:640px)').matches){
     var isAr=document.documentElement.lang==='ar';
-    document.querySelectorAll('.sgrid,.grid3,.grid4,.steps4,.sys,.area-gallery,.gal,.fc-cards,.fc-draws,.tc-links,body:not(.pf-page) .pgrid').forEach(function(g){
+    document.querySelectorAll('.sgrid,.grid3,.grid4,.steps4,.sys,.area-gallery,.gal,.fc-cards,.fc-draws,.fc-tpls,.tc-links,body:not(.pf-page) .pgrid').forEach(function(g){
       if(g.closest('#portfolio')||g.children.length<3)return;
       g.classList.add('sw-row');var n=g.children.length,d=document.createElement('div');d.className='sw-dots';d.setAttribute('aria-hidden','true');
       for(var i=0;i<n;i++)d.appendChild(document.createElement('i'));d.firstChild.className='on';g.parentNode.insertBefore(d,g.nextSibling);

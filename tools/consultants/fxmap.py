@@ -11,11 +11,11 @@ ORDER = ["stone", "joint", "bracket", "cavity", "channel", "anchor", "structure"
 
 T = {
     "en": dict(
-        e="The facade, part by part", h="Tap a Part of the Wall", lead="This section shows how the stone is held on the building. Choose a number to see what each part does and where to read more.",
+        e="System anatomy", h="How a Mechanically Fixed Facade Is Held", lead="This section shows how the stone is held on the building. Choose a number to see what each part does and where to read more.",
         q_find=("Have a word in mind?", "Type it and go to the exact part."), q_need=("Know what you need?", "Go straight to it."), q_map="New to mechanical fixing?",
         top="Most asked", tops=[("thickness-and-fixing", "The thickness rule"), ("specification", "Specification as a Word file"), ("typical-details", "Typical details")],
         find="Search the technical pages", find_ph="Search: pull-out test, 20 mm granite, kerf…", none="Nothing found. Try another word, or one word only.",
-        out="Outside", inn="Inside", path="Gold dashes: the load path, from the panel to the concrete.", aria="Parts of the facade",
+        fig="Fig. 1 · Section", out="Outside", inn="Inside", path="Gold dashes: the load path, from the panel to the concrete.", aria="Parts of the facade",
         parts={
             "stone": ("Stone panel", "The face you see. Each panel hangs on its own fixings.", "Natural stone is typically 30 mm; marble and granite are often 20 mm.",
                       [("stone-materials", "Stone and finishes"), ("thickness-and-fixing", "Which thickness, which fixing")]),
@@ -35,11 +35,11 @@ T = {
                        [("typical-details", "Channel or frame"), ("send-drawings", "Send us your drawings")]),
         }),
     "ar": dict(
-        e="الواجهة جزءاً جزءاً", h="اضغط على جزء من الجدار", lead="هذا القطاع يبيّن كيف يُحمل الحجر على المبنى. اختر رقماً لترى وظيفة كل جزء وأين تقرأ عنه أكثر.",
+        e="تشريح النظام", h="كيف تُحمل الواجهة المثبتة ميكانيكياً", lead="هذا القطاع يبيّن كيف يُحمل الحجر على المبنى. اختر رقماً لترى وظيفة كل جزء وأين تقرأ عنه أكثر.",
         q_find=("في ذهنك كلمة؟", "اكتبها وانتقل إلى الجزء المطلوب."), q_need=("تعرف ما تحتاجه؟", "اذهب إليه مباشرة."), q_map="جديد على التثبيت الميكانيكي؟",
         top="الأكثر طلباً", tops=[("thickness-and-fixing", "قاعدة السماكة"), ("specification", "المواصفة في ملف Word"), ("typical-details", "التفاصيل النموذجية")],
         find="ابحث في الصفحات الفنية", find_ph="ابحث: اختبار السحب، جرانيت 20 مم، Kerf…", none="لا توجد نتائج. جرّب كلمة أخرى أو كلمة واحدة فقط.",
-        out="الخارج", inn="الداخل", path="الخط الذهبي المتقطع: مسار الحمل من اللوح إلى الخرسانة.", aria="أجزاء الواجهة",
+        fig="شكل 1 · قطاع", out="الخارج", inn="الداخل", path="الخط الذهبي المتقطع: مسار الحمل من اللوح إلى الخرسانة.", aria="أجزاء الواجهة",
         parts={
             "stone": ("لوح الحجر", "الوجه الذي تراه. كل لوح محمول على تثبيته الخاص.", "الحجر الطبيعي سماكته 30 مم غالباً، والرخام والجرانيت 20 مم غالباً.",
                       [("stone-materials", "الحجر والتشطيبات"), ("thickness-and-fixing", "أي سماكة وأي تثبيت")]),
@@ -115,11 +115,11 @@ def search(lang):
             f'<input type="search" placeholder="{t["find_ph"]}" aria-label="{t["find"]}" autocomplete="off" enterkeyhint="search"><div class="fc-hits" hidden></div></div>')
 
 
-def need(lang, link):
+def need(lang, link, hub=""):
     """One row of straight links for the reader who already knows what he wants."""
     import quick
     t = T[lang]
-    return f'<p class="fc-ask"><b>{t["q_need"][0]}</b> {t["q_need"][1]}</p><div class="fc-pick">' + "".join(f'<a href="{link(sl)}">{w}</a>' for w, sl in quick.PICK[lang]) + "</div>"
+    return f'<p class="fc-ask"><b>{t["q_need"][0]}</b> {t["q_need"][1]}</p><div class="fc-pick">' + "".join(f'<a href="{hub + sl if sl.startswith("#") else link(sl)}">{w}</a>' for w, sl in quick.PICK[lang]) + "</div>"
 
 
 def html(lang, link, heading=True):
@@ -131,7 +131,7 @@ def html(lang, link, heading=True):
         "".join(f'<li><a href="{link(s)}">{n}</a></li>' for s, n in P[k][3]) + "</ul></div>" for i, k in enumerate(ORDER))
     head = f'<div class="eyebrow">{t["e"]}</div><h2>{t["h"]}</h2>' if heading else ""
     return (f'{head}<p class="lead fx-lead-p"><b class="fx-q">{t["q_map"]}</b> {t["lead"]}</p><div class="fx">'
-            f'<figure class="fx-fig"><div class="fx-sides" aria-hidden="true"><span>{t["out"]}</span><span>{t["inn"]}</span></div>{svg()}<figcaption>{t["path"]}</figcaption></figure>'
+            f'<figure class="fx-fig"><div class="fx-sides" aria-hidden="true"><span>{t["out"]}</span><span>{t["inn"]}</span></div>{svg()}<figcaption><b>{t["fig"]}</b>{t["path"]}</figcaption></figure>'
             f'<div class="fx-side"><div class="fx-chips" role="group" aria-label="{t["aria"]}">{chips}</div><div class="fx-items">{items}</div></div></div>')
 
 
@@ -141,7 +141,7 @@ if __name__ == "__main__":  # the spec sheet pages
         link = lambda s, pre=pre: (pre + s if s.startswith("/technical-specs/") else f"{pre}/{BASE}/{s}/").replace(pre + "/technical-specs/#", "#")
         f = os.path.join(ROOT, pre.strip("/"), "technical-specs", "index.html"); s = open(f, encoding="utf8").read()
         s = re.sub(r"<!--fxmap-->[\s\S]*?<!--/fxmap-->\n?", "", s)
-        block = f'<!--fxmap--><section class="bt fx-sec" id="parts"><div class="wrap"><div class="fc-ways">{search(lang)}{need(lang, link)}</div>{html(lang, link)}</div></section><!--/fxmap-->\n'
+        block = f'<!--fxmap--><section class="bt fx-sec" id="parts"><div class="wrap"><div class="fc-ways">{search(lang)}{need(lang, link, f"{pre}/{BASE}/")}</div>{html(lang, link)}</div></section><!--/fxmap-->\n'
         mark = '<nav class="subnav tc-jump"'
         assert s.count(mark) == 1, f
         i = s.index(mark); j = s.index("</nav>", i) + 6

@@ -18,7 +18,7 @@ def pages(h):
         lead="AL-Swati Contracting supplies and installs mechanically fixed natural stone, marble, granite and porcelain facades in Riyadh, and installs the steel substructure behind them to the engineer's design. This section says plainly how we work, what we install and what we can submit, so you can decide early whether we fit your project.",
         btns=f'<div class="btns"><a class="btn btn-gold" href="{u("send-drawings")}"><span>Send us your drawings</span><span class="arrow"></span></a><a class="btn btn-line" href="{u("specification")}"><span>Guide specification</span><span class="chev"></span></a></div>',
         sections=[
-            ("Who it is for", "Written for the People Who Specify and Approve",
+            ("Audience", "Written for the People Who Specify and Approve",
              h.cards([
                  ("Design", "Architects and designers", "You are choosing the stone, the panel sizes and the joint pattern, and need to know which fixing system and thickness make them buildable.", "", ""),
                  ("Review", "Consultants and facade engineers", "You write or review the specification and the submittals, and want to see the process, the tests and the records before the work starts.", "", ""),
@@ -45,7 +45,7 @@ def pages(h):
                  ("Form", "Send us your drawings", "Send elevations and the stone choice; we reply with suitable systems, published thickness guidance, likely substructure needs and a test list.", u("send-drawings"), "Open"),
                  ("Spec sheet", "Spec sheet and document request", "A one-page spec sheet to save as PDF or Excel, the mechanical versus wet fixing comparison, and the form to request a method statement.", "/technical-specs/", "Open"),
              ])),
-            ("Plain facts", "What We Install, Scope and Limits",
+            ("Scope", "What We Install, Scope and Limits",
              h.prose(
                  h.h3("What we install"),
                  h.ul(
