@@ -155,3 +155,63 @@ def draws(lang, codes, more_href):
     figs = "".join(f'<figure><a href="/images/details/{c}-{lang}.svg" target="_blank" rel="noopener" aria-label="{t["aria"]}: {t["names"][c]}"><img src="/images/details/{c}-{lang}.svg" alt="{t["names"][c]}" width="760" height="1030" loading="lazy" decoding="async"></a><figcaption>{t["names"][c]}</figcaption></figure>' for c in codes)
     more = f' <a href="{more_href}">{t["more"]}</a>' if more_href else ""
     return f'<div class="fc-drawbox"><h3>{t["h"]}</h3><div class="fc-draws">{figs}</div><p class="fc-drawnote">{t["note"]}{more}</p></div>'
+
+
+# three explanatory figures drawn from the page's own text: {page: {section number: function(lang, section body) -> html}}
+FIG_T = {
+    "en": dict(q_h="The stages on one line", q_leg=[("h", "H", "Hold: work stops until released"), ("w", "W", "Witness"), ("r", "R", "Review")],
+               t_h="The same panel in the same wind", t_axis="Bending stress, with 30 mm taken as 1", t_note="A simplification for explanation: real panels are analysed as plates.", mm="mm",
+               m_h="Two ways a panel comes off", m_a="Undercut on rails", m_a2="The panel hangs alone and is replaced on its own.", m_b="Pin, kerf and Up-Down", m_b2="The fixings sit in the joints and are shared, so the neighbours are released in sequence.",
+               m_leg=["Panel to replace", "Neighbours that share its fixings", "Fixing"]),
+    "ar": dict(q_h="المراحل على خط واحد", q_leg=[("h", "H", "توقف: يتوقف العمل حتى الإفراج"), ("w", "W", "حضور"), ("r", "R", "مراجعة")],
+               t_h="اللوح نفسه والرياح نفسها", t_axis="إجهاد الانحناء، باعتبار سماكة 30 مم تساوي 1", t_note="تبسيط للشرح: الألواح الحقيقية تُحلَّل كبلاطات.", mm="مم",
+               m_h="طريقتان لفك اللوح", m_a="Undercut على المجاري", m_a2="اللوح معلّق وحده ويُستبدل منفرداً.", m_b="الدبابيس و Kerf و Up-Down", m_b2="التثبيت داخل الفواصل ومشترك، فتُحرَّر الألواح المجاورة بالتتابع.",
+               m_leg=["اللوح المطلوب استبداله", "الألواح المجاورة المشتركة في التثبيت", "قطعة تثبيت"]),
+}
+
+
+def fig_quality(lang, body):
+    import re
+    t = FIG_T[lang]; rows = []
+    for r in re.findall(r"<tr>([\s\S]*?)</tr>", body):
+        c = [re.sub(r"<[^>]+>", "", x).strip() for x in re.findall(r"<t[hd][^>]*>([\s\S]*?)</t[hd]>", r)]
+        if len(c) >= 4 and re.search(r"\b[HWR]\b", c[-1]): rows.append((c[0], c[-1]))
+    items = "".join(f'<li class="{"h" if "H" in code else "w" if "W" in code else "r"}"><i>{code}</i><span>{name}</span></li>' for name, code in rows)
+    leg = "".join(f'<span class="{k}"><i>{a}</i>{b}</span>' for k, a, b in t["q_leg"])
+    return f'<div class="fc-fig"><h3>{t["q_h"]}</h3><ol class="fc-stages">{items}</ol><p class="fc-legend">{leg}</p></div>'
+
+
+def fig_square(lang, body):
+    t = FIG_T[lang]
+    bars = "".join(f'<div class="fc-bar"><b>⁦{mm} {t["mm"]}⁩</b><i style="width:{round(v / 2.25 * 100)}%"></i><span>⁦{v:.2f} ×⁩</span></div>' for mm, v in ((30, 1.0), (25, 1.44), (20, 2.25)))
+    return f'<div class="fc-fig"><h3>{t["t_h"]}</h3><div class="fc-bars">{bars}</div><p class="fc-drawnote">{t["t_axis"]}. {t["t_note"]}</p></div>'
+
+
+def _grid(mode):
+    o = ['<svg viewBox="0 0 300 250" aria-hidden="true" focusable="false">']
+    for r in range(3):
+        for c in range(3):
+            x, y = 20 + c * 88, 14 + r * 76; cls = "p"
+            if (r, c) == (1, 1): cls = "p t"
+            elif mode == "b" and c == 1: cls = "p n"
+            dx, dy = (16, -12) if (mode == "a" and (r, c) == (1, 1)) else (0, 0)
+            if not (mode == "a" and (r, c) == (1, 1)): o.append(f'<rect class="{cls}" x="{x + dx}" y="{y + dy}" width="82" height="70"/>')
+    if mode == "a":
+        o.append('<rect class="hole" x="108" y="90" width="82" height="70"/><rect class="p t lift" x="126" y="72" width="82" height="70"/><path class="arr" d="M222 62l20-16M242 46l-9 1M242 46l-1 9"/>')
+    else:
+        for y in (87, 163):
+            for x in (128, 170): o.append(f'<circle class="fxd" cx="{x}" cy="{y}" r="4.5"/>')
+        for y in (11, 239):
+            for x in (128, 170): o.append(f'<circle class="fxd dim" cx="{x}" cy="{y}" r="4.5"/>')
+    o.append("</svg>")
+    return "".join(o)
+
+
+def fig_replace(lang, body):
+    t = FIG_T[lang]
+    leg = f'<span><i class="k1"></i>{t["m_leg"][0]}</span><span><i class="k2"></i>{t["m_leg"][1]}</span><span><i class="k3"></i>{t["m_leg"][2]}</span>'
+    return (f'<div class="fc-fig"><h3>{t["m_h"]}</h3><div class="fc-two-fig"><figure>{_grid("a")}<figcaption><b>{t["m_a"]}</b>{t["m_a2"]}</figcaption></figure>'
+            f'<figure>{_grid("b")}<figcaption><b>{t["m_b"]}</b>{t["m_b2"]}</figcaption></figure></div><p class="fc-legend fc-leg2">{leg}</p></div>')
+
+
+FIGS = {"quality": {1: fig_quality}, "thickness-and-fixing": {2: fig_square}, "maintenance": {5: fig_replace}}
