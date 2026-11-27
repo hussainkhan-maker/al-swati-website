@@ -16,6 +16,11 @@
    Anchors: khabour 4 cm 0.140, 5 cm 0.180, wedge anchor 10x80 0.268. Glue Abu Jamal 11.957 a box (carton of 10 = 119.57, covers 30 m2).
    A handwritten note on one offer shows the next prices about 8% higher (channel 2.5 mm 34.00, angle 4x4x5 0.50).
    Which accessory belongs to which system, as the owner tells it: the spring nut (نابض) goes with the channel. More to be added from his bills.
+   Confirmed by the owner (27 Nov 2026): on channels only the 4 angles at the top and bottom are used (no side angles: they would need
+   extra channel, extra angles and more time, so the rate would rise). Fixed straight to the wall, each of the 6 angles takes one khabour.
+   The shim goes with the channel (how many per stone is not given). The bills are for understanding prices only, not project costs.
+   Worked from the bills, per m2 before the 10%: Up-Down on the wall = 6 angles + 6 khabour + glue: about 25 for 30x60, 16 for 40x80,
+   11 for 60x90. On channels = 4 angles + 3.3 m channel + 4 spring nuts and bolts + 4 anchors + glue: about 64 for 30x60, without shims.
    His pricing rule: bill price + 10%. Rates below change only with his approval. */
 (function () {
   var PRICE = {
