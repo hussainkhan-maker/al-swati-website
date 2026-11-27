@@ -140,5 +140,9 @@ if __name__ == "__main__":  # the spec sheet pages
         s = s[:j] + "\n" + block + s[j:].lstrip("\n")
         if 'href="#parts"' not in s:
             s = s.replace('<a href="#specs">', f'<a href="#parts">{T[lang]["e"]}</a><a href="#specs">', 1)
+        import quick
+        s = re.sub(r"<!--draws-->[\s\S]*?<!--/draws-->", "", s)
+        k = s.index('<div class="tc-two">')
+        s = s[:k] + "<!--draws-->" + quick.draws(lang, ["updown", "pen", "cchannel", "kerfrail", "undercut"], f"{pre}/{BASE}/typical-details/") + "<!--/draws-->" + s[k:]
         open(f, "w", encoding="utf8").write(s)
         print("map written into", f)

@@ -1220,6 +1220,19 @@ th.has-draw{text-decoration:underline dashed rgba(201,167,74,.7);text-underline-
 html[dir=rtl] .tipbox{font-family:"Tajawal",sans-serif;font-size:15px;direction:rtl}
 .tipbox b{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-bottom:4px}
 .tipbox.tip-img{padding:8px;max-width:none;width:316px}
-.tipbox.tip-img img{display:block;width:300px;height:300px;object-fit:contain;background:#fff}
+.tipbox.tip-img img{display:block;width:300px;height:400px;object-fit:contain;object-position:top;background:#fff}
 .tipbox.tip-img span{display:block;padding:8px 4px 2px;color:var(--gold);font-weight:600}
 @media print{.fc-search,.fx-top,.tipbox{display:none!important}}
+
+/* reference drawings beside the text they belong to */
+.fc-drawbox{margin-top:44px}
+.fc-drawbox h3{margin-bottom:18px}
+.fc-draws{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.fc-draws figure{margin:0;border:1px solid var(--line);background:var(--bg2);transition:border-color .2s,transform .25s}
+.fc-draws figure:hover{border-color:var(--gold);transform:translateY(-3px)}
+.fc-draws a{display:block;background:#fff}
+.fc-draws img{display:block;width:100%;height:auto;aspect-ratio:760/1030;object-fit:contain;object-position:top}
+.fc-draws figcaption{padding:11px 14px 12px;font-size:13px;font-weight:600;line-height:1.35}
+.fc-drawnote{color:var(--muted);font-size:13px;margin-top:14px}
+.fc-drawnote a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
+@media print{body.tc-page .fc-drawbox{display:none}}

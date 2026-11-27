@@ -131,3 +131,27 @@ MAP = {
             ("send-drawings", "أرسلوا مخططاتكم", "جواب قصير من جهة التركيب")]),
     ],
 }
+
+# reference drawings shown on pages other than Typical details: {page: {section number from 0: [drawing codes]}}
+DRAWS = {
+    "fixing-systems": {0: ["updown", "pen", "cchannel", "kerfrail", "undercut"]},
+    "thickness-and-fixing": {1: ["updown", "pen", "kerfrail"], 4: ["undercut", "ucback"]},
+    "how-we-deliver": {3: ["loadpath", "frame"]},
+    "brand-systems": {1: ["undercut", "ucback"]},
+    "specification": {1: ["updown", "pen", "cchannel", "undercut"]},
+}
+DRAW_T = {
+    "en": dict(h="Reference drawings", note="Typical details for discussion at design stage, not for construction.", more="Notes on these details", aria="Open the drawing",
+               names=dict(updown="Up-Down angle fixing", pen="PEN (pin) fixing", cchannel="Vertical C-Channel", kerfrail="Kerf rail system", undercut="Undercut anchors on rails",
+                          ucback="Undercut anchors: back of the panel", frame="Steel substructure", loadpath="Load path on vertical channels")),
+    "ar": dict(h="رسومات مرجعية", note="تفاصيل نموذجية للنقاش في مرحلة التصميم، وليست للتنفيذ.", more="ملاحظات هذه التفاصيل", aria="فتح الرسمة",
+               names=dict(updown="التثبيت بزوايا Up-Down", pen="التثبيت بالدبابيس PEN", cchannel="مجاري C-Channel الرأسية", kerfrail="نظام مجرى Kerf", undercut="مراسي Undercut على مجارٍ",
+                          ucback="مراسي Undercut: ظهر اللوح", frame="الهيكل المعدني", loadpath="مسار الحمل على المجاري الرأسية")),
+}
+
+
+def draws(lang, codes, more_href):
+    t = DRAW_T[lang]
+    figs = "".join(f'<figure><a href="/images/details/{c}-{lang}.svg" target="_blank" rel="noopener" aria-label="{t["aria"]}: {t["names"][c]}"><img src="/images/details/{c}-{lang}.svg" alt="{t["names"][c]}" width="760" height="1030" loading="lazy" decoding="async"></a><figcaption>{t["names"][c]}</figcaption></figure>' for c in codes)
+    more = f' <a href="{more_href}">{t["more"]}</a>' if more_href else ""
+    return f'<div class="fc-drawbox"><h3>{t["h"]}</h3><div class="fc-draws">{figs}</div><p class="fc-drawnote">{t["note"]}{more}</p></div>'

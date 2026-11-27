@@ -177,7 +177,9 @@ def page(lang, slug, pg, titles):
         sections = [(ft["e"], ft["h"], fxmap.html(lang, uq, heading=False), "parts"), (q["map_e"], q["map_h"], f'<div class="fc-map">{stages}</div>', "map"), sections[0], sections[3]]
     jump = []
     for i, s in enumerate(sections):
-        eyebrow, h2, body = s[:3]; sid = s[3] if len(s) > 3 and s[3] else f"part-{i + 1}"
+        eyebrow, h2, body = s[:3]
+        if i in quick.DRAWS.get(slug, {}): body += quick.draws(lang, quick.DRAWS[slug][i], uq("typical-details"))
+        sid = s[3] if len(s) > 3 and s[3] else f"part-{i + 1}"
         cls = "fc-sec bt" + (" alt" if i % 2 == 0 else "")
         if eyebrow: jump.append((sid, eyebrow))
         secs.append(f'<section class="{cls}" id="{sid}"><div class="wrap">' + (f'<div class="eyebrow">{eyebrow}</div>' if eyebrow else "") + f"<h2>{h2}</h2>{cite(body, used)}</div></section>")
@@ -240,7 +242,7 @@ def page(lang, slug, pg, titles):
 <meta name="theme-color" content="#1a1a1a">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/assets/style.css?v=f4">
+<link rel="stylesheet" href="/assets/style.css?v=f5">
 <script type="application/ld+json">{biz}</script>
 <script type="application/ld+json">{js(art)}</script>
 <script type="application/ld+json">{js({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": bl})}</script>
