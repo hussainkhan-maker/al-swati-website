@@ -985,7 +985,7 @@ html[dir=rtl] .ec-dock button{letter-spacing:0;font-size:13px}
 /* phones: one question at a time */
 .ec-wiz .ec-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;padding:14px 16px 16px;grid-column:1/-1}
 .ec-nav[hidden]{display:none!important}
-.ec-nav button{background:none;border:0;padding:6px 0;color:var(--gold);font:600 13px var(--body);cursor:pointer}
+.ec-nav button{background:none;border:0;padding:12px 14px;margin:-8px -14px;color:var(--gold);font:600 13px var(--body);cursor:pointer}
 .ec-nav button[hidden],.ec-nav span[hidden]{display:none}
 .ec-prog{color:var(--muted);font-size:12px;margin-inline-start:auto}
 .ec-prog b{color:var(--text);font-weight:600}

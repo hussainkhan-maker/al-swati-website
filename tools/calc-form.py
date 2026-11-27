@@ -144,7 +144,7 @@ for lang, pages in PAGES.items():
         m = re.search(r'<form class="est[^"]*" id="estimate-form"[\s\S]*?</form>', s)
         assert m, page
         s = s[:m.start()] + html + s[m.end():]
-        s = re.sub(r'/assets/estimator\.js(\?v=[\w.]+)?', "/assets/estimator.js?v=6", s)
-        s = re.sub(r'/assets/style\.css(\?v=[\w.]+)?', "/assets/style.css?v=c6", s)
+        s = re.sub(r'/assets/estimator\.js(\?v=[\w.]+)?', "/assets/estimator.js?v=7", s)
+        s = re.sub(r'/assets/style\.css(\?v=[\w.]+)?', "/assets/style.css?v=c7", s)
         open(f, "w", encoding="utf8").write(s); n += 1
 print("calculator form written into", n, "pages")

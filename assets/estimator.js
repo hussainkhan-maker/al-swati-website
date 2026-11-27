@@ -199,7 +199,7 @@
 
     // phones: one question on screen at a time, and a slim bar with the total and the next step always in reach
     var dock = f.querySelector('.ec-dock'), panel = f.querySelector('.est-out'), nav = f.querySelector('.ec-nav'), dbtn = dock && dock.querySelector('button');
-    var wiz = false, cur = 0, seenForm = false, seenPanel = false;
+    var wiz = false, cur = 0, seenForm = false, seenPanel = false, hop = 0;
     function steps() { return [].slice.call(f.querySelectorAll('.est-step:not(.ec-off)')); }
     function dockUpd() { if (!dock) return; dock.hidden = wiz ? !(seenForm && !f.classList.contains('ec-end')) : !(seenForm && !seenPanel && window.innerWidth <= 1000); document.body.classList.toggle('ec-docked', !dock.hidden); }
     function go(n, move) {
@@ -228,7 +228,8 @@
         nav.querySelector('.ec-edit').addEventListener('click', function () { go(0, true); });
         // a tap on a choice in the first four steps moves on by itself
         f.querySelectorAll('input[name=type],input[name=material],input[name=size],input[name=fixing]').forEach(function (x) {
-          x.addEventListener('change', function () { if (!wiz) return; var st = steps(), at = st.indexOf(x.closest('.est-step')); if (at === cur) setTimeout(function () { if (cur === at) go(at + 1, true); }, 320); });
+          // 'click', not 'change': a tap on the choice that is already selected must move on too
+          x.addEventListener('click', function () { if (!wiz) return; var at = steps().indexOf(x.closest('.est-step')); if (at !== cur) return; clearTimeout(hop); hop = setTimeout(function () { show(); if (cur === at) go(at + 1, true); }, 300); });
         });
         mode(); window.addEventListener('resize', mode);
       }
