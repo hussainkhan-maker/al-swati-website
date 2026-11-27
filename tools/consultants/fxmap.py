@@ -11,23 +11,23 @@ ORDER = ["stone", "joint", "bracket", "cavity", "channel", "anchor", "structure"
 
 T = {
     "en": dict(
-        e="System anatomy", h="How a Mechanically Fixed Facade Is Held", lead="This section shows how the stone is held on the building. Choose a number to see what each part does and where to read more.",
-        q_find=("Have a word in mind?", "Type it and go to the exact part."), q_need=("Know what you need?", "Go straight to it."), q_map="New to mechanical fixing?",
+        e="System anatomy", h="Section and Components", lead="Section through a mechanically fixed stone facade. Select a component for its function and the related pages.",
+        q_find="Search the technical section", q_need="Go to", q_map="",
         top="Most asked", tops=[("thickness-and-fixing", "The thickness rule"), ("specification", "Specification as a Word file"), ("typical-details", "Typical details")],
-        find="Search the technical pages", find_ph="Search: pull-out test, 20 mm granite, kerf…", none="Nothing found. Try another word, or one word only.",
+        find="Search the technical pages", find_ph="e.g. pull-out test, 20 mm granite, kerf", none="Nothing found. Try another word, or one word only.",
         fig="Fig. 1 · Section", out="Outside", inn="Inside", path="Gold dashes: the load path, from the panel to the concrete.", aria="Parts of the facade",
         parts={
-            "stone": ("Stone panel", "The face you see. Each panel hangs on its own fixings.", "Natural stone is typically 30 mm; marble and granite are often 20 mm.",
+            "stone": ("Stone panel", "Facing panel. Each panel is carried by its own fixings.", "Natural stone is typically 30 mm; marble and granite are often 20 mm.",
                       [("stone-materials", "Stone and finishes"), ("thickness-and-fixing", "Which thickness, which fixing")]),
             "joint": ("Open joint", "A gap around every panel.", "Each panel expands and contracts with the daily heat without pushing the next one.",
                       [("typical-details", "Typical details"), ("/technical-specs/#compare", "Mechanical or wet fixing")]),
-            "bracket": ("Stone bracket", "The metal piece that carries the panel and holds it against the wind.", "Up-Down angle, pin (PEN) or kerf rail, in stainless or hot-dip galvanised steel according to the project specification.",
+            "bracket": ("Stone bracket", "Carries the weight of the panel and restrains it against wind.", "Up-Down angle, pin (PEN) or kerf rail, in stainless or hot-dip galvanised steel according to the project specification.",
                         [("fixing-systems", "Fixing systems compared"), ("typical-details", "Five systems in section")]),
             "cavity": ("Cavity", "The air space behind the stone.", "There is no mortar behind the stone, so no mortar efflorescence (white salt stains) on the face.",
                        [("/technical-specs/#compare", "Mechanical or wet fixing"), ("maintenance", "Maintenance and handover")]),
-            "channel": ("Vertical channel", "A steel rail from floor to floor that carries the stone brackets.", "Part of the steel substructure, installed to the engineer's design where the wall behind is hollow block or the stone stands off the wall.",
+            "channel": ("Vertical channel", "Steel channel spanning floor to floor. It carries the stone brackets.", "Part of the steel substructure, installed to the engineer's design where the wall behind is hollow block or the stone stands off the wall.",
                         [("typical-details", "The steel substructure"), ("how-we-deliver", "How we deliver")]),
-            "anchor": ("Anchor", "The bolt that goes into the concrete.", "Type and size follow the engineer's calculation and the consultant's specification. Pull-out tests are arranged on request.",
+            "anchor": ("Anchor", "Fixes the bracket or the substructure to the concrete.", "Type and size follow the engineer's calculation and the consultant's specification. Pull-out tests are arranged on request.",
                        [("brand-systems", "Hilti, fischer and Rockany"), ("quality", "Quality and tests")]),
             "structure": ("Concrete structure", "Slab edges, beams and columns: where every load ends.", "The weight of the stone and the wind on it must reach the reinforced concrete.",
                           [("typical-details", "Where the load goes"), ("specification", "Guide specification 04 42 00")]),
@@ -35,23 +35,23 @@ T = {
                        [("typical-details", "Channel or frame"), ("send-drawings", "Send us your drawings")]),
         }),
     "ar": dict(
-        e="تشريح النظام", h="كيف تُحمل الواجهة المثبتة ميكانيكياً", lead="هذا القطاع يبيّن كيف يُحمل الحجر على المبنى. اختر رقماً لترى وظيفة كل جزء وأين تقرأ عنه أكثر.",
-        q_find=("في ذهنك كلمة؟", "اكتبها وانتقل إلى الجزء المطلوب."), q_need=("تعرف ما تحتاجه؟", "اذهب إليه مباشرة."), q_map="جديد على التثبيت الميكانيكي؟",
+        e="تشريح النظام", h="القطاع والمكوّنات", lead="قطاع في واجهة حجر مثبتة ميكانيكياً. اختر مكوّناً لمعرفة وظيفته والصفحات المتعلقة به.",
+        q_find="ابحث في القسم الفني", q_need="انتقل إلى", q_map="",
         top="الأكثر طلباً", tops=[("thickness-and-fixing", "قاعدة السماكة"), ("specification", "المواصفة في ملف Word"), ("typical-details", "التفاصيل النموذجية")],
-        find="ابحث في الصفحات الفنية", find_ph="ابحث: اختبار السحب، جرانيت 20 مم، Kerf…", none="لا توجد نتائج. جرّب كلمة أخرى أو كلمة واحدة فقط.",
+        find="ابحث في الصفحات الفنية", find_ph="مثال: اختبار السحب، جرانيت 20 مم، Kerf", none="لا توجد نتائج. جرّب كلمة أخرى أو كلمة واحدة فقط.",
         fig="شكل 1 · قطاع", out="الخارج", inn="الداخل", path="الخط الذهبي المتقطع: مسار الحمل من اللوح إلى الخرسانة.", aria="أجزاء الواجهة",
         parts={
-            "stone": ("لوح الحجر", "الوجه الذي تراه. كل لوح محمول على تثبيته الخاص.", "الحجر الطبيعي سماكته 30 مم غالباً، والرخام والجرانيت 20 مم غالباً.",
+            "stone": ("لوح الحجر", "لوح الواجهة. كل لوح محمول على تثبيته الخاص.", "الحجر الطبيعي سماكته 30 مم غالباً، والرخام والجرانيت 20 مم غالباً.",
                       [("stone-materials", "الحجر والتشطيبات"), ("thickness-and-fixing", "أي سماكة وأي تثبيت")]),
             "joint": ("الفاصل المفتوح", "فراغ حول كل لوح.", "يتمدد كل لوح وينكمش مع حرارة النهار دون أن يدفع اللوح المجاور.",
                       [("typical-details", "التفاصيل النموذجية"), ("/technical-specs/#compare", "ميكانيكي أم إسمنتي")]),
-            "bracket": ("زاوية الحجر", "القطعة المعدنية التي تحمل اللوح وتثبته أمام الرياح.", "زاوية Up-Down أو دبوس (PEN) أو مجرى Kerf، من الستانلس ستيل أو الحديد المجلفن على الساخن حسب مواصفة المشروع.",
+            "bracket": ("زاوية الحجر", "تحمل وزن اللوح وتثبّته أمام الرياح.", "زاوية Up-Down أو دبوس (PEN) أو مجرى Kerf، من الستانلس ستيل أو الحديد المجلفن على الساخن حسب مواصفة المشروع.",
                         [("fixing-systems", "مقارنة أنظمة التثبيت"), ("typical-details", "خمسة أنظمة في قطاع")]),
             "cavity": ("الفراغ الهوائي", "الفراغ خلف الحجر.", "لا مونة خلف الحجر، فلا يظهر تزهّر المونة (الأملاح البيضاء) على الوجه.",
                        [("/technical-specs/#compare", "ميكانيكي أم إسمنتي"), ("maintenance", "الصيانة والتسليم")]),
-            "channel": ("المجرى الرأسي", "قطاع حديد من دور إلى دور يحمل زوايا الحجر.", "جزء من الهيكل المعدني، يُركَّب حسب تصميم المهندس حين يكون الجدار الخلفي من البلك المفرغ أو يبرز الحجر عن الجدار.",
+            "channel": ("المجرى الرأسي", "قطاع حديد يمتد من دور إلى دور ويحمل زوايا الحجر.", "جزء من الهيكل المعدني، يُركَّب حسب تصميم المهندس حين يكون الجدار الخلفي من البلك المفرغ أو يبرز الحجر عن الجدار.",
                         [("typical-details", "الهيكل المعدني"), ("how-we-deliver", "كيف ننفّذ")]),
-            "anchor": ("الانكر", "المسمار الذي يدخل في الخرسانة.", "النوع والمقاس حسب حساب المهندس ومواصفة الاستشاري. واختبارات السحب تُرتَّب عند الطلب.",
+            "anchor": ("الانكر", "يثبّت الزاوية أو الهيكل المعدني في الخرسانة.", "النوع والمقاس حسب حساب المهندس ومواصفة الاستشاري. واختبارات السحب تُرتَّب عند الطلب.",
                        [("brand-systems", "هيلتي وفيشر وروكاني"), ("quality", "الجودة والاختبارات")]),
             "structure": ("الهيكل الخرساني", "حواف البلاطات والكمرات والأعمدة: حيث ينتهي كل حمل.", "وزن الحجر وضغط الرياح عليه يجب أن يصلا إلى الخرسانة المسلحة.",
                           [("typical-details", "أين يذهب الحمل"), ("specification", "المواصفة الإرشادية 04 42 00")]),
@@ -111,7 +111,7 @@ def svg():
 
 def search(lang):
     t = T[lang]
-    return (f'<p class="fc-ask"><b>{t["q_find"][0]}</b> {t["q_find"][1]}</p><div class="fc-search" data-src="/assets/fc-search-{lang}.json" data-none="{t["none"]}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>'
+    return (f'<p class="fc-ask">{t["q_find"]}</p><div class="fc-search" data-src="/assets/fc-search-{lang}.json" data-none="{t["none"]}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>'
             f'<input type="search" placeholder="{t["find_ph"]}" aria-label="{t["find"]}" autocomplete="off" enterkeyhint="search"><div class="fc-hits" hidden></div></div>')
 
 
@@ -119,7 +119,7 @@ def need(lang, link, hub=""):
     """One row of straight links for the reader who already knows what he wants."""
     import quick
     t = T[lang]
-    return f'<p class="fc-ask"><b>{t["q_need"][0]}</b> {t["q_need"][1]}</p><div class="fc-pick">' + "".join(f'<a href="{hub + sl if sl.startswith("#") else link(sl)}">{w}</a>' for w, sl in quick.PICK[lang]) + "</div>"
+    return f'<p class="fc-ask">{t["q_need"]}</p><div class="fc-pick">' + "".join(f'<a href="{hub + sl if sl.startswith("#") else link(sl)}">{w}</a>' for w, sl in quick.PICK[lang]) + "</div>"
 
 
 def html(lang, link, heading=True):
@@ -130,7 +130,7 @@ def html(lang, link, heading=True):
         f'<div class="fx-item" data-k="{k}"><i class="fx-n">{i + 1}</i><h3>{P[k][0]}</h3><p class="fx-plain">{P[k][1]}</p><p class="fx-fact">{P[k][2]}</p><ul>' +
         "".join(f'<li><a href="{link(s)}">{n}</a></li>' for s, n in P[k][3]) + "</ul></div>" for i, k in enumerate(ORDER))
     head = f'<div class="eyebrow">{t["e"]}</div><h2>{t["h"]}</h2>' if heading else ""
-    return (f'{head}<p class="lead fx-lead-p"><b class="fx-q">{t["q_map"]}</b> {t["lead"]}</p><div class="fx">'
+    return (f'{head}<p class="lead fx-lead-p">{t["lead"]}</p><div class="fx">'
             f'<figure class="fx-fig"><div class="fx-sides" aria-hidden="true"><span>{t["out"]}</span><span>{t["inn"]}</span></div>{svg()}<figcaption><b>{t["fig"]}</b>{t["path"]}</figcaption></figure>'
             f'<div class="fx-side"><div class="fx-chips" role="group" aria-label="{t["aria"]}">{chips}</div><div class="fx-items">{items}</div></div></div>')
 

@@ -171,7 +171,7 @@ def page(lang, slug, pg, titles):
     if not slug:  # the hub: a map in three stages replaces the two long card lists (when to call us, what you will find here)
         import fxmap
         ft = fxmap.T[lang]
-        sections = [(ft["e"], ft["h"], fxmap.html(lang, uq, heading=False), "parts"), (quick.TPL_T[lang]["e"], quick.TPL_T[lang]["h"], quick.templates(lang), "templates"), sections[0], sections[3]]
+        sections = [(quick.REG_T[lang]["e"], quick.REG_T[lang]["h"], quick.register(lang, uq), "register"), (ft["e"], ft["h"], fxmap.html(lang, uq, heading=False), "parts"), sections[0], sections[3]]
     jump = []
     for i, s in enumerate(sections):
         eyebrow, h2, body = s[:3]
@@ -184,7 +184,7 @@ def page(lang, slug, pg, titles):
     jumpbar = f'<nav class="subnav tc-jump" aria-label="{q["jump"]}"><div class="wrap">' + "".join(f'<a href="#{i}">{e}</a>' for i, e in jump) + "</div></nav>" if len(jump) >= 3 else ""
     quickbox = f'<aside class="fc-quick"><b>{q["quick"]}</b><ul>' + "".join(f"<li>{x}</li>" for x in quick.QUICK[lang][slug]) + "</ul></aside>"
     import fxmap as _fx
-    ways = f'<div class="fc-ways">{_fx.search(lang)}{"" if slug else _fx.need(lang, uq)}</div>'
+    ways = f'<div class="fc-ways">{_fx.search(lang)}</div>'
     secs = [nb(x) for x in secs]
     lead = cite(pg["lead"], used)
     n = len(sections)
@@ -241,7 +241,8 @@ def page(lang, slug, pg, titles):
 <meta name="theme-color" content="#1a1a1a">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/assets/style.css?v=f8">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=f9">
 <script type="application/ld+json">{biz}</script>
 <script type="application/ld+json">{js(art)}</script>
 <script type="application/ld+json">{js({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": bl})}</script>

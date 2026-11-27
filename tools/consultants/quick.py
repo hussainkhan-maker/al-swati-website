@@ -11,7 +11,7 @@ QUICK = {
     "en": {
         "": ["We supply and install stone, marble, granite and porcelain facades held by mechanical fixings (metal brackets and anchors, no mortar behind the stone).",
              "Design is by the project engineer or consultant. We install to approved shop drawings.",
-             "Editable templates for the project file are below: inspection plan, submittal, inspection request, mock-up and test records."],
+             "The register below lists every page and every editable file: specification, inspection plan, submittal and record forms."],
         "how-we-deliver": ["Two engineering routes: the shop drawings are issued to us, or the project's facade engineer prepares them within our scope.",
                            "The order of work: submittals and samples, mock-up on request, steel substructure, stone, inspection, handover.",
                            "At handover you receive the records and the 5-year written workmanship warranty attested by the Chamber of Commerce, issued by the contracting company."],
@@ -29,11 +29,11 @@ QUICK = {
                             "Strength comes from tests on the actual source, so ask for samples and tests before approval."],
         "thickness-and-fixing": ["Natural stone on edge fixings (pin, kerf, Up-Down) is typically 30 mm.",
                                  "Exterior 20 mm marble or granite needs the engineer's check and stone tests, or an undercut system.",
-                                 "The square law: bending strength goes with thickness squared, so a thinner panel is much weaker than it looks."],
+                                 "The square law: bending stress varies with the inverse square of thickness. From 30 mm to 20 mm it rises 2.25 times."],
         "quality": ["We build to the approved documents. No substitution without approval.",
                     "Hold points (stages where work stops until it is inspected) come before work is covered.",
                     "A mock-up and anchor pull-out tests are arranged when the project asks for them."],
-        "maintenance": ["A mechanically fixed facade needs little maintenance, but not none.",
+        "maintenance": ["A mechanically fixed facade needs little maintenance. It still needs periodic inspection.",
                         "Inspect it regularly and clean it gently. The page lists what not to do.",
                         "The guide is a PDF in English and Arabic, ready for the handover file."],
         "glossary": ["Site words used in Riyadh paired with the words used in specifications, in Arabic and English.",
@@ -49,7 +49,7 @@ QUICK = {
     "ar": {
         "": ["نورّد ونركّب واجهات الحجر والرخام والجرانيت والبورسلان بالتثبيت الميكانيكي (زوايا وانكرات معدنية، بدون مونة خلف الحجر).",
              "التصميم من مهندس المشروع أو الاستشاري، ونحن نركّب حسب المخططات التنفيذية المعتمدة.",
-             "نماذج قابلة للتعديل لملف المشروع في الأسفل: خطة الفحص، وطلب الاعتماد، وطلب الفحص، وسجلات النموذج والاختبار."],
+             "السجل أدناه يضم كل صفحة وكل ملف قابل للتعديل: المواصفة، وخطة الفحص، ونماذج الاعتماد والسجلات."],
         "how-we-deliver": ["مساران للأعمال الهندسية: تُسلَّم لنا المخططات التنفيذية، أو يعدّها مهندس واجهات المشروع ضمن نطاقنا.",
                            "ترتيب العمل: طلبات الاعتماد والعينات، ثم النموذج التجريبي عند الطلب، ثم الهيكل المعدني، ثم الحجر، ثم الفحص والتسليم.",
                            "عند التسليم تستلمون السجلات والضمان المكتوب على التنفيذ لمدة 5 سنوات، المصدّق من الغرفة التجارية، الذي تصدره شركة المقاولات."],
@@ -67,11 +67,11 @@ QUICK = {
                             "المقاومة تأتي من اختبارات على المصدر الفعلي، فاطلبوا العينات والاختبارات قبل الاعتماد."],
         "thickness-and-fixing": ["الحجر الطبيعي المثبت من الحواف (دبابيس، Kerf، Up-Down) سماكته 30 مم غالباً.",
                                  "الرخام أو الجرانيت بسماكة 20 مم في الواجهات الخارجية يحتاج إلى تحقق المهندس واختبارات الحجر، أو إلى نظام Undercut.",
-                                 "قانون التربيع: مقاومة الانحناء تتبع مربع السماكة، فاللوح الأرق أضعف كثيراً مما يبدو."],
+                                 "قانون التربيع: إجهاد الانحناء يتناسب عكسياً مع مربع السماكة. من 30 مم إلى 20 مم يرتفع 2.25 مرة."],
         "quality": ["ننفّذ حسب المستندات المعتمدة، ولا استبدال بدون اعتماد.",
                     "نقاط التوقف (مراحل يتوقف فيها العمل حتى يُفحص) تسبق تغطية العمل.",
                     "النموذج التجريبي واختبارات سحب الانكرات تُرتَّب متى طلبها المشروع."],
-        "maintenance": ["الواجهة المثبتة ميكانيكياً تحتاج إلى صيانة قليلة، لكنها لا تستغني عنها.",
+        "maintenance": ["الواجهة المثبتة ميكانيكياً تحتاج إلى صيانة قليلة، ويبقى الفحص الدوري لازماً.",
                         "افحصوها دورياً ونظّفوها برفق، وفي الصفحة قائمة بما يجب تجنّبه.",
                         "الدليل ملف PDF بالعربية والإنجليزية، جاهز لملف التسليم."],
         "glossary": ["كلمات المواقع في الرياض مع ما يقابلها في المواصفات، بالعربية والإنجليزية.",
@@ -247,3 +247,71 @@ def templates(lang):
 # the title block under each page's heading
 TB = {"en": dict(status=("Status", "General guidance"), design=("Design", "By the project engineer or consultant"), upd="Updated", sheet="Sheet"),
       "ar": dict(status=("الحالة", "إرشادات عامة"), design=("التصميم", "من مهندس المشروع أو الاستشاري"), upd="التحديث", sheet="الصفحة")}
+
+
+# the hub's document register: the way a consultant files a package. (group, [(kind, target, document, purpose, formats)])
+# kind "p" = a page of the section (slug or /path), "f" = a file in /downloads/
+REG_T = {"en": dict(e="Document register", h="Documents by Project Stage", cols=["No.", "Document", "Purpose", "Format"], open="Open", get="Download",
+                    lead="Reference pages and editable files, in the order a project uses them. Files carry blanks for every project value."),
+         "ar": dict(e="سجل المستندات", h="المستندات حسب مرحلة المشروع", cols=["الرقم", "المستند", "الغرض", "الصيغة"], open="فتح", get="تنزيل",
+                    lead="صفحات مرجعية وملفات قابلة للتعديل، بترتيب استخدامها في المشروع. وكل قيمة تخص المشروع متروكة فراغاً في الملفات.")}
+REG = {
+    "en": [
+        ("Design basis", [
+            ("p", "fixing-systems", "Fixing systems compared", "Six systems against mechanism, use, thickness and limits", "Web"),
+            ("p", "thickness-and-fixing", "Panel thickness and fixing", "Published guidance on 30 mm and 20 mm panels, and the tests to request", "Web"),
+            ("p", "stone-materials", "Stone and panel materials", "Limestone, travertine, marble, granite and porcelain: what to check", "Web"),
+            ("p", "typical-details", "Typical fixing details", "Eight reference drawings with notes", "Web · SVG"),
+            ("p", "brand-systems", "Hilti, fischer and Rockany systems", "What each maker publishes for stone and porcelain", "Web"),
+            ("p", "send-drawings", "Design-stage review of your drawings", "Send elevations; we reply with the systems that fit", "Web")]),
+        ("Specification", [
+            ("p", "specification", "Guide specification 04 42 00", "Three-part section, three fixing options", "Web · DOCX"),
+            ("p", "/technical-specs/", "Specification sheet and document request", "One-page summary; request project documents", "Web · PDF · CSV"),
+            ("p", "glossary", "Arabic–English glossary", "Site terms against specification terms", "Web")]),
+        ("Submittals and QA/QC", [
+            ("p", "how-we-deliver", "Delivery method", "Engineering routes, sequence of work, steel substructure", "Web"),
+            ("p", "quality", "Inspections, hold points and records", "Typical inspection and test stages", "Web"),
+            ("f", "al-swati-inspection-test-plan-stone-cladding.xlsx", "Inspection and test plan (ITP)", "Twelve stages with H / W / R points and sign-off columns", "XLSX"),
+            ("f", "al-swati-material-submittal-form.docx", "Material submittal form", "Item, attached evidence, deviations, action codes A to D", "DOCX"),
+            ("f", "al-swati-work-inspection-request.docx", "Work inspection request (WIR)", "Work offered, contractor's check, result", "DOCX"),
+            ("f", "al-swati-mock-up-approval-record.docx", "Mock-up approval record", "Items reviewed, agreed changes, decision", "DOCX"),
+            ("f", "al-swati-anchor-pull-out-test-record.xlsx", "Anchor pull-out test record", "One line per proof test", "XLSX")]),
+        ("Handover", [
+            ("p", "maintenance", "Maintenance and handover guide", "Inspection, cleaning, panel replacement, handover file", "Web · PDF")]),
+    ],
+    "ar": [
+        ("أساس التصميم", [
+            ("p", "fixing-systems", "مقارنة أنظمة التثبيت", "ستة أنظمة حسب الآلية والاستخدام والسماكة والحدود", "صفحة"),
+            ("p", "thickness-and-fixing", "سماكة اللوح والتثبيت", "ما تقوله الإرشادات المنشورة عن 30 مم و20 مم، والاختبارات التي تُطلب", "صفحة"),
+            ("p", "stone-materials", "الحجر ومواد الألواح", "الحجر الجيري والترافرتين والرخام والجرانيت والبورسلان: ما يُراجع", "صفحة"),
+            ("p", "typical-details", "تفاصيل التثبيت النموذجية", "ثمانية رسومات مرجعية مع الملاحظات", "صفحة · SVG"),
+            ("p", "brand-systems", "أنظمة هيلتي وفيشر وروكاني", "ما تنشره كل شركة للحجر والبورسلان", "صفحة"),
+            ("p", "send-drawings", "مراجعة مخططاتكم في مرحلة التصميم", "أرسلوا الواجهات ونردّ بالأنظمة المناسبة", "صفحة")]),
+        ("المواصفة", [
+            ("p", "specification", "المواصفة الإرشادية 04 42 00", "قسم من ثلاثة أجزاء وثلاثة خيارات للتثبيت", "صفحة · DOCX"),
+            ("p", "/technical-specs/", "جدول المواصفات وطلب المستندات", "ملخص من صفحة واحدة، وطلب مستندات المشروع", "صفحة · PDF · CSV"),
+            ("p", "glossary", "مسرد عربي – إنجليزي", "مصطلحات الموقع مقابل مصطلحات المواصفة", "صفحة")]),
+        ("طلبات الاعتماد وضبط الجودة", [
+            ("p", "how-we-deliver", "طريقة التنفيذ", "مسارات الأعمال الهندسية وتسلسل العمل والهيكل المعدني", "صفحة"),
+            ("p", "quality", "الفحص ونقاط التوقف والسجلات", "مراحل الفحص والاختبار المعتادة", "صفحة"),
+            ("f", "al-swati-inspection-test-plan-stone-cladding.xlsx", "خطة الفحص والاختبار (ITP)", "اثنتا عشرة مرحلة مع نقاط H / W / R وأعمدة التوقيع. بالإنجليزية", "XLSX"),
+            ("f", "al-swati-material-submittal-form.docx", "نموذج طلب اعتماد مواد", "المادة والمرفقات والاختلافات ورموز القرار من A إلى D. بالإنجليزية", "DOCX"),
+            ("f", "al-swati-work-inspection-request.docx", "طلب فحص أعمال (WIR)", "العمل المعروض وفحص المقاول والنتيجة. بالإنجليزية", "DOCX"),
+            ("f", "al-swati-mock-up-approval-record.docx", "محضر اعتماد النموذج التجريبي", "البنود المراجَعة والتعديلات والقرار. بالإنجليزية", "DOCX"),
+            ("f", "al-swati-anchor-pull-out-test-record.xlsx", "سجل اختبار سحب الانكرات", "سطر لكل اختبار. بالإنجليزية", "XLSX")]),
+        ("التسليم", [
+            ("p", "maintenance", "دليل الصيانة والتسليم", "الفحص والتنظيف واستبدال الألواح وملف التسليم", "صفحة · PDF")]),
+    ],
+}
+
+
+def register(lang, link):
+    t = REG_T[lang]; o = [f'<p class="lead">{t["lead"]}</p><div class="fc-tw"><table class="fc-reg"><thead><tr>' + "".join(f'<th scope="col">{c}</th>' for c in t["cols"]) + '<th scope="col"></th></tr></thead>']
+    for g, (group, rows) in enumerate(REG[lang], 1):
+        o.append(f'<tbody><tr class="g"{" id=templates" if g == 3 else ""}><th colspan="5" scope="colgroup"><i>{g}</i>{group}</th></tr>')
+        for n, (kind, target, name, why, fmt) in enumerate(rows, 1):
+            href = f"/downloads/{target}" if kind == "f" else link(target); dl = " download" if kind == "f" else ""
+            o.append(f'<tr><td class="n">{g}.{n}</td><th scope="row"><a href="{href}"{dl}>{name}</a></th><td>{why}</td><td class="f">{fmt}</td><td class="a"><a href="{href}"{dl}>{t["get"] if kind == "f" else t["open"]}</a></td></tr>')
+        o.append("</tbody>")
+    o.append("</table></div>")
+    return "".join(o)

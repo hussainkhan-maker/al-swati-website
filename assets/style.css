@@ -1323,3 +1323,79 @@ html[dir=rtl] .fx-fig figcaption b{letter-spacing:0;font-size:13px}
 .fc-tpl em:after{content:"";display:inline-block;width:9px;height:9px;margin-inline-start:9px;border-right:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);transform:rotate(45deg) translate(-2px,-4px);transition:transform .25s}
 .fc-tpl:hover em:after{transform:rotate(45deg) translate(1px,-1px)}
 @media (max-width:760px){.fc-tb{grid-template-columns:1fr 1fr}.fc-tb div:nth-child(3){border-inline-start:0}.fc-tb div:nth-child(n+3){border-top:1px solid #5a5a5a}}
+
+/* ===== technical section: a documentation type system and specification-sheet tables (English pages; Arabic keeps Tajawal) ===== */
+html:not([dir=rtl]) body.fc-page main,html:not([dir=rtl]) body.tc-page main{--body:"IBM Plex Sans","Fira Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--head:"IBM Plex Sans","Fira Sans",system-ui,sans-serif;font-family:var(--body);font-feature-settings:"tnum" 0}
+body.fc-page main,body.tc-page main{--mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+html:not([dir=rtl]) body.fc-page main :is(h1,h2,h3,h4,caption,.fc-quick>b,.fx-item h3,.fc-bar span,.tc-badge b,.calc-band b),html:not([dir=rtl]) body.tc-page main :is(h1,h2,h3,h4,caption,.fx-item h3,.tc-badge b){font-family:var(--head);font-weight:600;text-transform:none;letter-spacing:-.012em}
+html:not([dir=rtl]) body.fc-page main h1,html:not([dir=rtl]) body.tc-page main h1{font-size:clamp(34px,4.4vw,56px);line-height:1.08;letter-spacing:-.022em}
+html:not([dir=rtl]) body.fc-page main h2,html:not([dir=rtl]) body.tc-page main h2{font-size:clamp(26px,2.9vw,36px);line-height:1.15;letter-spacing:-.018em}
+html:not([dir=rtl]) body.fc-page main h3,html:not([dir=rtl]) body.tc-page main h3{font-size:19px;line-height:1.3}
+html:not([dir=rtl]) body.fc-page main .fx-item h3,html:not([dir=rtl]) body.tc-page main .fx-item h3{font-size:28px;line-height:1.15}
+html:not([dir=rtl]) body.fc-page main .fc-quick>b{font-size:13px;font-family:var(--mono);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+html:not([dir=rtl]) body.tc-page main .tc-spec caption{font-size:20px;padding-bottom:14px}
+html:not([dir=rtl]) body.tc-page main .tc-badge b{font-size:19px;line-height:1.3}
+html:not([dir=rtl]) :is(body.fc-page,body.tc-page) main .eyebrow{font-family:var(--mono);font-weight:500;letter-spacing:.1em;font-size:12px}
+html:not([dir=rtl]) :is(body.fc-page,body.tc-page) main .lead{font-size:17px;line-height:1.65;color:#bdbdbd}
+html:not([dir=rtl]) :is(body.fc-page,body.tc-page) main .fc-prose p,html:not([dir=rtl]) :is(body.fc-page,body.tc-page) main .fc-prose li{font-size:16px;line-height:1.7;color:#dcdcdc}
+html:not([dir=rtl]) :is(body.fc-page,body.tc-page) main .fc-prose h3{color:var(--text)}
+:is(body.fc-page,body.tc-page) main :is(.fc-cl,.fc-tb dt,.fc-tb dd[dir],.tc-jump a i,.fc-reg .n,.fc-reg .f,sup,.fc-stages i,.fx-num,.fx-fig figcaption b){font-family:var(--mono)}
+:is(body.fc-page,body.tc-page) .tc-jump a{font-family:var(--body);text-transform:none;letter-spacing:0;font-size:14px;font-weight:500}
+html:not([dir=rtl]) :is(body.fc-page,body.tc-page) .tc-jump{font-family:"IBM Plex Sans","Fira Sans",system-ui,sans-serif}
+html:not([dir=rtl]) :is(body.fc-page,body.tc-page) .tc-jump a{font-family:inherit}
+/* tables */
+:is(body.fc-page,body.tc-page) main .fc-tw{border:1px solid #3d3d3d;background:#1e1e1e;margin-top:28px}
+:is(body.fc-page,body.tc-page) main :is(.fc-table,.tc-spec){font-size:14.5px;line-height:1.55;color:#e4e4e4}
+:is(body.fc-page,body.tc-page) main :is(.fc-table,.tc-spec) thead th{background:#2b2b2b;color:#c9c9c9;font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:12px 16px;border-bottom:1px solid #6a6a6a;vertical-align:bottom;white-space:normal}
+html[dir=rtl] :is(body.fc-page,body.tc-page) main :is(.fc-table,.tc-spec) thead th{font-family:"Tajawal",sans-serif;font-size:13px;letter-spacing:0}
+:is(body.fc-page,body.tc-page) main :is(.fc-table,.tc-spec) :is(td,tbody th){padding:14px 16px;border-bottom:1px solid #353535;vertical-align:top}
+:is(body.fc-page,body.tc-page) main :is(.fc-table,.tc-spec) tbody tr:last-child :is(td,th){border-bottom:0}
+:is(body.fc-page,body.tc-page) main :is(.fc-table,.tc-spec) tbody tr:nth-child(even){background:rgba(255,255,255,.025)}
+:is(body.fc-page,body.tc-page) main :is(.fc-table,.tc-spec) tbody th{color:var(--text);font-weight:600;min-width:150px}
+:is(body.fc-page,body.tc-page) main :is(.fc-table,.tc-spec) td{color:#d8d8d8}
+:is(body.fc-page,body.tc-page) main :is(.fc-table,.tc-spec) :is(td,th)+:is(td,th){border-inline-start:1px solid #2f2f2f}
+:is(body.fc-page,body.tc-page) main .fc-table.fc-wide{font-size:13.5px;min-width:1180px}
+:is(body.fc-page,body.tc-page) main .fc-table .fc-own{color:var(--gold);font-weight:500}
+:is(body.fc-page,body.tc-page) main .fc-table caption{padding:12px 16px;color:#a9a9a9;font-size:13px;border-bottom:1px solid #3d3d3d}
+:is(body.fc-page,body.tc-page) main sup{font-size:10.5px}
+:is(body.fc-page,body.tc-page) main th.has-draw{text-decoration:none}
+:is(body.fc-page,body.tc-page) main th.has-draw:after{content:"DWG";display:inline-block;margin-inline-start:9px;padding:1px 5px;border:1px solid rgba(201,167,74,.7);color:var(--gold);font:500 9.5px/1.4 var(--mono);letter-spacing:.08em;vertical-align:2px}
+:is(body.fc-page,body.tc-page) main .fc-sec h2+.lead,:is(body.fc-page,body.tc-page) main h2+.lead{margin-top:14px}
+:is(body.fc-page,body.tc-page) main .fc-sec h2{font-size:clamp(26px,2.9vw,36px)}
+body.tc-page main .tc-tbl{border:1px solid #3d3d3d;background:#1e1e1e}
+body.tc-page main .tc-spec caption{padding:16px 16px 14px;border-bottom:1px solid #3d3d3d}
+/* the document register */
+.fc-reg{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.5}
+.fc-reg thead th{background:#2b2b2b;color:#c9c9c9;font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;text-align:start;padding:12px 16px;border-bottom:1px solid #6a6a6a}
+html[dir=rtl] .fc-reg thead th{font-family:"Tajawal",sans-serif;font-size:13px;letter-spacing:0}
+.fc-reg tr.g th{background:#262626;color:var(--gold);font-size:13px;font-weight:600;text-align:start;padding:11px 16px;border-top:1px solid #4a4a4a;border-bottom:1px solid #4a4a4a;scroll-margin-top:150px}
+.fc-reg tr.g i{font-style:normal;font-family:var(--mono);margin-inline-end:14px;color:#c9c9c9}
+.fc-reg td,.fc-reg tbody tr:not(.g) th{padding:13px 16px;border-bottom:1px solid #333;text-align:start;vertical-align:top}
+.fc-reg tbody tr:not(.g):hover{background:rgba(201,167,74,.06)}
+.fc-reg .n{width:64px;color:#9b9b9b;font-size:13px}
+.fc-reg tbody tr:not(.g) th{font-weight:600;width:30%}
+.fc-reg tbody tr:not(.g) th a{color:var(--text)}
+.fc-reg tbody tr:not(.g):hover th a{color:var(--gold)}
+.fc-reg td{color:#cfcfcf}
+.fc-reg .f{white-space:nowrap;font-size:12.5px;color:#b5b5b5;width:150px}
+.fc-reg .a{width:110px;text-align:end;white-space:nowrap}
+.fc-reg .a a{color:var(--gold);font-size:13px;font-weight:600;border-bottom:1px solid rgba(201,167,74,.5);padding-bottom:1px}
+/* quieter chrome */
+:is(body.fc-page,body.tc-page) main .fc-ask{font-size:12px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#a5a5a5;margin-bottom:8px}
+html[dir=rtl] :is(body.fc-page,body.tc-page) main .fc-ask{font-family:"Tajawal",sans-serif;font-size:14px;letter-spacing:0}
+:is(body.fc-page,body.tc-page) main .fc-search input{border-color:#5a5a5a;background:#1e1e1e}
+:is(body.fc-page,body.tc-page) main .fc-quick{border-color:#4a4a4a}
+:is(body.fc-page,body.tc-page) main .fc-quick:before{height:1px}
+:is(body.fc-page,body.tc-page) main .fc-quick li:before{font-family:var(--mono);border-color:#6a6a6a;color:#cfcfcf}
+:is(body.fc-page,body.tc-page) main .fc-cl{border:0;padding:0;color:var(--gold)}
+@media screen and (max-width:760px){
+  .fc-reg thead{display:none}
+  .fc-reg,.fc-reg tbody,.fc-reg tr,.fc-reg td,.fc-reg th{display:block;width:auto!important}
+  .fc-reg tbody tr:not(.g){position:relative;padding:14px 16px;border-bottom:1px solid #333}
+  .fc-reg td,.fc-reg tbody tr:not(.g) th{padding:0;border:0}
+  .fc-reg .n{position:absolute;inset-inline-end:16px;top:14px}
+  .fc-reg tbody tr:not(.g) th{padding-inline-end:44px}
+  .fc-reg td{margin-top:4px;font-size:13.5px}
+  .fc-reg .f{display:inline-block;margin-top:8px}
+  .fc-reg .a{display:inline-block;margin-inline-start:14px;text-align:start}
+}
