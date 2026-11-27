@@ -1,6 +1,11 @@
 /* AL-Swati instant stone cladding cost estimator (English and Arabic pages).
    AL-Swati's own rates (owner, 24 Nov 2026), SAR per m² without VAT: stone + installation + fixing accessories + scaffolding,
    then 5% engineer and supervisor, then 15% overhead and profit. The price tables on the pages show the same results. */
+/* Fixing quantities, from the owner (27 Nov 2026), for turning bill prices of pieces into a rate per m2:
+   each stone takes 6 angles (zawiya): 2 at the top, 2 at the bottom and 1 on each side. Pieces per m2 = 6 / (stone length m x stone width m),
+   e.g. 30x60 cm = 33.3 per m2, 40x80 cm = 18.8 per m2, 60x90 cm = 11.1 per m2.
+   Channels follow the angles and anchors follow the channels: the owner has not yet given metres of channel per m2 or anchors per metre,
+   so channel and anchor cost per m2 cannot be worked out from bills yet. His pricing rule: bill price + 10%. Rates below change only with his approval. */
 (function () {
   var PRICE = {
     stone: { white: [70, 100, 2], limestone: [120, 180, 2], granite: [100, 150, 4], travertine: [300, 450, 4], porcelain: [100, 150, 4] }, // stone only: low, high, weeks of delivery
