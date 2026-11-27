@@ -55,8 +55,8 @@ html[dir=rtl] .arrow:after{content:"←"}
 .menu a:hover{background:var(--bg3)}
 .menu b{display:block;font-weight:600;font-size:14px}
 .menu small{color:var(--muted);font-size:12px}
-.lang{border:1px solid var(--line);padding:6px 14px;font-size:13px;display:flex;gap:6px;align-items:center}
-.lang:hover{border-color:var(--gold)}
+.lang{border:1px solid var(--line);padding:7px 14px;font-size:13px;font-weight:600;letter-spacing:.5px;display:flex;gap:6px;align-items:center;transition:border-color .2s,color .2s}
+.lang:hover{border-color:var(--gold);color:var(--gold)}
 .hdr .btn{padding:12px 24px}
 .burger{display:none;background:none;border:0;color:var(--text);font-size:28px;cursor:pointer;margin-inline-start:auto}
 
@@ -562,7 +562,6 @@ html[dir=rtl] .est-table thead th{letter-spacing:0;font-size:13px}
 html[dir=rtl] .tc-badge b{font-family:"Tajawal",sans-serif;font-weight:800;font-size:21px;letter-spacing:0;line-height:1.3}
 .tc-badge p{color:var(--muted);font-size:14px;line-height:1.65;margin:0}
 .tc-tools{display:flex;flex-wrap:wrap;gap:12px}
-.tc-tools .btn-line{background:none}
 .tc-sheet{margin-top:50px}
 .tc-print-head{display:none}
 .tc-tbl{min-width:0}
@@ -1167,3 +1166,26 @@ html[dir=rtl] .fx-item li a:after{transform:rotate(-45deg)}
 }
 @media (prefers-reduced-motion:reduce){.fx-path{animation:none}}
 @media print{.fx-sec{display:none}}
+
+/* motion on buttons: a lift and a light sweep on the gold one, a gold fill on the outline one, the arrow moves, a press on tap */
+.btn{position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s,background-color .25s,background-size .35s,color .25s,border-color .25s}
+.btn>*{position:relative}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.97);transition-duration:.08s}
+.btn-gold:before{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.5),rgba(255,255,255,0));transform:skewX(-20deg);transition:left .65s;pointer-events:none}
+.btn-gold:hover:before{left:125%}
+.btn-gold:hover{box-shadow:0 10px 26px rgba(201,167,74,.3)}
+.btn-line{background-image:linear-gradient(var(--gold),var(--gold));background-repeat:no-repeat;background-position:left;background-size:0 100%}
+html[dir=rtl] .btn-line{background-position:right}
+.btn-line:hover{background-size:100% 100%;color:#1a1a1a;border-color:var(--gold)}
+.btn .arrow,.btn .chev{display:inline-block;transition:transform .25s}
+.btn:hover .arrow,.btn:hover .chev{transform:translateX(5px)}
+html[dir=rtl] .btn:hover .arrow,html[dir=rtl] .btn:hover .chev{transform:translateX(-5px)}
+.btn-gold .arrow{animation:btnnudge 2.6s ease-in-out infinite}
+@keyframes btnnudge{0%,70%,100%{transform:translateX(0)}82%{transform:translateX(5px)}}
+html[dir=rtl] .btn-gold .arrow{animation-name:btnnudge-r}
+@keyframes btnnudge-r{0%,70%,100%{transform:translateX(0)}82%{transform:translateX(-5px)}}
+.ec-card:active .ec-c,.ec-sw:active .ec-s,.ec-chip:active span,.fx-chip:active,.mbar a:active,.fc-pick a:active,.ec-quick button:active,.ec-dock button:active,.rm-btn:active,.ec-share:active{transform:scale(.97)}
+.mbar a,.fx-chip,.fc-pick a,.ec-dock button,.ec-share{transition:transform .12s,background-color .2s,color .2s,border-color .2s}
+.ec-dock button{position:relative;overflow:hidden}
+@media (prefers-reduced-motion:reduce){.btn,.btn:hover,.btn:active{transform:none}.btn-gold:before{display:none}.btn-gold .arrow{animation:none}.btn:hover .arrow,.btn:hover .chev{transform:none}}
