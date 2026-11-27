@@ -166,7 +166,9 @@
   // a fixing system's name shows its section drawing (laptops)
   var SYS=[[/up-?\s?down/i,'updown'],[/\bPEN\b|\bpin\b|دبابيس|دبوس/i,'pen'],[/c-?channel/i,'cchannel'],[/kerf/i,'kerfrail'],[/undercut/i,'undercut']];
   var sysOf=function(t){for(var i=0;i<SYS.length;i++)if(SYS[i][0].test(t))return SYS[i][1];return ''};
-  var drawTip=function(el,code,label){if(!code)return;el.classList.add('has-draw');tipBind(el,function(){return '<img src="/images/details/'+code+'-'+(arPage?'ar':'en')+'.svg" alt="" width="300" height="300"><span>'+escH(label)+'</span>'},true)};
+  var drawSeen={},drawPre=function(code){if(drawSeen[code])return;drawSeen[code]=1;var im=new Image();im.decoding='async';im.src='/images/details/'+code+'-'+(arPage?'ar':'en')+'.svg'};
+  // the drawings are fetched as soon as the page is idle, so the preview opens at once under the mouse
+  var drawTip=function(el,code,label){if(!code)return;el.classList.add('has-draw');(('requestIdleCallback' in window)?function(f){requestIdleCallback(f,{timeout:1500})}:function(f){setTimeout(f,400)})(function(){drawPre(code)});el.addEventListener('pointerenter',function(){drawPre(code)},{passive:true});tipBind(el,function(){return '<img src="/images/details/'+code+'-'+(arPage?'ar':'en')+'.svg" alt="" width="300" height="300"><span>'+escH(label)+'</span>'},true)};
   if(canHover){
     if(techPage)document.querySelectorAll('.tc-wide tbody th,.fc-table tbody th').forEach(function(th){var t=th.textContent.trim();if(t.length<40)drawTip(th,sysOf(t),t)});
     var EC={updown:'updown',rail:'cchannel',kerf:'kerfrail',undercut:'undercut'};

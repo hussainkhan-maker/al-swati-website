@@ -270,7 +270,7 @@ def page(lang, slug, pg, titles):
 {footer}
 {wa}
 
-<script src="/assets/main.js?v=f4"></script>
+<script src="/assets/main.js?v=f5"></script>
 </body>
 </html>
 '''
