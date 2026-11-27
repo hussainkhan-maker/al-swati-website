@@ -1432,3 +1432,5 @@ html[dir=rtl] :is(body.fc-page,body.tc-page) main .fc-ask{font-family:"Tajawal",
 .fc-cmp-k .e{background:#cfc6ae;box-shadow:inset 6px 0 0 var(--gold)}
 @media (max-width:1000px){.fc-cmp{grid-template-columns:repeat(3,minmax(0,1fr))}.fc-cmp figure:nth-child(4){border-inline-start:0}.fc-cmp figure:nth-child(n+4){border-top:1px solid #3d3d3d}}
 @media (max-width:640px){.fc-cmp,.fc-cmp.fc-cmp3{grid-template-columns:repeat(2,minmax(0,1fr))}.fc-cmp figure{border-top:1px solid #3d3d3d}.fc-cmp figure:nth-child(-n+2){border-top:0}.fc-cmp figure:nth-child(odd){border-inline-start:0}.fc-cmp figure:nth-child(even){border-inline-start:1px solid #3d3d3d}}
+
+.vshort{margin:34px auto 0;max-width:320px;text-align:center}.vshort-f{position:relative;aspect-ratio:9/16;background:#111;border:1px solid rgba(201,167,74,.5)}.vshort-f iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.vshort figcaption{margin-top:10px;font-size:14px;color:var(--muted)}.post .vshort{margin:28px auto}
