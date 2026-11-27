@@ -10,6 +10,8 @@
    Anchors: 4 per stone when the angles sit on channels (confirmed as "4 anchors"). When the angles are fixed straight to the wall there is
    one bolt per angle, so 6 bolts per stone.
    Glue ("joli", brands Abu Jamal / Om Jamal): 1 carton = 10 boxes and covers 30 m2 (his correction; he first said 40).
+   Accessories: most are bought from the supplier Ahmed Salem; his bills are the source for names and prices (none are in the app yet).
+   Which accessory belongs to which system, as the owner tells it: the spring nut (نابض) goes with the channel. More to be added from his bills.
    His pricing rule: bill price + 10%. Rates below change only with his approval. */
 (function () {
   var PRICE = {
