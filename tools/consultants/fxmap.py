@@ -12,6 +12,8 @@ ORDER = ["stone", "joint", "bracket", "cavity", "channel", "anchor", "structure"
 T = {
     "en": dict(
         e="The facade, part by part", h="Tap a Part of the Wall", lead="A section through a mechanically fixed stone facade. Choose a number to see what the part does and where to read more.",
+        top="Most asked", tops=[("thickness-and-fixing", "The thickness rule"), ("specification", "Specification as a Word file"), ("typical-details", "Typical details")],
+        find="Search the technical pages", find_ph="Search: pull-out test, 20 mm granite, kerf…", none="Nothing found. Try another word, or one word only.",
         out="Outside", inn="Inside", path="Gold dashes: the load path, from the panel to the concrete.", aria="Parts of the facade",
         parts={
             "stone": ("Stone panel", "The face you see. Each panel hangs on its own fixings.", "Natural stone is typically 30 mm; marble and granite are often 20 mm.",
@@ -33,6 +35,8 @@ T = {
         }),
     "ar": dict(
         e="الواجهة جزءاً جزءاً", h="اضغط على جزء من الجدار", lead="قطاع في واجهة حجر مثبتة ميكانيكياً. اختر رقماً لترى وظيفة الجزء وأين تقرأ عنه أكثر.",
+        top="الأكثر طلباً", tops=[("thickness-and-fixing", "قاعدة السماكة"), ("specification", "المواصفة في ملف Word"), ("typical-details", "التفاصيل النموذجية")],
+        find="ابحث في الصفحات الفنية", find_ph="ابحث: اختبار السحب، جرانيت 20 مم، Kerf…", none="لا توجد نتائج. جرّب كلمة أخرى أو كلمة واحدة فقط.",
         out="الخارج", inn="الداخل", path="الخط الذهبي المتقطع: مسار الحمل من اللوح إلى الخرسانة.", aria="أجزاء الواجهة",
         parts={
             "stone": ("لوح الحجر", "الوجه الذي تراه. كل لوح محمول على تثبيته الخاص.", "الحجر الطبيعي سماكته 30 مم غالباً، والرخام والجرانيت 20 مم غالباً.",
@@ -103,6 +107,12 @@ def svg():
     return "".join(o)
 
 
+def search(lang):
+    t = T[lang]
+    return (f'<div class="fc-search" data-src="/assets/fc-search-{lang}.json" data-none="{t["none"]}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>'
+            f'<input type="search" placeholder="{t["find_ph"]}" aria-label="{t["find"]}" autocomplete="off" enterkeyhint="search"><div class="fc-hits" hidden></div></div>')
+
+
 def html(lang, link, heading=True):
     """link(slug_or_path) -> href. Returns the section's inner block (eyebrow and h2 are added by the caller when heading is False)."""
     t = T[lang]; P = t["parts"]
@@ -111,7 +121,8 @@ def html(lang, link, heading=True):
         f'<div class="fx-item" data-k="{k}"><i class="fx-n">{i + 1}</i><h3>{P[k][0]}</h3><p class="fx-plain">{P[k][1]}</p><p class="fx-fact">{P[k][2]}</p><ul>' +
         "".join(f'<li><a href="{link(s)}">{n}</a></li>' for s, n in P[k][3]) + "</ul></div>" for i, k in enumerate(ORDER))
     head = f'<div class="eyebrow">{t["e"]}</div><h2>{t["h"]}</h2>' if heading else ""
-    return (f'{head}<p class="lead fx-lead-p">{t["lead"]}</p><div class="fx">'
+    tops = f'<p class="fx-top"><b>{t["top"]}</b>' + "".join(f'<a href="{link(s)}">{n}</a>' for s, n in t["tops"]) + "</p>"
+    return (f'{head}<p class="lead fx-lead-p">{t["lead"]}</p>{tops}<div class="fx">'
             f'<figure class="fx-fig"><div class="fx-sides" aria-hidden="true"><span>{t["out"]}</span><span>{t["inn"]}</span></div>{svg()}<figcaption>{t["path"]}</figcaption></figure>'
             f'<div class="fx-side"><div class="fx-chips" role="group" aria-label="{t["aria"]}">{chips}</div><div class="fx-items">{items}</div></div></div>')
 
@@ -122,7 +133,7 @@ if __name__ == "__main__":  # the spec sheet pages
         link = lambda s, pre=pre: (pre + s if s.startswith("/technical-specs/") else f"{pre}/{BASE}/{s}/").replace(pre + "/technical-specs/#", "#")
         f = os.path.join(ROOT, pre.strip("/"), "technical-specs", "index.html"); s = open(f, encoding="utf8").read()
         s = re.sub(r"<!--fxmap-->[\s\S]*?<!--/fxmap-->\n?", "", s)
-        block = f'<!--fxmap--><section class="bt fx-sec" id="parts"><div class="wrap">{html(lang, link)}</div></section><!--/fxmap-->\n'
+        block = f'<!--fxmap--><section class="bt fx-sec" id="parts"><div class="wrap">{search(lang)}{html(lang, link)}</div></section><!--/fxmap-->\n'
         mark = '<nav class="subnav tc-jump"'
         assert s.count(mark) == 1, f
         i = s.index(mark); j = s.index("</nav>", i) + 6

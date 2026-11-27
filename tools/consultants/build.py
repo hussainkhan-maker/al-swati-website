@@ -240,7 +240,7 @@ def page(lang, slug, pg, titles):
 <meta name="theme-color" content="#1a1a1a">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/assets/style.css?v=f3">
+<link rel="stylesheet" href="/assets/style.css?v=f4">
 <script type="application/ld+json">{biz}</script>
 <script type="application/ld+json">{js(art)}</script>
 <script type="application/ld+json">{js({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": bl})}</script>
@@ -255,6 +255,7 @@ def page(lang, slug, pg, titles):
 <section class="est-top tc-top fc-top"><div class="wrap">
 {crumbs}
 <div class="eyebrow">{pg["eyebrow"]}</div><h1>{pg["h1"]}</h1><div class="rule"></div><p class="lead">{lead}</p>
+{__import__("fxmap").search(lang)}
 {pg.get("btns", "")}
 {pick}
 <p class="fc-note"><b>{t["note"]}</b> <span>{t["updated"]}: {t["date"]}</span></p>
@@ -268,7 +269,7 @@ def page(lang, slug, pg, titles):
 {footer}
 {wa}
 
-<script src="/assets/main.js?v=f3"></script>
+<script src="/assets/main.js?v=f4"></script>
 </body>
 </html>
 '''
@@ -279,6 +280,35 @@ def page(lang, slug, pg, titles):
     open(f, "w", encoding="utf8").write(out)
     words = len(re.sub(r"<[^>]+>", " ", re.sub(r"<script.*?</script>", " ", out, flags=re.S)).split())
     return path, words
+
+def index():
+    """Search index and glossary terms of the technical pages, read back from the pages just written: /assets/fc-search-<lang>.json, /assets/fc-terms-<lang>.json."""
+    txt = lambda x: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"<(svg|script|style)[\s\S]*?</\1>", " ", x)))).strip()
+    for lang in ("en", "ar"):
+        pre = L[lang]["pre"]; rows = []
+        files = [(f"{pre}/{BASE}/" + (s + "/" if s else ""), os.path.join(ROOT, pre.strip("/"), BASE, s, "index.html")) for s in ORDER]
+        files.append((f"{pre}/technical-specs/", os.path.join(ROOT, pre.strip("/"), "technical-specs", "index.html")))
+        for url, f in files:
+            h = open(f, encoding="utf8").read(); name = txt(re.search(r"<h1[^>]*>([\s\S]*?)</h1>", h).group(1))
+            for m in re.finditer(r'<section class="[^"]*"(?: id="([^"]+)")?[^>]*><div class="wrap">([\s\S]*?)</div></section>', h):
+                sid, body = m.group(1), m.group(2); h2 = re.search(r"<h2[^>]*>([\s\S]*?)</h2>", body)
+                if not sid or not h2 or sid in ("sources", "parts", "map"): continue
+                rows.append({"u": f"{url}#{sid}", "p": name, "h": txt(h2.group(1)), "t": txt(body.replace(h2.group(0), ""))[:6000]})
+        json.dump(rows, open(os.path.join(ROOT, "assets", f"fc-search-{lang}.json"), "w", encoding="utf8"), ensure_ascii=False, separators=(",", ":"))
+        g = open(os.path.join(ROOT, pre.strip("/"), BASE, "glossary", "index.html"), encoding="utf8").read(); terms = {}
+        plain = {"mechanical fixing", "stone cladding", "riyadh limestone", "panel", "thickness", "bracket / angle", "pin / dowel", "stainless steel", "wall anchor", "workmanship warranty", "up-down angle", "c-channel"}  # everyday words: no box
+        for m in re.finditer(r'<tr><th scope="row">([\s\S]*?)</th><td[^>]*><span lang="(?:ar|en)"[^>]*>([\s\S]*?)</span></td><td[^>]*>([\s\S]*?)</td></tr>', g):
+            a, b, mean = txt(m.group(1)), txt(m.group(2)), txt(m.group(3))
+            en, ar = (b, a) if lang == "ar" else (a, b)
+            if en.lower() in plain: continue
+            for k in re.split(r"\s*/\s*", ar if lang == "ar" else en):
+                short = re.search(r"\(([^)]+)\)", k); k = re.sub(r"\s*\([^)]*\)", "", k).strip()
+                tip = mean + (f" ({en})" if lang == "ar" else "")
+                if len(k) >= 4: terms[k] = tip
+                if short and lang == "en" and len(short.group(1)) >= 3 and short.group(1).isupper(): terms[short.group(1)] = tip
+        for k in ("Stone cladding", "تركيب الحجر"): terms.pop(k, None)
+        json.dump(terms, open(os.path.join(ROOT, "assets", f"fc-terms-{lang}.json"), "w", encoding="utf8"), ensure_ascii=False, separators=(",", ":"))
+        print(lang, len(rows), "search rows,", len(terms), "terms")
 
 def sitemap():
     f = os.path.join(ROOT, "sitemap.xml"); sm = open(f, encoding="utf8").read()
@@ -301,4 +331,5 @@ if __name__ == "__main__":
         for s in ORDER:
             path, words = page(lang, s, pages[s], titles)
             print(f"{path:55} {words:5} words  title {len(pages[s]['title'])}  desc {len(pages[s]['desc'])}")
+    index()
     sitemap()

@@ -145,6 +145,68 @@
     if(window.matchMedia&&matchMedia('(hover:hover)').matches)fx.querySelectorAll('.fx-hot').forEach(function(g){g.addEventListener('mouseenter',function(){pick(g.getAttribute('data-k'))})});
     pick('stone');
   });
+  // technical pages: one small box follows the mouse (or a tap) with a term's meaning or a system's drawing
+  var techPage=document.body.classList.contains('fc-page')||document.body.classList.contains('tc-page'),arPage=document.documentElement.lang==='ar';
+  var tipBox=null,tipFor=null,canHover=window.matchMedia&&matchMedia('(hover:hover)').matches;
+  function tipShow(el,html,wide){
+    if(!tipBox){tipBox=document.createElement('div');tipBox.className='tipbox';tipBox.setAttribute('role','tooltip');document.body.appendChild(tipBox)}
+    tipBox.className='tipbox'+(wide?' tip-img':'');tipBox.innerHTML=html;tipBox.style.display='block';tipFor=el;
+    var r=el.getBoundingClientRect(),w=tipBox.offsetWidth,h=tipBox.offsetHeight,x=Math.max(10,Math.min(r.left+r.width/2-w/2,innerWidth-w-10)),y=r.bottom+10;
+    if(y+h>innerHeight-10&&r.top-h-10>10)y=r.top-h-10;
+    tipBox.style.left=x+'px';tipBox.style.top=y+'px';
+  }
+  function tipHide(){if(tipBox)tipBox.style.display='none';tipFor=null}
+  function tipBind(el,make,wide){
+    if(canHover){el.addEventListener('mouseenter',function(){tipShow(el,make(),wide)});el.addEventListener('mouseleave',tipHide)}
+    el.addEventListener('focus',function(){tipShow(el,make(),wide)});el.addEventListener('blur',tipHide);
+    if(!wide)el.addEventListener('click',function(e){if(canHover)return;e.stopPropagation();if(tipFor===el)tipHide();else tipShow(el,make(),wide)});
+  }
+  window.addEventListener('scroll',tipHide,{passive:true});document.addEventListener('click',tipHide);
+  var escH=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+  // a fixing system's name shows its section drawing (laptops)
+  var SYS=[[/up-?\s?down/i,'updown'],[/\bPEN\b|\bpin\b|دبابيس|دبوس/i,'pen'],[/c-?channel/i,'cchannel'],[/kerf/i,'kerfrail'],[/undercut/i,'undercut']];
+  var sysOf=function(t){for(var i=0;i<SYS.length;i++)if(SYS[i][0].test(t))return SYS[i][1];return ''};
+  var drawTip=function(el,code,label){if(!code)return;el.classList.add('has-draw');tipBind(el,function(){return '<img src="/images/details/'+code+'-'+(arPage?'ar':'en')+'.svg" alt="" width="300" height="300"><span>'+escH(label)+'</span>'},true)};
+  if(canHover){
+    if(techPage)document.querySelectorAll('.tc-wide tbody th,.fc-table tbody th').forEach(function(th){var t=th.textContent.trim();if(t.length<40)drawTip(th,sysOf(t),t)});
+    var EC={updown:'updown',rail:'cchannel',kerf:'kerfrail',undercut:'undercut'};
+    document.querySelectorAll('.ec-fx').forEach(function(c){var i=c.querySelector('input'),b=c.querySelector('b');if(i&&EC[i.value])drawTip(c,EC[i.value],b?b.textContent:'')});
+  }
+  // glossary terms in the text carry their meaning: the first time each one appears on the page
+  if(techPage&&window.fetch&&!/\/glossary\/$/.test(location.pathname)){
+    var lazy=function(fn){('requestIdleCallback' in window)?requestIdleCallback(fn,{timeout:2500}):setTimeout(fn,800)};
+    lazy(function(){fetch('/assets/fc-terms-'+(arPage?'ar':'en')+'.json').then(function(r){return r.json()}).then(function(T){
+      var keys=Object.keys(T).sort(function(a,b){return b.length-a.length}),low={},mk='[ً-ْـ]*';
+      var src=keys.map(function(k){low[k.toLowerCase().replace(/[ً-ْـ]/g,'')]=T[k];var e=k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return arPage?e.replace(/[ً-ْـ]/g,'').split('').join(mk):e}).join('|');
+      var re;try{re=new RegExp('(?<![\\p{L}\\p{N}])('+src+')(?![\\p{L}\\p{N}])','iu')}catch(e){return}
+      var done={},nodes=[],w=document.createTreeWalker(document.querySelector('main'),NodeFilter.SHOW_TEXT,{acceptNode:function(n){var p=n.parentNode;
+        return p.closest('.fc-prose p,.fc-prose li,.fc-card p,.fc-card li,.fc-steps p,.fx-fact,.fx-plain,.fc-quick li,.tc-spec td,.fc-table td,.tc-detail p,.lead')&&!p.closest('a,button,abbr,h1,h2,h3,.term')?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});
+      while(w.nextNode())nodes.push(w.currentNode);
+      nodes.forEach(function(n){var guard=0;while(n&&guard++<6){var m=re.exec(n.nodeValue);if(!m)break;var key=m[1].toLowerCase().replace(/[ً-ْـ]/g,''),tip=low[key];
+        var rest=n.splitText(m.index),after=rest.splitText(m[1].length);
+        if(tip&&!done[key]){done[key]=1;var s=document.createElement('span');s.className='term';s.tabIndex=0;s.textContent=rest.nodeValue;rest.parentNode.replaceChild(s,rest);(function(s,tip,word){tipBind(s,function(){return '<b>'+escH(word)+'</b>'+escH(tip)},false)})(s,tip,m[1])}
+        n=after}});
+    }).catch(function(){})});
+  }
+  // search inside the technical pages: every word must be in the part's heading or text
+  document.querySelectorAll('.fc-search').forEach(function(box){
+    var inp=box.querySelector('input'),hits=box.querySelector('.fc-hits'),data=null,loading=false;
+    var norm=function(s){return String(s).toLowerCase().replace(/[ً-ْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي')};
+    var load=function(){if(data||loading)return;loading=true;fetch(box.getAttribute('data-src')).then(function(r){return r.json()}).then(function(d){data=d.map(function(x){return{x:x,h:norm(x.h),t:norm(x.t),p:norm(x.p)}});run()}).catch(function(){loading=false})};
+    var run=function(){
+      var q=norm(inp.value).trim().split(/\s+/).filter(function(w){return w.length>1});
+      if(!q.length||!data){hits.hidden=true;hits.innerHTML='';return}
+      var res=[];data.forEach(function(d){var s=0;for(var i=0;i<q.length;i++){var inH=d.h.indexOf(q[i])>=0||d.p.indexOf(q[i])>=0,inT=d.t.indexOf(q[i])>=0;if(!inH&&!inT)return;s+=inH?5:1}res.push([s,d])});
+      res.sort(function(a,b){return b[0]-a[0]});
+      hits.innerHTML=res.length?res.slice(0,7).map(function(r){var d=r[1],i=d.t.indexOf(q[0]),from=Math.max(0,i-50),snip=(from>0?'…':'')+d.x.t.slice(from,from+150)+'…';
+        return '<a href="'+escH(d.x.u)+'"><small>'+escH(d.x.p)+'</small><b>'+escH(d.x.h)+'</b><span>'+escH(snip)+'</span></a>'}).join(''):'<p>'+escH(box.getAttribute('data-none'))+'</p>';
+      hits.hidden=false;
+    };
+    inp.addEventListener('focus',load);inp.addEventListener('input',function(){load();run()});
+    inp.addEventListener('keydown',function(e){if(e.key==='Escape'){inp.value='';run()}else if(e.key==='Enter'){e.preventDefault();var a=hits.querySelector('a');if(a)location.href=a.href}});
+    document.addEventListener('click',function(e){if(!box.contains(e.target))hits.hidden=true});
+    inp.addEventListener('focus',function(){if(hits.innerHTML)hits.hidden=false});
+  });
   // the bar under the header marks the part of the page on screen
   var jump=[].slice.call(document.querySelectorAll('.tc-jump a'));
   if(jump.length&&'IntersectionObserver' in window){

@@ -1189,3 +1189,37 @@ html[dir=rtl] .btn-gold .arrow{animation-name:btnnudge-r}
 .mbar a,.fx-chip,.fc-pick a,.ec-dock button,.ec-share{transition:transform .12s,background-color .2s,color .2s,border-color .2s}
 .ec-dock button{position:relative;overflow:hidden}
 @media (prefers-reduced-motion:reduce){.btn,.btn:hover,.btn:active{transform:none}.btn-gold:before{display:none}.btn-gold .arrow{animation:none}.btn:hover .arrow,.btn:hover .chev{transform:none}}
+
+/* technical pages: search box, most-asked links, and the small box with a term's meaning or a system's drawing */
+.fc-search{position:relative;max-width:560px;margin-top:28px}
+.fx-sec .fc-search{margin:0 0 44px}
+.fc-search svg{position:absolute;top:15px;inset-inline-start:16px;width:20px;height:20px;fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linecap:round;pointer-events:none}
+.fc-search input{display:block;width:100%;background:var(--bg2);border:1px solid rgba(201,167,74,.45);color:var(--text);font:15px var(--body);padding:14px 16px;padding-inline-start:48px;border-radius:0;transition:border-color .2s,box-shadow .2s}
+html[dir=rtl] .fc-search input{font-family:"Tajawal",sans-serif;font-size:16px}
+.fc-search input::placeholder{color:#8a8a8a}
+.fc-search input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,167,74,.18)}
+.fc-hits{position:absolute;inset:100% 0 auto 0;z-index:30;margin-top:6px;background:#141414;border:1px solid rgba(201,167,74,.45);box-shadow:0 18px 40px rgba(0,0,0,.55);max-height:min(70vh,520px);overflow:auto}
+.fc-hits[hidden]{display:none}
+.fc-hits a{display:block;padding:14px 16px;border-bottom:1px solid var(--line)}
+.fc-hits a:last-child{border:0}
+.fc-hits a:hover,.fc-hits a:focus{background:rgba(201,167,74,.08)}
+.fc-hits small{display:block;color:var(--gold);font-size:11px;font-weight:600}
+html[dir=rtl] .fc-hits small{font-size:13px}
+.fc-hits b{display:block;font-size:15px;font-weight:600;line-height:1.35;color:var(--text);margin-top:2px}
+.fc-hits span{display:block;color:var(--muted);font-size:13px;line-height:1.55;margin-top:4px}
+.fc-hits p{margin:0;padding:16px;color:var(--muted);font-size:14px}
+.fx-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:22px 0 0;font-size:13px}
+.fx-top b{font-weight:600;margin-inline-end:6px}
+.fx-top a{border:1px solid var(--line);padding:8px 13px;font-weight:600;color:var(--text);transition:border-color .2s,color .2s,transform .12s}
+.fx-top a:hover{border-color:var(--gold);color:var(--gold)}
+.term{border-bottom:1px dashed var(--gold);cursor:help;outline:none}
+.term:hover,.term:focus{color:var(--gold)}
+.has-draw{cursor:help}
+th.has-draw{text-decoration:underline dashed rgba(201,167,74,.7);text-underline-offset:5px}
+.tipbox{position:fixed;z-index:80;display:none;max-width:300px;background:#101010;border:1px solid var(--gold);box-shadow:0 14px 34px rgba(0,0,0,.6);padding:12px 14px;font-size:13px;line-height:1.55;color:#e6e6e6;pointer-events:none}
+html[dir=rtl] .tipbox{font-family:"Tajawal",sans-serif;font-size:15px;direction:rtl}
+.tipbox b{display:block;color:var(--gold);font-size:12px;font-weight:600;margin-bottom:4px}
+.tipbox.tip-img{padding:8px;max-width:none;width:316px}
+.tipbox.tip-img img{display:block;width:300px;height:300px;object-fit:contain;background:#fff}
+.tipbox.tip-img span{display:block;padding:8px 4px 2px;color:var(--gold);font-weight:600}
+@media print{.fc-search,.fx-top,.tipbox{display:none!important}}
